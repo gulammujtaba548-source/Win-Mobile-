@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win Mobile - NayaPay Giveaway</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 400px; }
+        .winner-box { display:none; background: #fff3cd; border: 2px solid #ffc107; padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: center; }
+        .counter-box { background: #1877f2; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; }
+        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
+        .payment-badge { background: #fff5f5; padding: 15px; border-radius: 15px; border: 2px dashed #ff6b6b; margin: 15px 0; }
+        input { width: 100%; padding: 14px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 16px; background: #1877f2; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .copy-btn { background: #ff6b6b; padding: 8px 15px; width: auto; font-size: 14px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="winner-box" class="winner-box">
+            <h4 style="margin: 0; color: #856404;">🎉 Recent Lucky Winner 🎉</h4>
+            <p id="winner-name" style="font-size: 20px; font-weight: bold; margin: 5px 0;"></p>
+        </div>
+
+        <div class="counter-box">
+            <p style="margin: 0; font-size: 14px;">Total Participants Joined</p>
+            <div id="user-count" style="font-size: 36px; font-weight: bold;">0</div>
+        </div>
+
+        <div class="card">
+            <h2 style="margin: 0; color: #1e293b;">Win Mobile For Just $1!</h2>
+            <p style="color: #d63031; font-weight: bold; font-size: 14px; margin-top: 5px;">⚠️ Send Rs. 300 via NayaPay</p>
+
+            <div class="payment-badge">
+                <p style="color: #ff6b6b; font-weight: bold; margin: 0; font-size: 13px;">NAYAPAY ACCOUNT</p>
+                <p style="font-size: 26px; font-weight: bold; margin: 5px 0; color: #2d3436;">03116761010</p>
+                <p style="font-size: 16px; color: #2d3436; margin-bottom: 10px;">Account Name: <br><b>Muhammad Sarfraz</b></p>
+                <button class="copy-btn" onclick="navigator.clipboard.writeText('03116761010'); alert('NayaPay Number Copied!')">Copy Number</button>
+            </div>
+
+            <form id="entryForm">
+                <input type="text" id="name" placeholder="Your Full Name" required>
+                <input type="number" id="phone" placeholder="WhatsApp Number" required>
+                <input type="text" id="tid" placeholder="NayaPay Transaction ID" required>
+                <button type="submit" id="submitBtn">Submit My Entry</button>
+            </form>
+            <p style="font-size: 11px; color: #636e72; margin-top: 15px;">Note: Fake IDs will be blocked permanently.</p>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBbV_Z_VxGN39qdR1AMngqdX0UYGANdcMM",
+            authDomain: "dollar-game-de93b.firebaseapp.com",
+            projectId: "dollar-game-de93b",
+            storageBucket: "dollar-game-de93b.firebasestorage.app",
+            messagingSenderId: "633246448026",
+            appId: "1:633246448026:web:eeea8692c832a3ca682223"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Real-time Participant Count
+        db.collection("dollar_entries").onSnapshot(snap => {
+            document.getElementById("user-count").innerText = snap.size;
+        });
+
+        // Real-time Winner Display
+        db.collection("winners").doc("latest").onSnapshot((doc) => {
+            if (doc.exists) {
+                document.getElementById("winner-box").style.display = "block";
+                document.getElementById("winner-name").innerText = doc.data().name;
+            } else {
+                document.getElementById("winner-box").style.display = "none";
+            }
+        });
+
+        // Form Submission
+        document.getElementById('entryForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+            
+            try {
+                await db.collection("dollar_entries").add({
+                    name: document.getElementById('name').value,
+                    phone: document.getElementById('phone').value,
+                    transactionId: document.getElementById('tid').value,
+                    status: "Pending",
+                    paymentMethod: "NayaPay",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert("Entry Successful! Payment sent to Muhammad Sarfraz will be verified.");
+                document.getElementById('entryForm').reset();
+            } catch (err) {
+                alert("Error submitting entry. Please check your internet.");
+            }
+            btn.disabled = false;
+            btn.innerText = "Submit My Entry";
+        };
+    </script>
+</body>
+</html>

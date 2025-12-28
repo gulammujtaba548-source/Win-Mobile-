@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - EasyPaisa Control</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <!-- If you plan to enforce auth in client, include firebase-auth as well:
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    -->
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; text-align: center; }
+        .header-panel { background: #1877f2; color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        .btn { padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 5px; }
+        .btn-win { background: #ffc107; color: black; }
+        .btn-reset { background: #e74c3c; color: white; }
+        .btn-clear { background: #34495e; color: white; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        th { background: #333; color: white; }
+        .approve-btn { background: #2ecc71; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="header-panel">
+        <h2>Admin Control (EasyPaisa Only)</h2>
+        <button id="pick-winner" class="btn btn-win">🎁 PICK WINNER</button>
+        <button id="reset-winner" class="btn btn-reset">🔄 RESET WINNER DISPLAY</button>
+        <button id="clear-entries" class="btn btn-clear">🗑️ RESET ALL PARTICIPANTS</button>
+        <div id="winner-display" style="margin-top:10px; font-weight:bold; color: yellow;"></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr><th>Name</th><th>Phone</th><th>TID</th><th>Status</th><th>Action</th></tr>
+        </thead>
+        <tbody id="data-list"></tbody>
+    </table>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBbV_Z_VxGN39qdR1AMngqdX0UYGANdcMM",
+            authDomain: "dollar-game-de93b.firebaseapp.com",
+            projectId: "dollar-game-de93b",
+            storageBucket: "dollar-game-de93b.firebasestorage.app",
+            messagingSenderId: "633246448026",
+            appId: "1:633246448026:web:eeea8692c832a3ca682223"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Local cache of entries
+        let entries = [];
+
+        // Utility: safe text cell creation (prevents XSS)
+        function createCell(text) {
+            const td = document.createElement('td');
+            td.textContent = text ?? '';
+            return td;
+        }
+
+        // More conservative phone masking: keep last 2 digits only (adjust as you prefer)
+        function maskPhone(phone) {
+            if (!phone) return '';
+            const s = String(phone);
+            if (s.length <= 4) return '****';
+            const last = s.slice(-2);
+            return '****' + last;
+        }
+
+        // Render the table with safe DOM methods
+        db.collection("dollar_entries").orderBy("timestamp", "desc")
+          .onSnapshot(snap => {
+            const list = document.getElementById("data-list");
+            list.innerHTML = "";
+            entries = [];
+            snap.forEach(doc => {
+                const data = doc.data() || {};
+                const id = doc.id;
+                // normalize fields
+                const name = data.name || '';
+                const phone = data.phone || '';
+                const transactionId = data.transactionId || '';
+                const status = data.status || 'Pending';
+
+                entries.push({ id, name, phone, transactionId, status });
+
+                const tr = document.createElement('tr');
+                tr.appendChild(createCell(name));
+                tr.appendChild(createCell(maskPhone(phone)));
+                tr.appendChild(createCell(transactionId));
+                tr.appendChild(createCell(status));
+
+                const actionTd = document.createElement('td');
+                if (status === "Pending") {
+                    const btn = document.createElement('button');
+                    btn.className = 'approve-btn';
+                    btn.textContent = 'Approve';
+                    btn.addEventListener('click', () => approveEntry(id));
+                    actionTd.appendChild(btn);
+                } else {
+                    actionTd.textContent = '✅ Approved';
+                }
+                tr.appendChild(actionTd);
+                list.appendChild(tr);
+            });
+        }, err => {
+            console.error('Snapshot error:', err);
+            alert('Failed to load entries: ' + err.message);
+        });
+
+        // Approve an entry (requires appropriate Firestore rules)
+        async function approveEntry(id) {
+            try {
+                // Prefer using a server-side function for admin actions;
+                // if using client-side, ensure Firebase Auth + custom claims enforce admin permissions.
+                await db.collection("dollar_entries").doc(id).update({ status: "Approved" });
+            } catch (err) {
+                console.error('Approve error:', err);
+                alert('Could not approve entry: ' + err.message);
+            }
+        }
+
+        // Pick a random winner among Approved entries only
+        async function pickWinner() {
+            try {
+                const approved = entries.filter(e => e.status === 'Approved');
+                if (approved.length === 0) return alert('No approved participants to pick from.');
+
+                const winner = approved[Math.floor(Math.random() * approved.length)];
+
+                // Store masked phone in winners.latest
+                const masked = maskPhone(winner.phone);
+                await db.collection("winners").doc("latest").set({
+                    name: winner.name,
+                    phone: masked,
+                    date: new Date().toLocaleDateString()
+                });
+
+                document.getElementById("winner-display").textContent = "Winner: " + winner.name;
+            } catch (err) {
+                console.error('Pick winner error:', err);
+                alert('Failed to pick winner: ' + err.message);
+            }
+        }
+
+        // Reset winner display/record
+        async function resetWinner() {
+            try {
+                await db.collection("winners").doc("latest").delete();
+            } catch (err) {
+                // ignore not-found, but surface other errors
+                if (err.code !== 'not-found') {
+                    console.error('Reset winner error:', err);
+                    alert('Could not reset winner: ' + err.message);
+                    return;
+                }
+            }
+            document.getElementById("winner-display").textContent = "";
+            alert("Winner display reset!");
+        }
+
+        // Delete all participants safely in batches (handles >500 docs)
+        async function clearAllEntries() {
+            if (!confirm("Kya aap TAMAAM participants ko delete karna chahte hain? Naya game shuru ho jayega.")) return;
+
+            try {
+                // Use batched deletes with pagination
+                const batchSize = 400; // keep under 500
+                let deleted = 0;
+                while (true) {
+                    const snapshot = await db.collection('dollar_entries').limit(batchSize).get();
+                    if (snapshot.empty) break;
+                    const batch = db.batch();
+                    snapshot.docs.forEach(doc => batch.delete(doc.ref));
+                    await batch.commit();
+                    deleted += snapshot.size;
+                    if (snapshot.size < batchSize) break;
+                }
+                alert('Sari entries delete ho gayin! Total deleted: ' + deleted);
+            } catch (err) {
+                console.error('Clear entries error:', err);
+                alert('Failed to clear entries: ' + err.message);
+            }
+        }
+
+        // Wire up buttons
+        document.getElementById('pick-winner').addEventListener('click', pickWinner);
+        document.getElementById('reset-winner').addEventListener('click', resetWinner);
+        document.getElementById('clear-entries').addEventListener('click', clearAllEntries);
+    </script>
+</body>
+</html>
