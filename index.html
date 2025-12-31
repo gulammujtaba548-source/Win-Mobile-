@@ -3,39 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency - Join Us</title>
+    <title>GM Agency - Join Team</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 15px; text-align: center; }
-        .container { background: white; max-width: 450px; margin: auto; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-        .logo { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 5px; }
-        .price-tag { background: #fff5f5; color: #ff6b6b; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 20px; margin: 15px 0; border: 1px dashed #ff6b6b; }
-        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
-        .btn-join { background: #ff6b6b; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px; transition: 0.3s; }
-        .btn-join:active { transform: scale(0.98); }
-        .info-text { font-size: 13px; color: #666; margin: 15px 0; line-height: 1.5; }
-        .payment-methods { font-size: 12px; color: #888; border-top: 1px solid #eee; pt: 15px; margin-top: 15px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 15px; text-align: center; }
+        .container { background: white; max-width: 450px; margin: 20px auto; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .logo { font-size: 26px; font-weight: bold; color: #333; margin-bottom: 5px; }
+        .price-tag { background: #fff5f5; color: #ff6b6b; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 18px; margin: 15px 0; border: 1px dashed #ff6b6b; }
+        .payment-box { background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+        .acc-details { font-size: 18px; color: #1e293b; font-weight: bold; margin: 5px 0; }
+        input { width: 92%; padding: 12px; margin: 8px 0; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+        .btn-join { background: #ff6b6b; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px; }
+        .btn-join:disabled { background: #94a3b8; }
+        .footer-note { font-size: 12px; color: #64748b; margin-top: 15px; line-height: 1.4; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="logo">GM Agency</div>
-    <p>Enter details to join the team</p>
+    <p style="color: #64748b;">Enter details to join our professional team</p>
     
-    <div class="price-tag">Registration Fee: $1.00</div>
-
-    <p class="info-text">Please pay the fee to the provided account and enter your Transaction ID (TID) below to verify your payment.</p>
+    <div class="price-tag">Registration Fee: $1.00 (Rs. 300)</div>
+    
+    <div class="payment-box">
+        <span style="color: #64748b; font-size: 13px;">Transfer Fee to NayaPay Account:</span><br>
+        <div class="acc-details">03186761010</div>
+        <div style="font-size: 14px; color: #27ae60;">Title: Muhammad Sarfraz</div>
+    </div>
 
     <input type="text" id="name" placeholder="Full Name" required>
     <input type="number" id="phone" placeholder="WhatsApp Number" required>
     <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
     
-    <button class="btn-join" onclick="submitForm()">JOIN NOW</button>
+    <button class="btn-join" onclick="submitForm()">SUBMIT APPLICATION</button>
     
-    <div class="payment-methods">
-        <p>Accepted: JazzCash / EasyPaisa / Binanace</p>
-        <small>Data will be automatically synced with our database.</small>
-    </div>
+    <p class="footer-note">
+        Please make sure your TID is correct. <br>
+        Our team will verify your payment within 24 hours.
+    </p>
 </div>
 
 <script>
@@ -52,20 +57,21 @@
         }
 
         const btn = document.querySelector(".btn-join");
-        btn.innerText = "Submitting...";
+        btn.innerText = "Processing...";
         btn.disabled = true;
 
         fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ name: name, phone: phone, tid: tid })
+            body: JSON.stringify({name: name, phone: phone, tid: tid})
         }).then(() => {
-            alert("Application Submitted! Checking payment status...");
-            window.location.href = "data.html"; 
+            alert("Application Submitted Successfully! We will verify your payment soon.");
+            // Client ko panel par nahi le kar jayega, bas page refresh kar dega
+            location.reload(); 
         }).catch(err => {
             alert("Error: " + err);
-            btn.innerText = "JOIN NOW";
+            btn.innerText = "SUBMIT APPLICATION";
             btn.disabled = false;
         });
     }
