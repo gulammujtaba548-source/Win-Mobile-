@@ -14,10 +14,10 @@
         table { width: 100%; margin-top: 20px; border-collapse: collapse; background: white; font-size: 12px; }
         th, td { border: 1px solid #eee; padding: 10px; text-align: left; }
         th { background: #333; color: white; }
-        .status-btn { padding: 6px 10px; border: none; border-radius: 4px; color: white; cursor: pointer; font-weight: bold; margin-bottom: 5px; display: block; width: 100%; }
+        .status-btn { padding: 8px; border: none; border-radius: 4px; color: white; cursor: pointer; font-weight: bold; margin-bottom: 5px; display: block; width: 100%; font-size: 11px; }
         .approve { background: #2ecc71; }
         .reject { background: #e74c3c; }
-        .status-label { font-size: 10px; font-weight: bold; text-transform: uppercase; padding: 2px 5px; border-radius: 3px; }
+        .status-label { font-size: 10px; font-weight: bold; text-transform: uppercase; padding: 2px 5px; border-radius: 3px; display: inline-block; margin-top: 5px; }
         #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; display: flex; align-items: center; justify-content: center; z-index: 100; }
     </style>
 </head>
@@ -57,7 +57,7 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBPqWCldY2mLqY8SA62KJGM77POOibQcHPWfTGaiwrKbahwD2C8cmdP7Lf8_RQ7u3MDg/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzjdAw-99efgueq46jFU3ZCiotXBs69TwQcq3jJdS4jNgF5y8OCclvE4pzc2K4T_ydYcw/exec";
 
     function checkPass() {
         if(document.getElementById("passInput").value === "admin123") {
@@ -68,48 +68,49 @@
 
     async function loadData() {
         try {
-            document.getElementById("count").innerText = "Loading...";
             let res = await fetch(SCRIPT_URL);
             let data = await res.json();
-            
-            // Masla hal: Agar header missing ho toh length sahi dikhaye
-            let participants = data; 
+            let participants = data.length > 1 ? data.slice(1) : []; 
             document.getElementById("count").innerText = participants.length;
             
             let tbody = document.getElementById("listBody");
             tbody.innerHTML = "";
             
-            participants.reverse().forEach((row, index) => {
-                let status = row[4] || "Pending"; // Column E for Status
+            participants.reverse().forEach((row) => {
+                let status = row[4] || "Pending";
                 let statusColor = status === "Approved" ? "#2ecc71" : (status === "Rejected" ? "#e74c3c" : "#f1c40f");
                 
                 tbody.innerHTML += `<tr>
                     <td><strong>${row[0]}</strong><br><span class="status-label" style="background:${statusColor}; color:white">${status}</span></td>
-                    <td>${row[2]}<br><small>${row[1]}</small></td>
+                    <td>TID: ${row[2]}<br><small>Ph: ${row[1]}</small></td>
                     <td>
                         <button class="status-btn approve" onclick="updateStatus('${row[2]}', 'Approved')">Approve</button>
                         <button class="status-btn reject" onclick="updateStatus('${row[2]}', 'Rejected')">Reject</button>
                     </td>
                 </tr>`;
             });
-        } catch (e) { 
-            document.getElementById("count").innerText = "Error!";
-            console.error(e); 
-        }
+        } catch (e) { console.error(e); }
     }
 
-    // Status update karne ka function (Approved/Rejected)
-    function updateStatus(tid, status) {
-        alert("Updating " + tid + " to " + status + ". Please wait...");
-        // Ye function Sheet mein status Column E mein update karega
-        loadData(); 
+    async function updateStatus(tid, newStatus) {
+        if (!confirm("Kya aap status update karna chahte hain?")) return;
+        alert("Updating... Please wait.");
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({ action: "updateStatus", tid: tid, status: newStatus })
+            });
+            setTimeout(loadData, 2000);
+        } catch (e) { alert("Error updating!"); }
     }
 
     async function pickRandomWinner() {
         let res = await fetch(SCRIPT_URL);
         let data = await res.json();
-        if(data.length > 0) {
-            let win = data[Math.floor(Math.random() * data.length)];
+        let participants = data.length > 1 ? data.slice(1) : [];
+        if(participants.length > 0) {
+            let win = participants[Math.floor(Math.random() * participants.length)];
             localStorage.setItem("luckyName", win[0]);
             localStorage.setItem("luckyTid", "TID: " + win[2]);
             alert("Winner Picked: " + win[0]);
@@ -125,13 +126,11 @@
     }
 
     function resetAllData() {
-        if(confirm("⚠️ WARNING: Kya aap tamam participants ka data delete karna chahte hain?")) {
-            alert("Google Sheet se Row 1 ke neeche sab manually delete karein taake count reset ho jaye.");
-        }
+        alert("Please delete rows from Google Sheet manually to clear history.");
     }
-    
-    // Auto-refresh data every 30 seconds
-    setInterval(loadData, 30000);
+
+    setInterval(loadData, 60000);
 </script>
 </body>
 </html>
+
