@@ -9,25 +9,18 @@
         .container { max-width: 450px; margin: 10px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         .ad-unit { background: #f9f9f9; border: 1px dashed #ccc; padding: 10px; font-size: 10px; color: #999; margin-bottom: 10px; }
         
-        /* Live Stats */
         .live-badge { background: #e8f5e9; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 10px; display: inline-block; border: 1px solid #c8e6c9; }
-        
-        /* Leaderboard */
         .leaderboard { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 12px; padding: 15px; margin-bottom: 15px; text-align: left; }
         .top-user { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #ffcc80; font-size: 13px; font-weight: bold; }
-
-        /* Wallet */
         .coin-box { background: linear-gradient(135deg, #ffd700, #ffa000); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        
-        /* NayaPay Card Style */
+
+        /* NayaPay Card */
         .pay-card { border: 2px solid #ff5252; background: #fff5f5; padding: 20px; border-radius: 15px; margin-bottom: 15px; }
-        .nayapay-logo { color: #ff5252; font-weight: 900; font-size: 18px; margin-bottom: 5px; display: block; }
         .account-num { font-size: 28px; color: #ff5252; font-weight: 800; margin: 5px 0; letter-spacing: 1px; }
 
         .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
         input { width: 92%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
         .btn-red { width: 100%; padding: 15px; background: #ff5252; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; }
-        
         footer { background: #333; color: white; padding: 20px; font-size: 11px; margin-top: 20px; }
         footer a { color: #ffd700; text-decoration: none; margin: 0 5px; }
     </style>
@@ -58,19 +51,19 @@
     </div>
 
     <div class="card" style="background:#fffde7; border:2px dashed #fbc02d;">
-        <h4 style="margin:0; color:#f57f17;">🔗 Refer & Earn</h4>
+        <h4 style="margin:0; color:#f57f17;">🔗 Refer & Earn (2 Coins)</h4>
         <div id="refLinkDisplay" style="background:#eee; padding:10px; border-radius:5px; font-size:10px; margin:10px 0; word-break:break-all;">Enter number below for link</div>
-        <button onclick="copyRefLink()" style="background:#fbc02d; border:none; padding:8px 15px; border-radius:5px; font-weight:bold; cursor:pointer;">Copy Link</button>
+        <button onclick="copyRefLink()" style="background:#fbc02d; border:none; padding:8px 15px; border-radius:5px; font-weight:bold; cursor:pointer;">Copy Referral Link</button>
     </div>
 
     <div class="card" style="background:#e3f2fd; border:1px solid #2196f3;">
         <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number" oninput="generateRefLink()">
         <button onclick="checkStatus()" style="background:#2196f3; color:white; border:none; padding:10px; width:100%; border-radius:8px; font-weight:bold;">Check Status</button>
-        <div id="statusResult" style="display:none; margin-top:10px; padding:8px; border-radius:5px;"></div>
+        <div id="statusResult" style="display:none; margin-top:10px; padding:12px; border-radius:5px; font-weight:bold;"></div>
     </div>
 
     <div class="pay-card">
-        <span class="nayapay-logo">NayaPay</span>
+        <span style="color:#ff5252; font-weight:bold;">NayaPay Only</span><br>
         <div style="font-size: 14px; color: #555;">Send Fee <b>Rs. 300</b> to:</div>
         <div class="account-num">03186761010</div>
         <div style="font-weight:bold; color:#333; font-size: 16px;">Title: Muhammad Sarfraz</div>
@@ -85,15 +78,13 @@
     </form>
 </div>
 
-<div style="margin:20px 0;"><a href="https://wa.me/923023313131" style="background:#25d366; color:white; padding:12px 25px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block;">💬 WhatsApp Support</a></div>
-
 <footer>
     <p>&copy; 2026 GM Agency. All Rights Reserved.</p>
     <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a>
 </footer>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzndEFHye4YdM9uhnXp_kaxFb4ZKCRUAsA0MK5CVoFreR_ajLnft7ilLEOsMs7CKeG7IQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8OjkYdX0aePQL5imLSpP61RF8ymqLuWQSOF9WWdgRkhTckAyOGOPHCzldsRqCaVfuAg/exec";
     let myCoins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = myCoins;
 
@@ -102,7 +93,6 @@
             const res = await fetch(SCRIPT_URL);
             const data = await res.json();
             document.getElementById("realJoinCount").innerText = data.length - 1;
-            // Leaderboard: Col 0 Name, Col 5 Coins
             let sorted = data.slice(1).sort((a, b) => (b[5] || 0) - (a[5] || 0)).slice(0, 5);
             let html = "";
             sorted.forEach((u, i) => { html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${u[5] || 0} Coins</span></div>`; });
@@ -140,8 +130,10 @@
             let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
             let data = await res.json();
             let user = data.find(r => r[1].toString().includes(phone.slice(-10)));
-            if(user) { resDiv.innerHTML = `Hi ${user[0]}! Status: ${user[4] || 'Pending'}`; resDiv.style.background = "#c8e6c9"; }
-            else { resDiv.innerHTML = "Not Found!"; resDiv.style.background = "#eee"; }
+            if(user) { 
+                resDiv.innerHTML = `Hi ${user[0]}! Status: ${user[4] || 'Pending'}`; 
+                resDiv.style.background = (user[4] === "Approved") ? "#c8e6c9" : (user[4] === "Rejected") ? "#ffcdd2" : "#eee";
+            } else { resDiv.innerHTML = "Not Found!"; resDiv.style.background = "#eee"; }
         } catch(e) { }
     }
 
