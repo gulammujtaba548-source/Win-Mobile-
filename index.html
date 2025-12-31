@@ -1,129 +1,107 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency - Lucky Draw</title>
+    <title>GM Agency - Win a Smartphone</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 10px; text-align: center; }
-        .container { background: white; max-width: 450px; margin: auto; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-        .agency-name { font-size: 28px; font-weight: bold; color: #333; margin-bottom: 5px; }
-        .live-count-badge { background: #e8f5e9; color: #2e7d32; padding: 8px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; font-size: 14px; border: 1px solid #c8e6c9; display: inline-block; }
-        .dot { height: 8px; width: 8px; background-color: #27ae60; border-radius: 50%; display: inline-block; margin-right: 5px; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-        .mobile-img { width: 100%; max-width: 230px; border-radius: 10px; margin-bottom: 10px; }
-        .winner-card { background: #fffde7; border: 2px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-        .price-tag { background: #fff5f5; color: #ff6b6b; padding: 10px; border-radius: 8px; font-weight: bold; border: 1px dashed #ff6b6b; margin: 10px 0; }
-        input { width: 90%; padding: 12px; margin: 6px 0; border: 1px solid #ddd; border-radius: 8px; }
-        .btn-join { background: #ff6b6b; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
-        
-        /* ADMIN ACCESS BUTTON (CHOTA SA DOT) */
-        .admin-trigger { background: transparent; border: none; color: #f0f2f5; font-size: 12px; cursor: pointer; margin-top: 10px; display: block; width: 100%; }
-
-        #adminArea { display: none; margin-top: 20px; padding: 15px; border: 2px solid #3498db; background: #ebf5fb; border-radius: 10px; }
-        .btn-spin { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; text-align: center; }
+        .header { background: white; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .live-status { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 20px; display: inline-block; font-size: 14px; font-weight: bold; margin-bottom: 10px; border: 1px solid #c8e6c9; }
+        .container { max-width: 450px; margin: 20px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+        .winner-box { background: #fff9c4; border: 2px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .fee-tag { background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; font-weight: bold; border: 1px dashed #ef9a9a; margin-bottom: 15px; }
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        .btn-join { width: 100%; padding: 15px; background: #ff5252; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-join:hover { background: #ff1744; }
+        .footer { margin-top: 30px; padding: 20px; font-size: 11px; color: #777; border-top: 1px solid #eee; }
+        .footer a { color: #ff5252; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
+<div class="header">
+    <h1 style="margin:0; color:#333;">GM Agency</h1>
+    <div class="live-status">● Live: <span id="userCount">0</span> Members Joined</div>
+</div>
+
 <div class="container">
-    <div class="agency-name">GM Agency</div>
+    <img src="mobile.jpg" alt="Win Smartphone">
+
+    <div class="winner-box">
+        <h3 style="margin:0; color:#fbc02d;">🎉 LATEST LUCKY WINNER 🎉</h3>
+        <h2 id="winnerName" style="margin:5px 0;">Coming Soon</h2>
+        <p id="winnerTid" style="margin:0; font-size:12px; color:#666;">TID: Pending</p>
+    </div>
+
+    <div class="fee-tag">Registration Fee: Rs. 300</div>
     
-    <div class="live-count-badge">
-        <span class="dot"></span> 
-        Live: <span id="tadadValue">0</span> Members Joined
-    </div>
+    <p style="font-size: 14px; margin-bottom: 5px;"><strong>NayaPay: 03186761010</strong></p>
+    <p style="font-size: 12px; color: #666; margin-top: 0;">Title: Muhammad Sarfraz</p>
 
-    <img src="mobile.jpg" class="mobile-img" alt="Prize Mobile">
+    <form id="regForm">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="number" id="phone" placeholder="WhatsApp Number" required>
+        <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
+        <button type="submit" class="btn-join" id="submitBtn">JOIN NOW</button>
+    </form>
+</div>
 
-    <div class="winner-card">
-        <div class="winner-title" style="color:#f57f17; font-weight:bold; font-size:13px;">🎉 LATEST LUCKY WINNER 🎉</div>
-        <div id="winnerName" style="font-size: 22px; font-weight: bold; color: #333;">Coming Soon</div>
-        <div id="winnerTid" style="color: #666; font-size: 13px;">TID: Pending</div>
-    </div>
-
-    <div class="price-tag">Registration Fee: Rs. 300</div>
-    
-    <div style="margin-bottom: 5px; font-size: 14px; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #eee;">
-        <strong>NayaPay: 03186761010</strong><br>
-        <small>Title: Muhammad Sarfraz</small>
-    </div>
-
-    <button class="admin-trigger" onclick="accessAdmin()">.</button>
-
-    <input type="text" id="u_name" placeholder="Full Name">
-    <input type="number" id="u_phone" placeholder="WhatsApp Number">
-    <input type="text" id="u_tid" placeholder="Transaction ID (TID)">
-    <button class="btn-join" onclick="submitForm()">JOIN NOW</button>
-
-    <div id="adminArea">
-        <h3 style="margin-top:0; color:#2980b9;">Admin Control Panel</h3>
-        <p>Tadad: <span id="adminCount">0</span></p>
-        <button class="btn-spin" onclick="pickRandomWinner()">🎡 SPIN FOR WINNER</button>
-        <br>
-        <button onclick="localStorage.clear(); location.reload();" style="margin-top:15px; color:red; border:none; background:none; cursor:pointer;">[Reset Winner Display]</button>
-    </div>
+<div class="footer">
+    <p>© 2025 GM Agency. All Rights Reserved.</p>
+    <a href="javascript:void(0)" onclick="alert('Privacy Policy: Hum aapka data sirf verification ke liye istemal karte hain.')">Privacy Policy</a> | 
+    <a href="javascript:void(0)" onclick="alert('Terms: Ghalat TID dalne par entry reject ho jayegi.')">Terms & Conditions</a>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBPqWCldY2mLqY8SA62KJGM77POOibQcHPWfTGaiwrKbahwD2C8cmdP7Lf8_RQ7u3MDg/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzjdAw-99efgueq46jFU3ZCiotXBs69TwQcq3jJdS4jNgF5y8OCclvE4pzc2K4T_ydYcw/exec";
 
+    // Winner Display Logic
     window.onload = function() {
-        updateData();
-        const winName = localStorage.getItem("luckyName") || "Coming Soon";
-        const winTid = localStorage.getItem("luckyTid") || "TID: Pending";
-        document.getElementById("winnerName").innerText = winName;
-        document.getElementById("winnerTid").innerText = winTid;
+        if(localStorage.getItem("luckyName")) {
+            document.getElementById("winnerName").innerText = localStorage.getItem("luckyName");
+            document.getElementById("winnerTid").innerText = localStorage.getItem("luckyTid");
+        }
+        loadUserCount();
     };
 
-    async function updateData() {
+    async function loadUserCount() {
         try {
             let res = await fetch(SCRIPT_URL);
             let data = await res.json();
-            document.getElementById("tadadValue").innerText = data.length - 1;
-            document.getElementById("adminCount").innerText = data.length - 1;
-        } catch (e) { }
+            document.getElementById("userCount").innerText = data.length - 1;
+        } catch(e) { console.log("Count Error"); }
     }
 
-    function accessAdmin() {
-        const user = prompt("Admin Name:");
-        const pass = prompt("Password:");
-        if(user === "GM-Admin" && pass === "admin123") {
-            document.getElementById("adminArea").style.display = "block";
-            window.scrollTo(0, document.body.scrollHeight);
-        } else {
-            alert("Wrong details!");
-        }
-    }
-
-    async function pickRandomWinner() {
-        document.getElementById("winnerName").innerText = "Spinning...";
-        let res = await fetch(SCRIPT_URL);
-        let data = await res.json();
-        let participants = data.slice(1);
-        if(participants.length > 0) {
-            let win = participants[Math.floor(Math.random() * participants.length)];
-            localStorage.setItem("luckyName", win[0]);
-            localStorage.setItem("luckyTid", "TID: " + win[2]);
-            setTimeout(() => { location.reload(); }, 1500);
-        } else {
-            alert("No participants found!");
-            location.reload();
-        }
-    }
-
-    function submitForm() {
-        const n = document.getElementById("u_name").value;
-        const p = document.getElementById("u_phone").value;
-        const t = document.getElementById("u_tid").value;
-        if(!n || !p || !t) { alert("Please fill all details!"); return; }
-        const btn = document.querySelector(".btn-join");
-        btn.innerText = "Submitting...";
+    document.getElementById("regForm").onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("submitBtn");
+        btn.innerText = "Processing...";
         btn.disabled = true;
-        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({name:n, phone:p, tid:t}) })
-        .then(() => { alert("Application Submitted!"); location.reload(); });
-    }
+
+        const data = {
+            name: document.getElementById("name").value,
+            phone: document.getElementById("phone").value,
+            tid: document.getElementById("tid").value
+        };
+
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(data)
+            });
+            alert("Entry Successful! Wait for Admin Approval.");
+            location.reload();
+        } catch (e) {
+            alert("Submission Failed!");
+            btn.disabled = false;
+            btn.innerText = "JOIN NOW";
+        }
+    };
 </script>
+
 </body>
 </html>
-
