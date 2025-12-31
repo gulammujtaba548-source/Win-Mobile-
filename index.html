@@ -3,20 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency - Win a Smartphone</title>
+    <title>GM Agency - Spin & Win</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; text-align: center; }
         .header { background: white; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .live-status { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 20px; display: inline-block; font-size: 14px; font-weight: bold; margin-bottom: 10px; border: 1px solid #c8e6c9; }
-        .container { max-width: 450px; margin: 20px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); overflow: hidden; }
+        .container { max-width: 450px; margin: 20px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         img.hero-mobile { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+        
+        /* Golden Wallet & Spin Style */
+        .coin-box { background: linear-gradient(135deg, #ffd700, #ffa000); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(255,160,0,0.3); }
+        .wheel-container { margin: 20px 0; position: relative; display: flex; justify-content: center; }
+        #wheel { width: 180px; height: 180px; border: 8px solid #fbc02d; border-radius: 50%; transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(#ff5252 0% 25%, #2196f3 25% 50%, #4caf50 50% 75%, #fbc02d 75% 100%); }
+        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
+        
         .winner-box { background: #fff9c4; border: 2px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .referral-section { background: #fffde7; border: 2px dashed #fbc02d; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
         .status-checker { background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #2196f3; }
         .pay-card { border: 3px solid #ff5252; background: #fff5f5; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-        .copy-btn { background: #ff5252; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; margin-top: 5px; font-weight: bold; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
         .btn-join { width: 100%; padding: 15px; background: #ff5252; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .guide-box { background: #fff; border-left: 5px solid #ff5252; text-align: left; padding: 15px; margin: 20px auto; max-width: 420px; border-radius: 0 10px 10px 0; }
         .support-box { background: #e3f2fd; border: 1px solid #90caf9; padding: 15px; margin: 20px auto; max-width: 420px; border-radius: 15px; }
         #statusResult { font-weight: bold; margin-top: 10px; padding: 10px; border-radius: 5px; display: none; }
     </style>
@@ -31,30 +37,48 @@
 <div class="container">
     <img src="mobile.jpg" alt="Win Smartphone" class="hero-mobile">
 
+    <div class="coin-box">
+        <span style="font-weight:bold;">🪙 My GM Coins:</span>
+        <span id="userCoins" style="font-size: 24px; font-weight: 900;">0</span>
+    </div>
+
+    <div style="background: #fdfdfd; padding: 15px; border-radius: 15px; border: 1px solid #eee; margin-bottom: 20px;">
+        <h4 style="margin:0;">🎡 Daily Spin (Win 2 Coins)</h4>
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div id="wheel"></div>
+        </div>
+        <button id="spinBtn" style="background:#333; color:white; border:none; padding:10px 25px; border-radius:20px; font-weight:bold; cursor:pointer;" onclick="spinWheel()">SPIN NOW</button>
+    </div>
+
     <div class="winner-box">
         <h3 style="margin:0; color:#fbc02d;">🎉 LATEST LUCKY WINNER 🎉</h3>
         <h2 id="winnerName" style="margin:5px 0;">Coming Soon</h2>
         <p id="winnerTid" style="margin:0; font-size:12px; color:#666;">TID: Pending</p>
     </div>
 
+    <div class="referral-section">
+        <h4 style="margin:0; color:#f57f17;">🔗 Refer & Earn (2 Coins)</h4>
+        <p style="font-size:11px; margin:5px 0;">Get 2 coins when someone joins using your link!</p>
+        <div id="refLinkDisplay" style="background:#eee; padding:10px; border-radius:5px; font-size:11px; margin:10px 0; word-break:break-all;">Enter number below to generate link</div>
+        <button onclick="copyRefLink()" style="background:#fbc02d; border:none; padding:8px 15px; border-radius:5px; font-weight:bold; cursor:pointer;">Copy Link</button>
+    </div>
+
     <div class="status-checker">
         <h4 style="margin:0 0 10px 0; color:#0d47a1;">🔍 Check Your Status</h4>
-        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number">
+        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number" oninput="generateRefLink()">
         <button onclick="checkStatus()" style="background:#2196f3; color:white; border:none; padding:10px; border-radius:8px; cursor:pointer; width:100%; font-weight:bold;">Check Status</button>
         <div id="statusResult"></div>
     </div>
 
     <div class="pay-card">
-        <div style="background:#ff5252; color:white; padding:5px 15px; border-radius:50px; display:inline-block; font-weight:bold; margin-bottom:10px;">💳 NayaPay Official</div>
-        <div style="background:white; padding:15px; border-radius:10px; border: 1px solid #ef9a9a;">
-            <p style="margin:0; color:#555;">Send Fee <b>Rs. 300</b> to:</p>
-            <div id="numberToCopy" style="font-size:32px; color:#ff5252; font-weight:800; margin:5px 0;">03186761010</div>
-            <button class="copy-btn" onclick="copyNumber()">📋 Copy Number</button>
-            <p style="font-weight:bold; margin-top:10px; color:#333;">Title: Muhammad Sarfraz</p>
-        </div>
+        <p style="margin:0; color:#555;">Send Fee <b>Rs. 300</b> to:</p>
+        <div style="font-size:32px; color:#ff5252; font-weight:800; margin:5px 0;">03186761010</div>
+        <p style="font-weight:bold; color:#333;">Title: Muhammad Sarfraz</p>
     </div>
 
     <form id="regForm">
+        <input type="hidden" id="referrerId" value="Direct">
         <input type="text" id="name" placeholder="Full Name" required>
         <input type="number" id="phone" placeholder="WhatsApp Number" required>
         <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
@@ -62,76 +86,87 @@
     </form>
 </div>
 
-<div class="guide-box">
-    <h3 style="color: #333; padding-left:15px; font-size: 16px;">How to Participate?</h3>
-    <ol style="padding-left: 35px; font-size: 13px; line-height: 1.8; color: #444;">
-        <li>NayaPay par Rs. 300 send karein.</li>
-        <li>TID copy karke form fill karein.</li>
-        <li>Verification ke baad status <b>Approved</b> ho jayega.</li>
-    </ol>
-</div>
-
 <div class="support-box">
-    <h4 style="margin: 0; color: #1565c0;">Need Help?</h4>
-    <a href="https://wa.me/923023313131" target="_blank" style="display: inline-block; padding: 10px 20px; background: #25d366; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">💬 WhatsApp Support</a>
+    <a href="https://wa.me/923023313131" target="_blank" style="display:inline-block; padding:10px; background:#25d366; color:white; text-decoration:none; border-radius:8px; font-weight:bold;">💬 WhatsApp Support</a>
 </div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzndEFHye4YdM9uhnXp_kaxFb4ZKCRUAsA0MK5CVoFreR_ajLnft7ilLEOsMs7CKeG7IQ/exec";
 
+    let myCoins = parseInt(localStorage.getItem("gm_coins")) || 0;
+    document.getElementById("userCoins").innerText = myCoins;
+
     window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.has('ref')) {
+            document.getElementById("referrerId").value = urlParams.get('ref');
+        }
         if(localStorage.getItem("luckyName")) {
             document.getElementById("winnerName").innerText = localStorage.getItem("luckyName");
             document.getElementById("winnerTid").innerText = localStorage.getItem("luckyTid");
         }
+        if(localStorage.getItem("last_spin") === new Date().toDateString()) {
+            document.getElementById("spinBtn").disabled = true;
+            document.getElementById("spinBtn").innerText = "SPUN TODAY";
+        }
         loadUserCount();
     };
+
+    function spinWheel() {
+        const wheel = document.getElementById("wheel");
+        const randomDeg = Math.floor(Math.random() * 360) + 1800; 
+        wheel.style.transform = `rotate(${randomDeg}deg)`;
+        setTimeout(() => {
+            myCoins += 2;
+            localStorage.setItem("gm_coins", myCoins);
+            localStorage.setItem("last_spin", new Date().toDateString());
+            document.getElementById("userCoins").innerText = myCoins;
+            alert("Mubarak! 2 Coins mil gaye.");
+            location.reload();
+        }, 3100);
+    }
+
+    function generateRefLink() {
+        const phone = document.getElementById("checkPhone").value;
+        if(phone.length > 9) {
+            document.getElementById("refLinkDisplay").innerText = window.location.href.split('?')[0] + "?ref=" + phone;
+        }
+    }
+
+    function copyRefLink() {
+        const link = document.getElementById("refLinkDisplay").innerText;
+        if(link.includes("?ref=")) {
+            navigator.clipboard.writeText(link);
+            alert("Link Copied! Coins will be added when someone joins.");
+        } else { alert("Pehle number likhein!"); }
+    }
 
     async function loadUserCount() {
         try {
             let res = await fetch(SCRIPT_URL);
             let data = await res.json();
             document.getElementById("userCount").innerText = data.length - 1;
-        } catch(e) { console.log("Error"); }
+        } catch(e) { }
     }
 
-    function copyNumber() {
-        navigator.clipboard.writeText("03186761010");
-        alert("Number Copied!");
-    }
-
-    // Status logic for matching
     async function checkStatus() {
         const phoneInput = document.getElementById("checkPhone").value.trim();
         const resultDiv = document.getElementById("statusResult");
-        if(!phoneInput) { alert("Number enter karein"); return; }
-        
         resultDiv.style.display = "block";
         resultDiv.innerHTML = "Checking...";
-
         try {
-            // Anti-cache bypass adding timestamp
             let res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
             let data = await res.json();
-            
-            // Numbers ko clean karke match karne ki koshish (removing 0)
             let cleanInput = phoneInput.replace(/^0+/, ''); 
-            
-            let user = data.find(row => {
-                let sheetPhone = row[1].toString().replace(/^0+/, '');
-                return sheetPhone === cleanInput;
-            });
-
+            let user = data.find(row => row[1].toString().replace(/^0+/, '') === cleanInput);
             if(user) {
-                let status = user[4] || "Pending";
-                resultDiv.innerHTML = `Hi ${user[0]}! Status: <b>${status}</b>`;
-                resultDiv.style.background = status === "Approved" ? "#c8e6c9" : (status === "Rejected" ? "#ffcdd2" : "#ffecb3");
-                resultDiv.style.color = status === "Approved" ? "#2e7d32" : (status === "Rejected" ? "#c62828" : "#856404");
+                resultDiv.innerHTML = `Hi ${user[0]}! Status: ${user[4] || 'Pending'}`;
+                resultDiv.style.background = "#c8e6c9";
             } else {
-                resultDiv.innerHTML = "Not Found in Sheet! Re-check number.";
-                resultDiv.style.background = "#eeeeee";
+                resultDiv.innerHTML = "Not Found!";
+                resultDiv.style.background = "#eee";
             }
-        } catch(e) { resultDiv.innerHTML = "Connection Error!"; }
+        } catch(e) { }
     }
 
     document.getElementById("regForm").onsubmit = async (e) => {
@@ -142,13 +177,14 @@
         const data = {
             name: document.getElementById("name").value,
             phone: document.getElementById("phone").value,
-            tid: document.getElementById("tid").value
+            tid: document.getElementById("tid").value,
+            referrer: document.getElementById("referrerId").value
         };
         try {
             await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-            alert("Entry Success! Check status in 30 mins.");
+            alert("Success! Entry Added.");
             location.reload();
-        } catch (e) { alert("Failed!"); btn.disabled = false; }
+        } catch (e) { alert("Error!"); btn.disabled = false; }
     };
 </script>
 </body>
