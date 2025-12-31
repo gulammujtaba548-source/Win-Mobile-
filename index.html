@@ -3,107 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Win Mobile - NayaPay Giveaway</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <title>GM Agency - Registration</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 400px; }
-        .winner-box { display:none; background: #fff3cd; border: 2px solid #ffc107; padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: center; }
-        .counter-box { background: #1877f2; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; }
-        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
-        .mobile-img { width: 100%; max-width: 250px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .payment-badge { background: #fff5f5; padding: 15px; border-radius: 15px; border: 2px dashed #ff6b6b; margin: 15px 0; }
-        input { width: 100%; padding: 14px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 16px; background: #1877f2; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; }
-        .copy-btn { background: #ff6b6b; padding: 8px 15px; width: auto; font-size: 14px; margin-top: 5px; border:none; border-radius:8px; color:white; cursor:pointer; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; text-align: center; }
+        .container { background: white; max-width: 400px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #333; }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        .btn-join { background: #ff6b6b; color: white; border: none; padding: 15px; width: 100%; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .btn-join:disabled { background: #ccc; }
+        .footer-info { margin-top: 20px; font-size: 12px; color: #666; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div id="winner-box" class="winner-box">
-            <h4 style="margin: 0; color: #856404;">🎉 Recent Lucky Winner 🎉</h4>
-            <p id="winner-name" style="font-size: 20px; font-weight: bold; margin: 5px 0;"></p>
-        </div>
-
-        <div class="counter-box">
-            <p style="margin: 0; font-size: 14px;">Total Participants Joined</p>
-            <div id="user-count" style="font-size: 36px; font-weight: bold;">0</div>
-        </div>
-
-        <div class="card">
-            <h2 style="margin: 0; color: #1e293b;">Win Mobile For Just $1!</h2>
-            <p style="color: #d63031; font-weight: bold; font-size: 14px; margin-top: 5px;">⚠️ Send Rs. 300 via NayaPay</p>
-
-            <img src="mobile.jpg" alt="Win Mobile" class="mobile-img">
-
-            <div class="payment-badge">
-                <p style="color: #ff6b6b; font-weight: bold; margin: 0; font-size: 13px;">NAYAPAY ACCOUNT</p>
-                <p style="font-size: 26px; font-weight: bold; margin: 5px 0; color: #2d3436;">03116761010</p>
-                <p style="font-size: 16px; color: #2d3436; margin-bottom: 10px;">Account Name: <br><b>Muhammad Sarfraz</b></p>
-                <button class="copy-btn" onclick="navigator.clipboard.writeText('03116761010'); alert('NayaPay Number Copied!')">Copy Number</button>
-            </div>
-
-            <form id="entryForm">
-                <input type="text" id="name" placeholder="Your Full Name" required>
-                <input type="number" id="phone" placeholder="WhatsApp Number" required>
-                <input type="text" id="tid" placeholder="NayaPay Transaction ID" required>
-                <button type="submit" id="submitBtn">Submit My Entry</button>
-            </form>
-            <p style="font-size: 11px; color: #636e72; margin-top: 15px;">Note: Fake IDs will be blocked permanently.</p>
-        </div>
+<div class="container">
+    <h2>GM Agency</h2>
+    <p>Enter details to join the team</p>
+    
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="number" id="phone" placeholder="WhatsApp Number" required>
+    <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
+    
+    <button class="btn-join" onclick="submitForm()">JOIN NOW</button>
+    
+    <div class="footer-info">
+        Data will be automatically synced with our database.
     </div>
+</div>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBbV_Z_VxGN39qdR1AMngqdX0UYGANdcMM",
-            authDomain: "dollar-game-de93b.firebaseapp.com",
-            projectId: "dollar-game-de93b",
-            storageBucket: "dollar-game-de93b.firebasestorage.app",
-            messagingSenderId: "633246448026",
-            appId: "1:633246448026:web:eeea8692c832a3ca682223"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+<script>
+    // Aapka Google Script URL jo maine yahan fit kar diya hai
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBPqWCldY2mLqY8SA62KJGM77POOibQcHPWfTGaiwrKbahwD2C8cmdP7Lf8_RQ7u3MDg/exec";
 
-        db.collection("dollar_entries").onSnapshot(snap => {
-            document.getElementById("user-count").innerText = snap.size;
-        });
+    function submitForm() {
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+        const tid = document.getElementById("tid").value;
 
-        db.collection("winners").doc("latest").onSnapshot((doc) => {
-            if (doc.exists) {
-                document.getElementById("winner-box").style.display = "block";
-                document.getElementById("winner-name").innerText = doc.data().name;
-            } else {
-                document.getElementById("winner-box").style.display = "none";
-            }
-        });
+        if(!name || !phone || !tid) { 
+            alert("Please fill all fields!"); 
+            return; 
+        }
 
-        document.getElementById('entryForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.innerText = "Processing...";
-            
-            try {
-                await db.collection("dollar_entries").add({
-                    name: document.getElementById('name').value,
-                    phone: document.getElementById('phone').value,
-                    transactionId: document.getElementById('tid').value,
-                    status: "Pending",
-                    paymentMethod: "NayaPay",
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                alert("Entry Successful! Verified by Muhammad Sarfraz.");
-                document.getElementById('entryForm').reset();
-            } catch (err) {
-                alert("Error. Try again.");
-            }
+        const btn = document.querySelector(".btn-join");
+        btn.innerText = "Submitting...";
+        btn.disabled = true;
+
+        // Data ko Google Sheet mein bhejna
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: name, 
+                phone: phone, 
+                tid: tid
+            })
+        }).then(() => {
+            alert("Success! Your data is saved.");
+            window.location.href = "data.html"; // Redirect to Admin Panel
+        }).catch(err => {
+            alert("Error: " + err);
+            btn.innerText = "JOIN NOW";
             btn.disabled = false;
-            btn.innerText = "Submit My Entry";
-        };
-    </script>
+        });
+    }
+</script>
+
 </body>
 </html>
 
