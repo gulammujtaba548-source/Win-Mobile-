@@ -100,23 +100,26 @@
         alert("Number Copied!");
     }
 
+    // Status logic for matching
     async function checkStatus() {
         const phoneInput = document.getElementById("checkPhone").value.trim();
         const resultDiv = document.getElementById("statusResult");
         if(!phoneInput) { alert("Number enter karein"); return; }
+        
         resultDiv.style.display = "block";
         resultDiv.innerHTML = "Checking...";
 
         try {
-            let res = await fetch(SCRIPT_URL);
+            // Anti-cache bypass adding timestamp
+            let res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
             let data = await res.json();
             
-            // Search logic fixes leading 0 issue
+            // Numbers ko clean karke match karne ki koshish (removing 0)
+            let cleanInput = phoneInput.replace(/^0+/, ''); 
+            
             let user = data.find(row => {
-                let sheetPhone = row[1].toString();
-                let cleanInput = phoneInput.startsWith('0') ? phoneInput.substring(1) : phoneInput;
-                let cleanSheet = sheetPhone.startsWith('0') ? sheetPhone.substring(1) : sheetPhone;
-                return cleanSheet === cleanInput;
+                let sheetPhone = row[1].toString().replace(/^0+/, '');
+                return sheetPhone === cleanInput;
             });
 
             if(user) {
@@ -125,11 +128,10 @@
                 resultDiv.style.background = status === "Approved" ? "#c8e6c9" : (status === "Rejected" ? "#ffcdd2" : "#ffecb3");
                 resultDiv.style.color = status === "Approved" ? "#2e7d32" : (status === "Rejected" ? "#c62828" : "#856404");
             } else {
-                resultDiv.innerHTML = "User Not Found! Make sure number is correct.";
-                resultDiv.style.background = "#eee";
-                resultDiv.style.color = "#333";
+                resultDiv.innerHTML = "Not Found in Sheet! Re-check number.";
+                resultDiv.style.background = "#eeeeee";
             }
-        } catch(e) { resultDiv.innerHTML = "Error!"; }
+        } catch(e) { resultDiv.innerHTML = "Connection Error!"; }
     }
 
     document.getElementById("regForm").onsubmit = async (e) => {
@@ -144,11 +146,10 @@
         };
         try {
             await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-            alert("Success! Check status in 30 mins.");
+            alert("Entry Success! Check status in 30 mins.");
             location.reload();
         } catch (e) { alert("Failed!"); btn.disabled = false; }
     };
 </script>
 </body>
 </html>
-
