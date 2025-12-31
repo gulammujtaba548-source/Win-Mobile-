@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency - Admin Control</title>
+    <title>GM Agency - Master Admin</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 10px; text-align: center; }
         .header { background: #ff6b6b; color: white; padding: 20px; font-size: 22px; font-weight: bold; border-radius: 0 0 15px 15px; }
-        .admin-card { background: white; max-width: 500px; margin: 20px auto; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .btn-spin { background: #27ae60; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 18px; width: 100%; margin-bottom: 10px; }
-        .btn-reset { background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; background: white; font-size: 13px; }
+        .admin-card { background: white; max-width: 550px; margin: 15px auto; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        /* Buttons Styling */
+        .btn-spin { background: #27ae60; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; width: 100%; margin-bottom: 10px; }
+        .btn-reset-winner { background: #ff9800; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 13px; width: 48%; }
+        .btn-reset-all { background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 13px; width: 48%; }
+        
+        /* Table Styling */
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; background: white; font-size: 12px; }
         th, td { border: 1px solid #eee; padding: 10px; text-align: left; }
         th { background: #333; color: white; }
+        
+        .status-btn { padding: 5px 8px; border: none; border-radius: 4px; color: white; cursor: pointer; font-size: 10px; margin-right: 2px; }
+        .approve { background: #2ecc71; }
+        .reject { background: #e74c3c; }
+        
         #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; display: flex; align-items: center; justify-content: center; z-index: 100; }
     </style>
 </head>
@@ -20,31 +30,32 @@
 
 <div id="loginOverlay">
     <div class="admin-card">
-        <h3>Admin Login</h3>
-        <input type="password" id="passInput" placeholder="Enter Password" style="width:80%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px;">
-        <button onclick="checkPass()" style="padding:10px 20px; background:#ff6b6b; color:white; border:none; border-radius:5px; cursor:pointer;">Login</button>
+        <h3>Admin Secure Login</h3>
+        <input type="password" id="passInput" placeholder="Password: admin123" style="width:80%; padding:10px; margin-bottom:10px;">
+        <button onclick="checkPass()" style="width:100%; padding:10px; background:#ff6b6b; color:white; border:none; border-radius:5px; cursor:pointer;">LOGIN</button>
     </div>
 </div>
 
-<div class="header">GM Agency Admin Control</div>
+<div class="header">GM Agency Master Admin</div>
 
 <div class="admin-card">
-    <h2 style="margin-top:0;">🏆 Winner Control</h2>
-    <p>Total Participants: <span id="count">0</span></p>
-    
+    <h3 style="margin:0 0 10px 0;">Control Panel</h3>
     <button class="btn-spin" onclick="pickRandomWinner()">🎡 SPIN FOR RANDOM WINNER</button>
     
-    <button class="btn-reset" onclick="resetWinner()">Reset Winner Display</button>
+    <div style="display: flex; justify-content: space-between;">
+        <button class="btn-reset-winner" onclick="resetWinner()">Reset Winner Display</button>
+        <button class="btn-reset-all" onclick="resetAllData()">Reset All Participants</button>
+    </div>
 </div>
 
-<div class="admin-card" style="max-width: 95%;">
-    <h3>Participant List</h3>
+<div class="admin-card" style="max-width: 98%;">
+    <p>Total Participants: <span id="count" style="font-weight:bold; color:#ff6b6b;">0</span></p>
     <table>
         <thead>
             <tr>
-                <th>Name</th>
-                <th>TID</th>
-                <th>Status</th>
+                <th>Participant</th>
+                <th>TID / Contact</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody id="listBody"></tbody>
@@ -55,8 +66,7 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBPqWCldY2mLqY8SA62KJGM77POOibQcHPWfTGaiwrKbahwD2C8cmdP7Lf8_RQ7u3MDg/exec";
 
     function checkPass() {
-        const p = document.getElementById("passInput").value;
-        if(p === "admin123") {
+        if(document.getElementById("passInput").value === "admin123") {
             document.getElementById("loginOverlay").style.display = "none";
             loadData();
         } else { alert("Wrong Password!"); }
@@ -71,31 +81,30 @@
             
             let tbody = document.getElementById("listBody");
             tbody.innerHTML = "";
-            participants.reverse().forEach(row => {
+            participants.reverse().forEach((row, index) => {
                 tbody.innerHTML += `<tr>
                     <td><strong>${row[0]}</strong></td>
-                    <td>${row[2]}</td>
-                    <td><span style="color:green;">Received</span></td>
+                    <td>${row[2]}<br><small>${row[1]}</small></td>
+                    <td>
+                        <button class="status-btn approve" onclick="alert('Approved!')">Approve</button>
+                        <button class="status-btn reject" onclick="alert('Rejected!')">Reject</button>
+                    </td>
                 </tr>`;
             });
-        } catch (e) { alert("Error loading data"); }
+        } catch (e) { console.error("Error loading data"); }
     }
 
     async function pickRandomWinner() {
         let res = await fetch(SCRIPT_URL);
         let data = await res.json();
         let participants = data.slice(1);
-        
         if(participants.length > 0) {
             let win = participants[Math.floor(Math.random() * participants.length)];
-            
-            // Save winner to localStorage so index.html can see it
             localStorage.setItem("luckyName", win[0]);
             localStorage.setItem("luckyTid", "TID: " + win[2]);
-            
             alert("Winner Picked: " + win[0]);
-            window.location.href = "index.html"; // Winner dekhne ke liye main page pe le jaye ga
-        } else { alert("No participants found!"); }
+            window.location.href = "index.html";
+        }
     }
 
     function resetWinner() {
@@ -103,8 +112,14 @@
         localStorage.removeItem("luckyTid");
         alert("Winner Display Reset!");
     }
-</script>
 
+    function resetAllData() {
+        if(confirm("⚠️ WARNING: Kya aap tamam participants ka data delete karna chahte hain? Ye wapis nahi ayega!")) {
+            // Google Sheet se delete karne ke liye manually Sheet khol kar row 2 se neeche delete karein.
+            alert("Security Reason: Google Sheet se data manually delete karein taake koi ghalti na ho.");
+        }
+    }
+</script>
 </body>
 </html>
 
