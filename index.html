@@ -6,41 +6,40 @@
     <title>GM Agency - Win a Smartphone</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; text-align: center; }
-        .header { background: white; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .live-status { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 20px; display: inline-block; font-size: 14px; font-weight: bold; margin-bottom: 10px; border: 1px solid #c8e6c9; }
-        .container { max-width: 450px; margin: 20px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); overflow: hidden; }
-        img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+        .container { max-width: 450px; margin: 20px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .pay-card { border: 3px solid #ff5252; background: #fff5f5; padding: 20px; border-radius: 15px; margin-bottom: 20px; position: relative; }
+        .copy-btn { background: #ff5252; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; margin-top: 5px; font-weight: bold; }
+        .status-checker { background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #2196f3; }
+        .btn-check { background: #2196f3; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .btn-join { width: 100%; padding: 15px; background: #ff5252; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        #statusResult { font-weight: bold; margin-top: 10px; padding: 10px; border-radius: 5px; display: none; }
         .winner-box { background: #fff9c4; border: 2px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-        .pay-card { border: 3px solid #ff5252; background: #fff5f5; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
-        .btn-join { width: 100%; padding: 15px; background: #ff5252; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .footer { margin-top: 30px; padding: 20px; font-size: 11px; color: #777; border-top: 1px solid #eee; }
-        .footer a { color: #ff5252; text-decoration: none; font-weight: bold; }
-        .guide-box { background: #fff; border-left: 5px solid #ff5252; text-align: left; padding: 15px; margin: 20px auto; max-width: 420px; border-radius: 0 10px 10px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .support-box { background: #e3f2fd; border: 1px solid #90caf9; padding: 15px; margin: 20px auto; max-width: 420px; border-radius: 15px; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1 style="margin:0; color:#333;">GM Agency</h1>
-    <div class="live-status">● Live: <span id="userCount">0</span> Members Joined</div>
-</div>
-
 <div class="container">
-    <img src="mobile.jpg" alt="Win Smartphone">
     <div class="winner-box">
         <h3 style="margin:0; color:#fbc02d;">🎉 LATEST LUCKY WINNER 🎉</h3>
-        <h2 id="winnerName" style="margin:5px 0;">Coming Soon</h2>
-        <p id="winnerTid" style="margin:0; font-size:12px; color:#666;">TID: Pending</p>
+        <h2 id="winnerName">Coming Soon</h2>
+        <p id="winnerTid">TID: Pending</p>
+    </div>
+
+    <div class="status-checker">
+        <h4 style="margin:0 0 10px 0; color:#0d47a1;">🔍 Check Your Status</h4>
+        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number">
+        <button class="btn-check" onclick="checkStatus()">Check Payment Status</button>
+        <div id="statusResult"></div>
     </div>
 
     <div class="pay-card">
-        <div style="background: #ff5252; color: white; padding: 5px 15px; border-radius: 50px; display: inline-block; font-weight: bold; margin-bottom: 15px; font-size: 18px;">💳 NayaPay Official</div>
-        <div style="background: white; padding: 15px; border-radius: 10px; border: 1px solid #ef9a9a;">
-            <p style="font-size: 16px; margin: 0; color: #555;">Send Fee <b>Rs. 300</b> to:</p>
-            <div style="font-size: 36px; margin: 10px 0; color: #ff5252; font-weight: 800;">03186761010</div>
-            <p style="font-size: 16px; font-weight: bold; color: #333; margin: 0; border-top: 1px dashed #ccc; padding-top: 10px;">Title: Muhammad Sarfraz</p>
+        <div style="background:#ff5252; color:white; padding:5px 15px; border-radius:50px; display:inline-block; font-weight:bold; margin-bottom:10px;">💳 NayaPay Official</div>
+        <div style="background:white; padding:15px; border-radius:10px;">
+            <p style="margin:0; color:#555;">Send Fee <b>Rs. 300</b> to:</p>
+            <div id="numberToCopy" style="font-size:32px; color:#ff5252; font-weight:800; margin:5px 0;">03186761010</div>
+            <button class="copy-btn" onclick="copyNumber()">📋 Copy Number</button>
+            <p style="font-weight:bold; margin-top:10px;">Title: Muhammad Sarfraz</p>
         </div>
     </div>
 
@@ -52,70 +51,60 @@
     </form>
 </div>
 
-<div class="guide-box">
-    <h3 style="color: #333; margin-top: 0; font-size: 16px;">How to Participate?</h3>
-    <ol style="padding-left: 20px; font-size: 13px; line-height: 1.8; color: #444;">
-        <li>NayaPay par Rs. 300 send karein.</li>
-        <li>TID copy karke form fill karein.</li>
-        <li>Verification ke baad status <b>Approved</b> ho jayega.</li>
-    </ol>
-</div>
-
-<div class="support-box">
-    <h4 style="margin: 0; color: #1565c0;">Need Help?</h4>
-    <a href="https://wa.me/923023313131" target="_blank" style="display: inline-block; padding: 10px 20px; background: #25d366; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">💬 WhatsApp: 0302-3313131</a>
-</div>
-
-<div class="footer">
-    <p>© 2025 GM Agency. All Rights Reserved.</p>
-    <a href="javascript:void(0)" onclick="alert('Hum aapka data sirf verification ke liye use karte hain.')">Privacy Policy</a> | 
-    <a href="javascript:void(0)" onclick="alert('Ghalat TID par account reject ho jayega.')">Terms</a>
-</div>
-
 <script>
-    // NEW LINK ADDED HERE
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzndEFHye4YdM9uhnXp_kaxFb4ZKCRUAsA0MK5CVoFreR_ajLnft7ilLEOsMs7CKeG7IQ/exec";
 
-    window.onload = function() {
-        if(localStorage.getItem("luckyName")) {
-            document.getElementById("winnerName").innerText = localStorage.getItem("luckyName");
-            document.getElementById("winnerTid").innerText = localStorage.getItem("luckyTid");
-        }
-        loadUserCount();
-    };
+    // 1. Copy Number Logic
+    function copyNumber() {
+        navigator.clipboard.writeText("03186761010");
+        alert("Number Copied: 03186761010");
+    }
 
-    async function loadUserCount() {
+    // 2. Check Status Logic
+    async function checkStatus() {
+        const phone = document.getElementById("checkPhone").value;
+        const resultDiv = document.getElementById("statusResult");
+        if(!phone) { alert("Please enter phone number"); return; }
+        
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = "Checking...";
+        resultDiv.style.background = "#eee";
+
         try {
             let res = await fetch(SCRIPT_URL);
             let data = await res.json();
-            document.getElementById("userCount").innerText = data.length - 1;
-        } catch(e) { console.log("Error"); }
+            // Search phone in sheet data
+            let user = data.find(row => row[1].toString() === phone);
+
+            if(user) {
+                let status = user[4] || "Pending";
+                resultDiv.innerHTML = `Hi ${user[0]}! Your Status is: <b>${status}</b>`;
+                resultDiv.style.background = status === "Approved" ? "#c8e6c9" : "#ffecb3";
+                resultDiv.style.color = status === "Approved" ? "#2e7d32" : "#856404";
+            } else {
+                resultDiv.innerHTML = "User Not Found! Please join first.";
+                resultDiv.style.background = "#ffcdd2";
+                resultDiv.style.color = "#c62828";
+            }
+        } catch(e) { resultDiv.innerHTML = "Error connecting to server!"; }
     }
 
+    // Baqi purana form submission code...
     document.getElementById("regForm").onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById("submitBtn");
         btn.innerText = "Processing...";
         btn.disabled = true;
-
         const data = {
             name: document.getElementById("name").value,
             phone: document.getElementById("phone").value,
             tid: document.getElementById("tid").value
         };
-
         try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(data)
-            });
-            alert("Success! Admin approval ka intezar karein.");
+            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+            alert("Entry Saved! Check your status after 30 mins.");
             location.reload();
-        } catch (e) {
-            alert("Failed!");
-            btn.disabled = false;
-        }
+        } catch (e) { alert("Failed!"); btn.disabled = false; }
     };
 </script>
 </body>
