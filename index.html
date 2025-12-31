@@ -7,14 +7,20 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; text-align: center; }
         .container { max-width: 450px; margin: 10px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .ad-unit { background: #f0f0f0; border: 1px dashed #bbb; margin: 10px auto; padding: 10px; font-size: 10px; color: #888; text-transform: uppercase; }
         
-        /* Real-Time UI Elements */
+        /* UI Elements */
         .live-badge { background: #e8f5e9; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 10px; display: inline-block; border: 1px solid #c8e6c9; }
         .leaderboard { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: left; }
         .top-user { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ffcc80; font-size: 13px; font-weight: bold; }
         
+        /* Wallet & Cards */
         .coin-box { background: linear-gradient(135deg, #ffd700, #ffa000); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
+        .ref-card { background: #fffde7; border: 2px dashed #fbc02d; }
+        .pay-card { border: 2px solid #ff5252; background: #fff5f5; }
+        
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
         .btn-red { width: 100%; padding: 15px; background: #ff5252; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
         footer { background: #333; color: white; padding: 20px; font-size: 11px; margin-top: 20px; }
         footer a { color: #ffd700; text-decoration: none; margin: 0 5px; }
@@ -22,7 +28,7 @@
 </head>
 <body>
 
-<div style="text-align:center; padding:10px; font-size:10px; color:#999; border-bottom:1px solid #eee;">GOOGLE ADSENSE TOP UNIT</div>
+<div class="ad-unit">GOOGLE ADSENSE TOP UNIT</div>
 
 <div class="container">
     <div class="live-badge">● LIVE: <span id="realJoinCount">...</span> Participants Joined</div>
@@ -45,12 +51,20 @@
         <button id="spinBtn" onclick="spinWheel()" style="background:#333; color:white; border:none; padding:8px 20px; border-radius:20px; font-weight:bold; cursor:pointer;">SPIN</button>
     </div>
 
-    <div class="card" style="background:#e3f2fd; border:1px solid #2196f3;">
-        <input type="number" id="checkPhone" placeholder="WhatsApp Number" oninput="generateRefLink()">
-        <button onclick="checkStatus()" style="background:#2196f3; color:white; border:none; padding:10px; width:100%; border-radius:8px; font-weight:bold;">Check Status</button>
+    <div class="card ref-card">
+        <h4 style="margin:0; color:#f57f17;">🔗 Refer & Earn (2 Coins)</h4>
+        <p style="font-size:11px; margin:5px 0;">Apne link se join karwane par 2 coins milenge!</p>
+        <div id="refLinkDisplay" style="background:#eee; padding:10px; border-radius:5px; font-size:10px; margin:10px 0; word-break:break-all;">Status box mein number likhein</div>
+        <button onclick="copyRefLink()" style="background:#fbc02d; border:none; padding:8px 15px; border-radius:5px; font-weight:bold; cursor:pointer;">Copy Referral Link</button>
     </div>
 
-    <div class="card" style="border: 2px solid #ff5252; background: #fff5f5;">
+    <div class="card" style="background:#e3f2fd; border:1px solid #2196f3;">
+        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number" oninput="generateRefLink()">
+        <button onclick="checkStatus()" style="background:#2196f3; color:white; border:none; padding:10px; width:100%; border-radius:8px; font-weight:bold; cursor:pointer;">Check Status</button>
+        <div id="statusResult" style="display:none; margin-top:10px; padding:8px; border-radius:5px;"></div>
+    </div>
+
+    <div class="card pay-card">
         <p style="margin:0;">Send Fee <b>Rs. 300</b> to:</p>
         <h2 style="color:#ff5252; margin:5px 0;">03186761010</h2>
         <p style="font-weight:bold; margin:0;">Title: Muhammad Sarfraz</p>
@@ -65,7 +79,7 @@
     </form>
 </div>
 
-<div style="margin:20px 0;"><a href="https://wa.me/923023313131" style="background:#25d366; color:white; padding:10px 20px; border-radius:50px; text-decoration:none; font-weight:bold;">WhatsApp Support</a></div>
+<div style="margin:20px 0;"><a href="https://wa.me/923023313131" style="background:#25d366; color:white; padding:12px 25px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block;">💬 WhatsApp Support</a></div>
 
 <footer>
     <p>&copy; 2026 GM Agency. All Rights Reserved.</p>
@@ -75,41 +89,64 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzndEFHye4YdM9uhnXp_kaxFb4ZKCRUAsA0MK5CVoFreR_ajLnft7ilLEOsMs7CKeG7IQ/exec";
     
-    // 1. Fetch REAL Data for Leaderboard & Count
+    let myCoins = parseInt(localStorage.getItem("gm_coins")) || 0;
+    document.getElementById("userCoins").innerText = myCoins;
+
     async function fetchRealData() {
         try {
-            const response = await fetch(SCRIPT_URL);
-            const data = await response.json();
-            
-            // Update Live Count
+            const res = await fetch(SCRIPT_URL);
+            const data = await res.json();
             document.getElementById("realJoinCount").innerText = data.length - 1;
-
-            // Update Leaderboard (Sort by Coins)
-            // Note: Sheet must have Name (Col 0) and Coins (Col 5)
-            let sortedData = data.slice(1).sort((a, b) => (b[5] || 0) - (a[5] || 0)).slice(0, 5);
-            let leaderHtml = "";
-            sortedData.forEach((user, i) => {
-                leaderHtml += `<div class="top-user"><span>#${i+1} ${user[0]}</span> <span>${user[5] || 0} Coins</span></div>`;
-            });
-            document.getElementById("leaderboardContent").innerHTML = leaderHtml;
-        } catch (e) { console.log("Data fetch error"); }
+            
+            // Leaderboard: Col 0 (Name), Col 5 (Coins)
+            let sorted = data.slice(1).sort((a, b) => (b[5] || 0) - (a[5] || 0)).slice(0, 5);
+            let html = "";
+            sorted.forEach((u, i) => { html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${u[5] || 0} Coins</span></div>`; });
+            document.getElementById("leaderboardContent").innerHTML = html;
+        } catch (e) { }
     }
 
-    // Spin Logic
+    function generateRefLink() {
+        const phone = document.getElementById("checkPhone").value;
+        if(phone.length > 9) document.getElementById("refLinkDisplay").innerText = window.location.origin + window.location.pathname + "?ref=" + phone;
+    }
+
+    function copyRefLink() {
+        const link = document.getElementById("refLinkDisplay").innerText;
+        if(link.includes("?ref=")) { navigator.clipboard.writeText(link); alert("Referral Link Copied!"); }
+        else { alert("Pehle niche 'Check Status' wale box mein apna number likhein!"); }
+    }
+
     function spinWheel() {
         if(localStorage.getItem("last_spin") === new Date().toDateString()) { alert("Kal aana!"); return; }
         document.getElementById("wheel").style.transform = `rotate(${Math.floor(Math.random() * 360) + 1800}deg)`;
         setTimeout(() => {
-            let myCoins = (parseInt(localStorage.getItem("gm_coins")) || 0) + 2;
+            myCoins += 2;
             localStorage.setItem("gm_coins", myCoins);
             localStorage.setItem("last_spin", new Date().toDateString());
             location.reload();
         }, 3100);
     }
 
-    window.onload = fetchRealData;
+    async function checkStatus() {
+        const phone = document.getElementById("checkPhone").value.trim();
+        const resDiv = document.getElementById("statusResult");
+        resDiv.style.display = "block"; resDiv.innerHTML = "Checking...";
+        try {
+            let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
+            let data = await res.json();
+            let user = data.find(r => r[1].toString().includes(phone.slice(-10)));
+            if(user) { resDiv.innerHTML = `Hi ${user[0]}! Status: ${user[4] || 'Pending'}`; resDiv.style.background = "#c8e6c9"; }
+            else { resDiv.innerHTML = "Not Found!"; resDiv.style.background = "#eee"; }
+        } catch(e) { }
+    }
 
-    // Reg Form Logic
+    window.onload = function() {
+        fetchRealData();
+        const params = new URLSearchParams(window.location.search);
+        if(params.has('ref')) document.getElementById("referrerId").value = params.get('ref');
+    };
+
     document.getElementById("regForm").onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById("submitBtn");
@@ -121,7 +158,7 @@
             referrer: document.getElementById("referrerId").value
         };
         await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-        alert("Success!"); location.reload();
+        alert("Joined Successfully!"); location.reload();
     };
 </script>
 </body>
