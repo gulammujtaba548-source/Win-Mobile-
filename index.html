@@ -7,36 +7,37 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; text-align: center; }
         .container { max-width: 450px; margin: 10px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .ad-unit { background: #f9f9f9; border: 1px dashed #ccc; padding: 10px; font-size: 10px; color: #999; margin-bottom: 10px; }
-        
-        .live-badge { background: #e8f5e9; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 10px; display: inline-block; border: 1px solid #c8e6c9; }
+        .welcome-box { background: #333; color: #ffd700; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 2px solid #ffd700; }
+        .welcome-box h2 { margin: 0; font-size: 20px; text-transform: uppercase; }
+        .live-badge { background: #e8f5e9; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 10px; display: inline-block; }
         .leaderboard { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 12px; padding: 15px; margin-bottom: 15px; text-align: left; }
         .top-user { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #ffcc80; font-size: 13px; font-weight: bold; }
         .coin-box { background: linear-gradient(135deg, #ffd700, #ffa000); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-
-        /* NayaPay Card */
+        #spinTimer { color: #ff5252; font-weight: bold; font-size: 14px; margin-top: 10px; display: none; }
         .pay-card { border: 2px solid #ff5252; background: #fff5f5; padding: 20px; border-radius: 15px; margin-bottom: 15px; }
-        .account-num { font-size: 28px; color: #ff5252; font-weight: 800; margin: 5px 0; letter-spacing: 1px; }
-
+        .account-num { font-size: 28px; color: #ff5252; font-weight: 800; margin: 5px 0; }
         .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
-        input { width: 92%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
-        .btn-red { width: 100%; padding: 15px; background: #ff5252; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        input { width: 92%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .btn-red { width: 100%; padding: 15px; background: #ff5252; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
         footer { background: #333; color: white; padding: 20px; font-size: 11px; margin-top: 20px; }
         footer a { color: #ffd700; text-decoration: none; margin: 0 5px; }
     </style>
 </head>
 <body>
 
-<div class="ad-unit">GOOGLE ADSENSE TOP UNIT</div>
-
 <div class="container">
-    <div class="live-badge">● LIVE: <span id="realJoinCount">...</span> Participants Joined</div>
+    <div class="welcome-box">
+        <h2>Welcome to GM Agency</h2>
+        <p>Win Big Prizes & Earn Daily Coins</p>
+    </div>
+
+    <div class="live-badge">● LIVE: <span id="realJoinCount">...</span> Participants</div>
 
     <img src="mobile.jpg" alt="Win Mobile" style="width:100%; border-radius:10px; margin-bottom:15px;">
 
     <div class="leaderboard">
         <h4 style="margin:0 0 10px 0; color:#e65100; text-align:center;">🏆 TOP 5 COIN HOLDERS</h4>
-        <div id="leaderboardContent">Loading real data...</div>
+        <div id="leaderboardContent">Loading...</div>
     </div>
 
     <div class="coin-box">
@@ -45,25 +46,26 @@
     </div>
 
     <div class="card">
-        <h4 style="margin:0;">Daily Spin (Win 2 Coins)</h4>
+        <h4>🎡 Daily Spin (Win 2 Coins)</h4>
         <div id="wheel" style="width:140px; height:140px; border:8px solid #fbc02d; border-radius:50%; margin:15px auto; transition: 3s; background:conic-gradient(#ff5252 0% 25%, #2196f3 25% 50%, #4caf50 50% 75%, #fbc02d 75% 100%);"></div>
         <button id="spinBtn" onclick="spinWheel()" style="background:#333; color:white; border:none; padding:10px 25px; border-radius:20px; font-weight:bold; cursor:pointer;">SPIN NOW</button>
+        <div id="spinTimer">Next spin in: <span id="timerText">00:00:00</span></div>
     </div>
 
     <div class="card" style="background:#fffde7; border:2px dashed #fbc02d;">
         <h4 style="margin:0; color:#f57f17;">🔗 Refer & Earn (2 Coins)</h4>
         <div id="refLinkDisplay" style="background:#eee; padding:10px; border-radius:5px; font-size:10px; margin:10px 0; word-break:break-all;">Enter number below for link</div>
-        <button onclick="copyRefLink()" style="background:#fbc02d; border:none; padding:8px 15px; border-radius:5px; font-weight:bold; cursor:pointer;">Copy Referral Link</button>
+        <button onclick="copyRefLink()" style="background:#fbc02d; border:none; padding:8px 15px; border-radius:5px; font-weight:bold; cursor:pointer;">Copy Link</button>
     </div>
 
     <div class="card" style="background:#e3f2fd; border:1px solid #2196f3;">
-        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number" oninput="generateRefLink()">
+        <input type="number" id="checkPhone" placeholder="WhatsApp Number" oninput="generateRefLink()">
         <button onclick="checkStatus()" style="background:#2196f3; color:white; border:none; padding:10px; width:100%; border-radius:8px; font-weight:bold;">Check Status</button>
         <div id="statusResult" style="display:none; margin-top:10px; padding:12px; border-radius:5px; font-weight:bold;"></div>
     </div>
 
     <div class="pay-card">
-        <span style="color:#ff5252; font-weight:bold;">NayaPay Only</span><br>
+        <span style="color:#ff5252; font-weight:bold;">NayaPay Official</span><br>
         <div style="font-size: 14px; color: #555;">Send Fee <b>Rs. 300</b> to:</div>
         <div class="account-num">03186761010</div>
         <div style="font-weight:bold; color:#333; font-size: 16px;">Title: Muhammad Sarfraz</div>
@@ -88,6 +90,35 @@
     let myCoins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = myCoins;
 
+    function updateTimer() {
+        const lastSpin = localStorage.getItem("last_spin_time");
+        if (!lastSpin) return;
+        const now = new Date().getTime();
+        const diff = (parseInt(lastSpin) + (24 * 60 * 60 * 1000)) - now;
+        if (diff > 0) {
+            document.getElementById("spinBtn").style.display = "none";
+            document.getElementById("spinTimer").style.display = "block";
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById("timerText").innerText = h + "h " + m + "m " + s + "s";
+            setTimeout(updateTimer, 1000);
+        } else {
+            document.getElementById("spinBtn").style.display = "inline-block";
+            document.getElementById("spinTimer").style.display = "none";
+        }
+    }
+
+    function spinWheel() {
+        document.getElementById("wheel").style.transform = `rotate(${Math.floor(Math.random() * 360) + 1800}deg)`;
+        setTimeout(() => {
+            myCoins += 2;
+            localStorage.setItem("gm_coins", myCoins);
+            localStorage.setItem("last_spin_time", new Date().getTime());
+            location.reload();
+        }, 3100);
+    }
+
     async function fetchRealData() {
         try {
             const res = await fetch(SCRIPT_URL);
@@ -104,24 +135,11 @@
         const phone = document.getElementById("checkPhone").value;
         if(phone.length > 9) document.getElementById("refLinkDisplay").innerText = window.location.origin + window.location.pathname + "?ref=" + phone;
     }
-
     function copyRefLink() {
         const link = document.getElementById("refLinkDisplay").innerText;
         if(link.includes("?ref=")) { navigator.clipboard.writeText(link); alert("Link Copied!"); }
-        else { alert("Pehle number likhein!"); }
+        else { alert("Number likhein!"); }
     }
-
-    function spinWheel() {
-        if(localStorage.getItem("last_spin") === new Date().toDateString()) { alert("Kal aana!"); return; }
-        document.getElementById("wheel").style.transform = `rotate(${Math.floor(Math.random() * 360) + 1800}deg)`;
-        setTimeout(() => {
-            myCoins += 2;
-            localStorage.setItem("gm_coins", myCoins);
-            localStorage.setItem("last_spin", new Date().toDateString());
-            location.reload();
-        }, 3100);
-    }
-
     async function checkStatus() {
         const phone = document.getElementById("checkPhone").value.trim();
         const resDiv = document.getElementById("statusResult");
@@ -138,7 +156,7 @@
     }
 
     window.onload = function() {
-        fetchRealData();
+        fetchRealData(); updateTimer();
         const params = new URLSearchParams(window.location.search);
         if(params.has('ref')) document.getElementById("referrerId").value = params.get('ref');
     };
@@ -154,7 +172,7 @@
             referrer: document.getElementById("referrerId").value
         };
         await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-        alert("Registration Submitted!"); location.reload();
+        alert("Done!"); location.reload();
     };
 </script>
 </body>
