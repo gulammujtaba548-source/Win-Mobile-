@@ -6,10 +6,7 @@
     <title>GM Agency - Official Earning Portal</title>
     <style>
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; }
-        body { 
-            font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333;
-            -webkit-user-select: none; user-select: none;
-        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; }
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
@@ -81,17 +78,14 @@
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
-    // Fresh Sync for Total Participants & Leaderboard
     async function fetchLeaderboard() {
         try {
             const res = await fetch(SCRIPT_URL + "?nocache=" + new Date().getTime());
             const data = await res.json();
             
-            // 1. Show Total Participants (all rows except header)
             let total = data.length - 1;
             document.getElementById("totalJoined").innerText = "👥 Total Participants: " + (total > 0 ? total : 0);
             
-            // 2. Filter: Column E (index 4) for 'Approved'
             let approved = data.slice(1).filter(r => r[4] === "Approved");
             
             if (approved.length === 0) {
@@ -99,7 +93,6 @@
                 return;
             }
 
-            // Sort: Column G (index 6) for Coins
             approved.sort((a, b) => (parseInt(b[6]) || 0) - (parseInt(a[6]) || 0));
 
             let html = "";
@@ -111,7 +104,6 @@
         } catch(e) { document.getElementById("leaderboardContent").innerText = "Syncing Error..."; }
     }
 
-    // Spin & Timer logic
     function checkSpin() {
         const last = localStorage.getItem("last_spin_time");
         const cooldown = 24 * 60 * 60 * 1000;
