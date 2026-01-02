@@ -6,7 +6,7 @@
     <title>GM Agency - Official Earning Portal</title>
     <style>
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; --success: #4caf50; }
-        /* Anti-Copy Security */
+        /* Security Layer */
         body { 
             font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333;
             -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
@@ -21,10 +21,11 @@
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 15px; }
         .btn-red { background: var(--primary); color: white; }
-        .promo-text { font-size: 22px; font-weight: 800; color: var(--primary); margin: 10px 0; display: block; }
+        /* Payment Highlight */
+        .promo-text { font-size: 24px; font-weight: 800; color: var(--primary); margin: 10px 0; display: block; line-height: 1.2; }
         footer { background: var(--secondary); color: white; padding: 25px; font-size: 11px; margin-top: 20px; }
         footer a { color: var(--gold); text-decoration: none; margin: 0 5px; }
-        #timerDisplay { font-weight: bold; color: var(--primary); margin-top: 10px; display: none; }
+        #timerDisplay { font-weight: bold; color: var(--primary); margin-top: 10px; display: none; font-size: 18px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -35,20 +36,20 @@
     </div>
 
     <div class="leaderboard">
-        <h4 style="margin:0 0 10px 0; text-align:center;">🏆 Global Leaderboard (Approved)</h4>
-        <div id="leaderboardContent">Syncing with database...</div>
+        <h4 style="margin:0 0 10px 0; text-align:center; color:#e65100;">🏆 Approved Leaderboard</h4>
+        <div id="leaderboardContent">Loading Data...</div>
     </div>
 
     <div class="coin-box">
-        <span>🪙 My Balance:</span>
+        <span>🪙 My Coins:</span>
         <span id="userCoins" style="font-size: 26px;">0</span>
     </div>
 
     <div class="card">
         <h4 style="margin:0;">🎡 Daily Reward Spin</h4>
         <div id="wheel"></div>
-        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="width:auto; padding: 10px 30px; margin-top: 10px;">SPIN NOW</button>
-        <div id="timerDisplay">Next spin in: <span id="timeRemaining" style="font-size: 18px;"></span></div>
+        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="width:auto; padding: 10px 30px; margin-top:10px;">SPIN NOW</button>
+        <div id="timerDisplay">Next spin in: <span id="timeRemaining"></span></div>
     </div>
 
     <div class="card" style="background:#e3f2fd;">
@@ -59,7 +60,7 @@
 
     <div class="card" style="border: 3px solid var(--primary); background: #fff5f5;">
         <span class="promo-text">NayaPay: Rs. 300 to 03186761010</span>
-        <p style="font-weight:bold; font-size:14px;">(Registration + Mobile Win Lucky Draw)</p>
+        <p style="font-weight:bold; font-size:14px; margin-bottom:15px;">(Registration + Mobile Win Lucky Draw)</p>
         <form id="regForm">
             <input type="text" id="name" placeholder="Full Name" required>
             <input type="number" id="phone" placeholder="WhatsApp Number" required>
@@ -72,7 +73,7 @@
 <footer>
     <p>&copy; 2026 GM Agency Platform</p>
     <div>
-        <a href="how-to.html">How it Works</a> | <a href="about.html">About</a> | <a href="privacy.html">Privacy</a>
+        <a href="how-to.html">How it Works</a> | <a href="about.html">About</a> | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a>
     </div>
 </footer>
 
@@ -81,10 +82,10 @@
     let myCoins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = myCoins;
 
-    // Security Shortcuts
-    document.onkeydown = (e) => { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false; };
+    // Hardcore Security
+    document.onkeydown = (e) => { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85)) return false; };
 
-    function checkSpinAvailability() {
+    function checkSpinStatus() {
         const lastSpin = localStorage.getItem("last_spin_time");
         const now = new Date().getTime();
         const cooldown = 24 * 60 * 60 * 1000;
@@ -92,22 +93,18 @@
         if (lastSpin && (now - lastSpin < cooldown)) {
             document.getElementById("spinBtn").style.display = "none";
             document.getElementById("timerDisplay").style.display = "block";
-            startTimer(lastSpin, cooldown);
+            updateTimer(lastSpin, cooldown);
         } else {
             document.getElementById("spinBtn").style.display = "inline-block";
             document.getElementById("timerDisplay").style.display = "none";
         }
     }
 
-    function startTimer(lastSpin, cooldown) {
-        const timerInterval = setInterval(() => {
+    function updateTimer(lastSpin, cooldown) {
+        const timer = setInterval(() => {
             const now = new Date().getTime();
             const distance = (parseInt(lastSpin) + cooldown) - now;
-            if (distance < 0) {
-                clearInterval(timerInterval);
-                checkSpinAvailability();
-                return;
-            }
+            if (distance < 0) { clearInterval(timer); checkSpinStatus(); return; }
             const h = Math.floor(distance / 3600000);
             const m = Math.floor((distance % 3600000) / 60000);
             const s = Math.floor((distance % 60000) / 1000);
@@ -124,7 +121,7 @@
             myCoins += 2;
             localStorage.setItem("gm_coins", myCoins);
             localStorage.setItem("last_spin_time", new Date().getTime());
-            alert("2 Coins added!");
+            alert("2 Coins added! Next spin in 24 hours.");
             location.reload();
         }, 3100);
     }
@@ -135,14 +132,25 @@
             const data = await res.json();
             let approved = data.slice(1).filter(r => r[4] === "Approved").sort((a,b) => b[5]-a[5]).slice(0,5);
             let html = "";
-            approved.forEach((u,i) => {
-                html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${u[5] || 0} Coins</span></div>`;
-            });
+            approved.forEach((u,i) => { html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${u[5] || 0} Coins</span></div>`; });
             document.getElementById("leaderboardContent").innerHTML = html;
+        } catch(e) { document.getElementById("leaderboardContent").innerText = "Database Offline."; }
+    }
+
+    async function checkStatus() {
+        const p = document.getElementById("checkPhone").value;
+        const resDiv = document.getElementById("statusResult");
+        resDiv.style.display = "block"; resDiv.innerHTML = "Checking...";
+        try {
+            const res = await fetch(SCRIPT_URL);
+            const data = await res.json();
+            const user = data.find(r => r[1].toString().includes(p));
+            if(user) {
+                resDiv.innerHTML = "Status: " + user[4];
+                resDiv.style.color = (user[4] === "Approved") ? "green" : "orange";
+            } else { resDiv.innerHTML = "Not Registered."; }
         } catch(e) {}
     }
 
-    window.onload = () => { fetchLeaderboard(); checkSpinAvailability(); };
-</script>
-</body>
-</html>
+    window.onload = () => { fetchLeaderboard(); checkSpinStatus(); };
+    
