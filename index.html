@@ -6,7 +6,11 @@
     <title>GM Agency - Official Earning Portal</title>
     <style>
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; }
+        /* Security Layer */
+        body { 
+            font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333;
+            -webkit-user-select: none; user-select: none;
+        }
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
@@ -26,13 +30,11 @@
 <body oncontextmenu="return false;">
 
 <div class="container">
-    <div class="welcome-box">
-        <h2 style="margin:0;">GM Agency Official</h2>
-    </div>
+    <div class="welcome-box"><h2 style="margin:0;">GM Agency Official</h2></div>
 
     <div class="leaderboard">
         <h4 style="margin:0 0 10px 0; text-align:center; color:#e65100;">🏆 Approved Leaderboard</h4>
-        <div id="leaderboardContent">Syncing Live Data...</div>
+        <div id="leaderboardContent">Syncing Live Entries...</div>
     </div>
 
     <div class="coin-box">
@@ -78,46 +80,44 @@
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
-    // Hardcore Security
-    document.onkeydown = (e) => { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85)) return false; };
-
-    // Leaderboard Fresh Sync Fix
+    // Fresh Leaderboard Logic
     async function fetchLeaderboard() {
         try {
             const res = await fetch(SCRIPT_URL + "?nocache=" + new Date().getTime());
             const data = await res.json();
             
-            // Filter: Only 'Approved' users
+            // Filter: Column E (index 4) must be 'Approved'
             let approved = data.slice(1).filter(r => r[4] === "Approved");
             
             if (approved.length === 0) {
-                document.getElementById("leaderboardContent").innerHTML = "<center>No entries approved yet.</center>";
+                document.getElementById("leaderboardContent").innerHTML = "<center>Waiting for approvals...</center>";
                 return;
             }
 
-            // Sort by Coins (Column F)
-            approved.sort((a, b) => (b[5] || 0) - (a[5] || 0));
+            // Sort: Column G (index 6) for Coins
+            approved.sort((a, b) => (parseInt(b[6]) || 0) - (parseInt(a[6]) || 0));
 
             let html = "";
             approved.slice(0, 5).forEach((u, i) => {
-                html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${u[5] || 0} Coins</span></div>`;
+                let val = u[6] !== undefined ? u[6] : 0;
+                html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${val} Coins</span></div>`;
             });
             document.getElementById("leaderboardContent").innerHTML = html;
         } catch(e) { document.getElementById("leaderboardContent").innerText = "Syncing Error..."; }
     }
 
-    // Spin & Timer logic
+    // Spin & 24h Timer Logic
     function checkSpin() {
         const last = localStorage.getItem("last_spin_time");
         const cooldown = 24 * 60 * 60 * 1000;
         if (last && (new Date().getTime() - last < cooldown)) {
             document.getElementById("spinBtn").style.display = "none";
             document.getElementById("timerDisplay").style.display = "block";
-            startTimer(last, cooldown);
+            updateTimer(last, cooldown);
         }
     }
 
-    function startTimer(last, cooldown) {
+    function updateTimer(last, cooldown) {
         setInterval(() => {
             const remain = (parseInt(last) + cooldown) - new Date().getTime();
             if (remain < 0) { location.reload(); return; }
