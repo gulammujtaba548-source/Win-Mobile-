@@ -10,18 +10,17 @@
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .ad-space { background: #eee; padding: 10px; margin: 10px 0; font-size: 10px; color: #999; border: 1px dashed #ccc; }
         .welcome-box { background: linear-gradient(135deg, var(--secondary), #444); color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
-        .live-badge { background: #e8f5e9; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; display: inline-block; border: 1px solid #c8e6c9; }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .leaderboard { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 12px; padding: 12px; margin-bottom: 15px; text-align: left; }
         .top-user { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #ffcc80; font-size: 13px; font-weight: bold; }
         #wheel { width: 160px; height: 160px; border: 8px solid var(--secondary); border-radius: 50%; margin: 15px auto; transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(var(--gold) 0% 25%, var(--primary) 25% 50%, #fff 50% 75%, var(--secondary) 75% 100%); }
         #spinTimer { color: var(--primary); font-weight: bold; font-size: 13px; display: none; margin-top: 10px; }
-        .withdraw-card { background: #f1f8e9; border: 2px solid var(--success); padding: 15px; border-radius: 15px; margin-bottom: 15px; }
         .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 15px; }
         .btn-red { background: var(--primary); color: white; }
         .btn-green { background: var(--success); color: white; }
+        .btn-gray { background: #9e9e9e; color: white; }
         footer { background: var(--secondary); color: white; padding: 25px; font-size: 11px; margin-top: 20px; }
         footer a { color: var(--gold); text-decoration: none; margin: 0 5px; }
     </style>
@@ -36,45 +35,43 @@
         <p style="margin:5px 0 0; font-size:12px;">Verified Earning & Prize Platform</p>
     </div>
 
-    <div class="live-badge">● Live Participants: <span id="realJoinCount">0</span></div>
-
     <div class="leaderboard">
         <h4 style="margin:0 0 10px 0; text-align:center; color:#e65100;">🏆 Global Leaderboard</h4>
         <div id="leaderboardContent">Syncing with Sheet...</div>
     </div>
 
     <div class="coin-box">
-        <span>🪙 Available Balance:</span>
+        <span>🪙 My Coin Balance:</span>
         <span id="userCoins" style="font-size: 26px;">0</span>
     </div>
 
     <div class="card">
         <h4 style="margin:0;">🎡 Daily Reward Spin</h4>
         <div id="wheel"></div>
-        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="width:auto; padding: 10px 30px;">SPIN NOW</button>
+        <p id="lockMessage" style="color:red; font-size:11px; margin-top:10px;">⚠️ Enter number below to unlock spin!</p>
+        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="display:none; width:auto; padding: 10px 30px;">SPIN NOW</button>
         <div id="spinTimer">Next spin in: <span id="timerText">00:00:00</span></div>
     </div>
 
-    <div class="withdraw-card">
+    <div class="card" style="background:#f1f8e9; border: 2px solid var(--success);">
         <h4 style="margin:0; color:#2e7d32;">💸 Withdraw Earnings</h4>
-        <p style="font-size:11px; margin:5px 0;">Minimum threshold: <b>2000 Coins</b></p>
-        <button onclick="handleWithdraw()" class="btn btn-green">Request Withdrawal</button>
+        <button onclick="handleWithdraw()" class="btn btn-gray" style="margin-top:10px;">Withdraw (Coming Soon)</button>
     </div>
 
     <div class="card" style="background:#fffde7; border:2px dashed var(--gold);">
         <h4 style="margin:0; color:#f57f17;">🔗 Refer & Earn (2 Coins)</h4>
-        <div id="refLinkDisplay" style="background:#eee; padding:10px; border-radius:5px; font-size:10px; margin:10px 0; word-break:break-all;">Enter number in Status box to generate link</div>
+        <div id="refLinkDisplay" style="background:#eee; padding:10px; border-radius:5px; font-size:10px; margin:10px 0; word-break:break-all;">Enter number below to generate link</div>
         <button onclick="copyRefLink()" class="btn" style="background:var(--gold);">Copy My Referral Link</button>
     </div>
 
     <div class="card" style="background:#e3f2fd;">
-        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number" oninput="generateRefLink()">
+        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number" oninput="handleInputs()">
         <button onclick="checkStatus()" class="btn" style="background:#2196f3; color:white;">Check Account Status</button>
         <div id="statusResult" style="display:none; margin-top:10px; padding:10px; border-radius:8px; font-weight:bold; font-size:13px;"></div>
     </div>
 
     <div class="card" style="border: 2px solid var(--primary);">
-        <p style="font-size:12px; color:var(--primary); font-weight:bold;">NayaPay Fee: Rs. 300 to 03186761010</p>
+        <p style="font-size:12px; color:var(--primary); font-weight:bold;">NayaPay: Rs. 300 to 03186761010</p>
         <form id="regForm">
             <input type="hidden" id="referrerId" value="Direct">
             <input type="text" id="name" placeholder="Full Name" required>
@@ -84,8 +81,6 @@
         </form>
     </div>
 </div>
-
-<div class="ad-space">GOOGLE ADSENSE - BOTTOM BANNER</div>
 
 <footer>
     <p>&copy; 2026 GM Agency Platform. All Rights Reserved.</p>
@@ -100,22 +95,36 @@
     let myCoins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = myCoins;
 
-    function updateTimer() {
+    function handleInputs() {
+        generateRefLink();
+        const p = document.getElementById("checkPhone").value;
         const lastSpin = localStorage.getItem("last_spin_time");
-        if (!lastSpin) return;
         const diff = (parseInt(lastSpin) + (24 * 60 * 60 * 1000)) - new Date().getTime();
-        if (diff > 0) {
-            document.getElementById("spinBtn").style.display = "none";
-            document.getElementById("spinTimer").style.display = "block";
-            const h = Math.floor(diff / 3600000);
-            const m = Math.floor((diff % 3600000) / 60000);
-            const s = Math.floor((diff % 60000) / 1000);
-            document.getElementById("timerText").innerText = `${h}h ${m}m ${s}s`;
-            setTimeout(updateTimer, 1000);
-        } else {
+
+        if (p.length > 9 && diff <= 0) {
             document.getElementById("spinBtn").style.display = "inline-block";
-            document.getElementById("spinTimer").style.display = "none";
+            document.getElementById("lockMessage").style.display = "none";
+        } else {
+            document.getElementById("spinBtn").style.display = "none";
+            document.getElementById("lockMessage").style.display = (diff > 0) ? "none" : "block";
         }
+    }
+
+    function encodePhone(phone) { return btoa(phone); }
+    function decodePhone(code) { try { return atob(code); } catch(e) { return code; } }
+
+    function generateRefLink() {
+        const p = document.getElementById("checkPhone").value.trim();
+        if(p.length > 9) {
+            const encoded = encodePhone(p);
+            document.getElementById("refLinkDisplay").innerText = window.location.origin + window.location.pathname + "?ref=" + encoded;
+        }
+    }
+
+    function copyRefLink() {
+        const link = document.getElementById("refLinkDisplay").innerText;
+        if(link.includes("?ref=")) { navigator.clipboard.writeText(link); alert("Link Copied!"); }
+        else alert("Enter number in Status box first!");
     }
 
     function spinWheel() {
@@ -132,11 +141,26 @@
         }, 3100);
     }
 
+    function updateTimer() {
+        const lastSpin = localStorage.getItem("last_spin_time");
+        if (!lastSpin) return;
+        const diff = (parseInt(lastSpin) + (24 * 60 * 60 * 1000)) - new Date().getTime();
+        if (diff > 0) {
+            document.getElementById("spinBtn").style.display = "none";
+            document.getElementById("lockMessage").style.display = "none";
+            document.getElementById("spinTimer").style.display = "block";
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById("timerText").innerText = `${h}h ${m}m ${s}s`;
+            setTimeout(updateTimer, 1000);
+        }
+    }
+
     async function fetchLeaderboard() {
         try {
             const res = await fetch(SCRIPT_URL);
             const data = await res.json();
-            document.getElementById("realJoinCount").innerText = data.length - 1;
             let sorted = data.slice(1).sort((a,b) => (parseInt(b[5]) || 0) - (parseInt(a[5]) || 0)).slice(0,5);
             let html = "";
             sorted.forEach((u,i) => { html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${u[5] || 0} Coins</span></div>`; });
@@ -145,51 +169,19 @@
     }
 
     function handleWithdraw() {
-        const phone = document.getElementById("checkPhone").value;
-        if(!phone) { alert("Please enter your registered number in the Status box first!"); return; }
-        if(myCoins < 2000) { alert("Aapko withdraw ke liye 2000 coins chahiye. Zyada referrals karein!"); return; }
-        
-        const msg = `Withdrawal Request:\nPhone: ${phone}\nTotal Coins: ${myCoins}`;
-        window.open(`https://wa.me/923186761010?text=${encodeURIComponent(msg)}`);
-    }
-
-    function generateRefLink() {
-        const p = document.getElementById("checkPhone").value;
-        if(p.length > 9) document.getElementById("refLinkDisplay").innerText = window.location.origin + window.location.pathname + "?ref=" + p;
-    }
-
-    function copyRefLink() {
-        const link = document.getElementById("refLinkDisplay").innerText;
-        if(link.includes("?ref=")) { navigator.clipboard.writeText(link); alert("Link Copied!"); }
-        else alert("Enter number first!");
-    }
-
-    async function checkStatus() {
-        const p = document.getElementById("checkPhone").value.trim();
-        const resDiv = document.getElementById("statusResult");
-        if(!p) return;
-        resDiv.style.display = "block"; resDiv.innerHTML = "Checking database...";
-        try {
-            let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
-            let data = await res.json();
-            let user = data.find(r => r[1].toString().includes(p.slice(-10)));
-            if(user) {
-                resDiv.innerHTML = `Name: ${user[0]} | Status: ${user[4] || 'Pending'}`;
-                resDiv.style.background = (user[4] === "Approved") ? "#c8e6c9" : "#fff9c4";
-            } else resDiv.innerHTML = "Not found in records.";
-        } catch(e) {}
+        alert("Withdrawal Feature: COMING SOON! 🚀\n\nHum system ko mazeed secure bana rahe hain. Tab tak aap zyada se zyada coins jama karein!");
     }
 
     window.onload = () => {
         fetchLeaderboard(); updateTimer();
         const urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.has('ref')) document.getElementById("referrerId").value = urlParams.get('ref');
+        if(urlParams.has('ref')) document.getElementById("referrerId").value = decodePhone(urlParams.get('ref'));
     };
 
     document.getElementById("regForm").onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById("submitBtn");
-        btn.innerText = "Submitting..."; btn.disabled = true;
+        btn.innerText = "Processing..."; btn.disabled = true;
         const payload = {
             name: document.getElementById("name").value,
             phone: document.getElementById("phone").value,
