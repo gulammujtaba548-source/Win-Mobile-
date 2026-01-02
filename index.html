@@ -6,221 +6,181 @@
     <title>GM Agency - Official Earning Portal</title>
     <style>
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; --success: #4caf50; }
-        /* Security: Text Selection Block */
+        
+        /* Anti-Copy Security */
         body { 
             font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333;
             -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
         }
+
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .ad-space { background: #eee; padding: 10px; margin: 10px 0; font-size: 10px; color: #999; border: 1px dashed #ccc; }
         .welcome-box { background: linear-gradient(135deg, var(--secondary), #444); color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        
+        /* Leaderboard Style */
         .leaderboard { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 12px; padding: 12px; margin-bottom: 15px; text-align: left; }
         .top-user { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #ffcc80; font-size: 13px; font-weight: bold; }
+        
+        /* Spin Wheel Style */
         #wheel { width: 160px; height: 160px; border: 8px solid var(--secondary); border-radius: 50%; margin: 15px auto; transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(var(--gold) 0% 25%, var(--primary) 25% 50%, #fff 50% 75%, var(--secondary) 75% 100%); }
-        #spinTimer { color: var(--primary); font-weight: bold; font-size: 13px; display: none; margin-top: 10px; }
+        
         .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 15px; }
         .btn-red { background: var(--primary); color: white; }
-        .btn-gray { background: #9e9e9e; color: white; }
-        /* Payment Section Fonts */
+        
+        /* Bada Font for Payment */
         .promo-text { font-size: 22px; font-weight: 800; color: var(--primary); margin: 10px 0; display: block; line-height: 1.4; }
+        .sub-promo { font-size: 14px; color: #333; font-weight: bold; margin-bottom: 15px; display: block; }
+        
         footer { background: var(--secondary); color: white; padding: 25px; font-size: 11px; margin-top: 20px; }
         footer a { color: var(--gold); text-decoration: none; margin: 0 5px; }
     </style>
 </head>
-<body oncontextmenu="return false;"> <div class="ad-space">GOOGLE ADSENSE - TOP BANNER</div>
+<body oncontextmenu="return false;">
 
 <div class="container">
     <div class="welcome-box">
         <h2 style="margin:0;">GM Agency Official</h2>
-        <p style="margin:5px 0 0; font-size:12px;">Verified Earning & Prize Platform</p>
     </div>
 
     <div class="leaderboard">
         <h4 style="margin:0 0 10px 0; text-align:center; color:#e65100;">🏆 Global Leaderboard (Approved)</h4>
-        <div id="leaderboardContent">Syncing with Sheet...</div>
+        <div id="leaderboardContent">Loading Data...</div>
     </div>
 
     <div class="coin-box">
-        <span>🪙 Total Coins:</span>
+        <span>🪙 My Balance:</span>
         <span id="userCoins" style="font-size: 26px;">0</span>
     </div>
 
     <div class="card">
         <h4 style="margin:0;">🎡 Daily Reward Spin</h4>
         <div id="wheel"></div>
-        <p id="lockMessage" style="color:red; font-size:11px; margin-top:10px;">⚠️ Enter WhatsApp number below to unlock spin!</p>
-        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="display:none; width:auto; padding: 10px 30px;">SPIN NOW</button>
-        <div id="spinTimer">Next spin in: <span id="timerText">00:00:00</span></div>
-    </div>
-
-    <div class="card" style="background:#f1f8e9; border: 2px solid var(--success);">
-        <h4 style="margin:0; color:#2e7d32;">💸 Withdrawal</h4>
-        <button onclick="handleWithdraw()" class="btn btn-gray" style="margin-top:10px;">Withdraw (Coming Soon)</button>
-    </div>
-
-    <div class="card" style="background:#fffde7; border:2px dashed var(--gold);">
-        <h4 style="margin:0; color:#f57f17;">🔗 Private Referral Link</h4>
-        <div id="refLinkDisplay" style="background:#eee; padding:10px; border-radius:5px; font-size:10px; margin:10px 0; word-break:break-all;">Enter number below to generate link</div>
-        <button onclick="copyRefLink()" class="btn" style="background:var(--gold);">Copy My Link</button>
+        <p id="lockMessage" style="color:red; font-size:11px;">⚠️ Enter WhatsApp number below to unlock!</p>
+        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="display:none; width:auto; padding: 10px 25px;">SPIN NOW</button>
     </div>
 
     <div class="card" style="background:#e3f2fd;">
         <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number" oninput="handleInputs()">
         <button onclick="checkStatus()" class="btn" style="background:#2196f3; color:white;">Check Account Status</button>
-        <div id="statusResult" style="display:none; margin-top:10px; padding:10px; border-radius:8px; font-weight:bold; font-size:13px;"></div>
+        <div id="statusResult" style="display:none; margin-top:10px; padding:8px; border-radius:5px; font-weight:bold;"></div>
+    </div>
+
+    <div class="card" style="background:#fffde7; border:2px dashed var(--gold);">
+        <h4 style="margin:0;">🔗 My Referral Link</h4>
+        <p id="refLinkDisplay" style="font-size:10px; word-break:break-all; color:#666;">Enter number above first</p>
+        <button onclick="copyLink()" class="btn" style="background:var(--gold);">Copy Link</button>
     </div>
 
     <div class="card" style="border: 3px solid var(--primary); background: #fff5f5;">
         <span class="promo-text">NayaPay: Rs. 300 to 03186761010</span>
-        <p style="font-size: 14px; color: #333; font-weight: bold; margin-bottom: 15px;">(Registration + Mobile Win Lucky Draw Payment)</p>
+        <span class="sub-promo">(Mobile Win Lucky Draw + Registration)</span>
         <form id="regForm">
-            <input type="hidden" id="referrerId" value="Direct">
+            <input type="hidden" id="refBy" value="Direct">
             <input type="text" id="name" placeholder="Full Name" required>
             <input type="number" id="phone" placeholder="WhatsApp Number" required>
             <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
-            <button type="submit" id="submitBtn" class="btn btn-red">CONFIRM REGISTRATION</button>
+            <button type="submit" id="subBtn" class="btn btn-red">CONFIRM REGISTRATION</button>
         </form>
     </div>
 </div>
 
 <footer>
-    <p>&copy; 2026 GM Agency Platform. All Rights Reserved.</p>
+    <p>&copy; 2026 GM Agency Platform</p>
     <div>
         <a href="how-to.html">How it Works</a> | 
-        <a href="privacy.html">Privacy Policy</a> | 
-        <a href="terms.html">Terms</a> | 
-        <a href="about.html">About</a>
+        <a href="about.html">About</a> | 
+        <a href="privacy.html">Privacy</a> | 
+        <a href="terms.html">Terms</a>
     </div>
 </footer>
 
 <script>
-    // Security: Block F12 aur Ctrl+U
-    document.onkeydown = function(e) {
-        if(event.keyCode == 123) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxn29PGGfYfIpzCX1rwYeqjm2fmqVUFp0LFNDw3usNatZHa2Kl3Za3qwTaG050xb1yv_A/exec";
+    
+    // Initial Load
+    let coins = localStorage.getItem("gm_coins") || 0;
+    document.getElementById("userCoins").innerText = coins;
+
+    // Security: Block Shortcuts
+    document.onkeydown = (e) => {
+        if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85)) return false;
     };
 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxn29PGGfYfIpzCX1rwYeqjm2fmqVUFp0LFNDw3usNatZHa2Kl3Za3qwTaG050xb1yv_A/exec";
-    let myCoins = parseInt(localStorage.getItem("gm_coins")) || 0;
-    document.getElementById("userCoins").innerText = myCoins;
-
     function handleInputs() {
-        generateRefLink();
-        const p = document.getElementById("checkPhone").value;
-        const lastSpin = localStorage.getItem("last_spin_time");
-        const diff = (parseInt(lastSpin) + (24 * 60 * 60 * 1000)) - new Date().getTime();
-
-        if (p.length > 9 && diff <= 0) {
+        let p = document.getElementById("checkPhone").value;
+        if(p.length > 9) {
             document.getElementById("spinBtn").style.display = "inline-block";
             document.getElementById("lockMessage").style.display = "none";
-        } else {
-            document.getElementById("spinBtn").style.display = "none";
-            document.getElementById("lockMessage").style.display = (diff > 0) ? "none" : "block";
+            document.getElementById("refLinkDisplay").innerText = window.location.origin + window.location.pathname + "?ref=" + btoa(p);
         }
     }
 
-    function encodePhone(phone) { return btoa(phone); }
-    function decodePhone(code) { try { return atob(code); } catch(e) { return code; } }
-
-    function generateRefLink() {
-        const p = document.getElementById("checkPhone").value.trim();
-        if(p.length > 9) {
-            const encoded = encodePhone(p);
-            document.getElementById("refLinkDisplay").innerText = window.location.origin + window.location.pathname + "?ref=" + encoded;
-        }
-    }
-
-    function copyRefLink() {
-        const link = document.getElementById("refLinkDisplay").innerText;
-        if(link.includes("?ref=")) { navigator.clipboard.writeText(link); alert("Private Link Copied!"); }
-        else alert("Enter number first!");
-    }
-
-    function spinWheel() {
-        const wheel = document.getElementById("wheel");
-        const deg = Math.floor(Math.random() * 360) + 1800;
-        wheel.style.transform = `rotate(${deg}deg)`;
-        document.getElementById("spinBtn").disabled = true;
-        setTimeout(() => {
-            myCoins += 2;
-            localStorage.setItem("gm_coins", myCoins);
-            localStorage.setItem("last_spin_time", new Date().getTime());
-            alert("Congrats! 2 Coins added.");
-            location.reload();
-        }, 3100);
-    }
-
-    function updateTimer() {
-        const lastSpin = localStorage.getItem("last_spin_time");
-        if (!lastSpin) return;
-        const diff = (parseInt(lastSpin) + (24 * 60 * 60 * 1000)) - new Date().getTime();
-        if (diff > 0) {
-            document.getElementById("spinBtn").style.display = "none";
-            document.getElementById("lockMessage").style.display = "none";
-            document.getElementById("spinTimer").style.display = "block";
-            const h = Math.floor(diff / 3600000);
-            const m = Math.floor((diff % 3600000) / 60000);
-            const s = Math.floor((diff % 60000) / 1000);
-            document.getElementById("timerText").innerText = `${h}h ${m}m ${s}s`;
-            setTimeout(updateTimer, 1000);
-        }
+    function copyLink() {
+        let link = document.getElementById("refLinkDisplay").innerText;
+        if(link.includes("?ref=")) { navigator.clipboard.writeText(link); alert("Link Copied!"); }
     }
 
     async function fetchLeaderboard() {
         try {
-            const res = await fetch(SCRIPT_URL);
-            const data = await res.json();
-            // Sort karke sirf top 5 approved users dikhaye ga
-            let sorted = data.slice(1).sort((a,b) => (parseInt(b[5]) || 0) - (parseInt(a[5]) || 0)).slice(0,5);
+            let res = await fetch(SCRIPT_URL);
+            let data = await res.json();
+            // Filtering Column E for "Approved"
+            let approved = data.slice(1).filter(r => r[4] === "Approved").sort((a,b) => b[5]-a[5]).slice(0,5);
             let html = "";
-            sorted.forEach((u,i) => { html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${u[5] || 0} Coins</span></div>`; });
+            approved.forEach((u,i) => {
+                html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${u[5] || 0} Coins</span></div>`;
+            });
             document.getElementById("leaderboardContent").innerHTML = html;
-        } catch(e) {}
-    }
-
-    function handleWithdraw() {
-        alert("Withdrawal Feature: COMING SOON! 🚀");
+        } catch(e) { document.getElementById("leaderboardContent").innerText = "Error loading data."; }
     }
 
     async function checkStatus() {
-        const p = document.getElementById("checkPhone").value.trim();
-        const resDiv = document.getElementById("statusResult");
-        if(!p) return;
-        resDiv.style.display = "block"; resDiv.innerHTML = "Checking database...";
+        let p = document.getElementById("checkPhone").value;
+        let resDiv = document.getElementById("statusResult");
+        resDiv.style.display = "block"; resDiv.innerHTML = "Checking...";
         try {
-            let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
+            let res = await fetch(SCRIPT_URL);
             let data = await res.json();
-            let user = data.find(r => r[1].toString().includes(p.slice(-10)));
+            let user = data.find(r => r[1].toString().includes(p));
             if(user) {
-                resDiv.innerHTML = `Name: ${user[0]} | Status: ${user[4] || 'Pending'}`;
-                resDiv.style.background = (user[4] === "Approved") ? "#c8e6c9" : "#fff9c4";
-            } else resDiv.innerHTML = "Not found in records.";
-        } catch(e) {}
+                resDiv.innerHTML = "Status: " + user[4];
+                resDiv.style.background = user[4] === "Approved" ? "#c8e6c9" : "#fff9c4";
+            } else { resDiv.innerHTML = "Not found."; }
+        } catch(e) { resDiv.innerHTML = "Try again."; }
     }
 
-    window.onload = () => {
-        fetchLeaderboard(); updateTimer();
-        const urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.has('ref')) document.getElementById("referrerId").value = decodePhone(urlParams.get('ref'));
-    };
+    function spinWheel() {
+        let wheel = document.getElementById("wheel");
+        let deg = Math.floor(Math.random() * 360) + 1800;
+        wheel.style.transform = `rotate(${deg}deg)`;
+        document.getElementById("spinBtn").disabled = true;
+        setTimeout(() => {
+            coins = parseInt(coins) + 2;
+            localStorage.setItem("gm_coins", coins);
+            alert("2 Coins Added!");
+            location.reload();
+        }, 3100);
+    }
 
     document.getElementById("regForm").onsubmit = async (e) => {
         e.preventDefault();
-        const btn = document.getElementById("submitBtn");
-        btn.innerText = "Submitting..."; btn.disabled = true;
-        const payload = {
+        document.getElementById("subBtn").innerText = "Processing...";
+        let payload = {
             name: document.getElementById("name").value,
             phone: document.getElementById("phone").value,
             tid: document.getElementById("tid").value,
-            referrer: document.getElementById("referrerId").value
+            referrer: document.getElementById("refBy").value
         };
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-        alert("Registration Submitted!");
-        location.reload();
+        await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+        alert("Submitted!"); location.reload();
+    };
+
+    window.onload = () => {
+        fetchLeaderboard();
+        let params = new URLSearchParams(window.location.search);
+        if(params.has('ref')) document.getElementById("refBy").value = atob(params.get('ref'));
     };
 </script>
 </body>
