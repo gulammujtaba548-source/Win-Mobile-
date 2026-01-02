@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GM Agency - Official Earning Portal</title>
     <style>
-        :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; }
+        :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; --poppo: #ff007f; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; }
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* Poppo Special Banner Style */
+        .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; animation: pulse 2s infinite; text-decoration: none; display: block; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
         .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .leaderboard { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 12px; padding: 12px; margin-bottom: 15px; text-align: left; }
@@ -20,7 +25,7 @@
         .btn-red { background: var(--primary); color: white; }
         .promo-text { font-size: 24px; font-weight: 800; color: var(--primary); margin: 10px 0; display: block; }
         footer { background: #333; color: white; padding: 25px; font-size: 11px; margin-top: 20px; margin-bottom: 80px; }
-        footer a { color: var(--gold); text-decoration: none; margin: 0 5px; }
+        footer a { color: #fff; text-decoration: none; margin: 0 5px; }
         #timerDisplay { font-weight: bold; color: var(--primary); margin-top: 10px; font-size: 18px; }
         .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; font-size:30px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); z-index:100; display:flex; align-items:center; justify-content:center; text-decoration:none; }
     </style>
@@ -28,6 +33,11 @@
 <body oncontextmenu="return false;">
 
 <div class="container">
+    <a href="services.html" class="poppo-banner">
+        🔥 POPPO LIVE SPECIAL OFFER 🔥<br>
+        <span style="font-size: 12px;">Get cheapest Coins Recharge - Click Here!</span>
+    </a>
+
     <div class="welcome-box"><h2 style="margin:0;">GM Agency Official</h2></div>
 
     <div class="leaderboard">
@@ -69,11 +79,15 @@
 <footer>
     <p>&copy; 2026 GM Agency Platform</p>
     <div>
-        <a href="how-to.html">How it Works</a> | <a href="about.html">About</a> | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a>
+        <a href="how-to.html">How it Works</a> | 
+        <a href="services.html" style="color: var(--gold); font-weight: bold;">Our Services</a> | 
+        <a href="about.html">About</a> | 
+        <a href="privacy.html">Privacy</a> | 
+        <a href="terms.html">Terms</a>
     </div>
 </footer>
 
-<a href="https://wa.me/923023313131?text=Assalam-o-Alaikum!%20Mujhe%20GM%20Agency%20ke%20bare%20mein%20puchna%20hai." class="wa-btn" target="_blank">
+<a href="https://wa.me/923023313131?text=Assalam-o-Alaikum!%20Mujhe%20Poppo%20Live%20Coins%20khareedne%20hain." class="wa-btn" target="_blank">
     <svg viewBox="0 0 32 32" style="width:35px; height:35px; fill:white;">
         <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.733 5.479 2.015 7.79l-2.015 7.21 7.391-1.939c2.201 1.144 4.708 1.792 7.371 1.792 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.231c-2.379 0-4.61-0.612-6.558-1.681l-0.471-0.258-4.364 1.144 1.164-4.168-0.285-0.453c-1.163-1.851-1.782-4.008-1.782-6.315 0-6.471 5.26-11.731 11.731-11.731s11.731 5.26 11.731 11.731c0 6.471-5.26 11.731-11.731 11.731zM21.921 17.51c-0.325-0.163-1.921-0.948-2.22-1.058s-0.518-0.163-0.736 0.163c-0.218 0.325-0.844 1.058-1.034 1.275s-0.381 0.245-0.706 0.082c-0.325-0.163-1.374-0.506-2.617-1.615-0.967-0.863-1.621-1.929-1.811-2.254s-0.020-0.501 0.143-0.663c0.147-0.146 0.325-0.381 0.488-0.571s0.218-0.325 0.325-0.544 0.054-0.408-0.027-0.571c-0.082-0.163-0.736-1.771-1.008-2.427s-0.531-0.544-0.736-0.554c-0.191-0.010-0.408-0.012-0.626-0.012s-0.571 0.082-0.871 0.408c-0.299 0.325-1.143 1.116-1.143 2.72s1.17 3.153 1.334 3.371c0.163 0.218 2.302 3.515 5.576 4.93 0.779 0.336 1.387 0.537 1.861 0.688 0.783 0.248 1.496 0.213 2.059 0.129 0.628-0.094 1.921-0.785 2.193-1.545s0.272-1.414 0.191-1.545c-0.083-0.134-0.301-0.215-0.626-0.378z"></path>
     </svg>
