@@ -3,33 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency - Earning Portal</title>
+    <title>GM Agency - Official Earning Portal</title>
     <style>
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); text-align: center; margin: 0; user-select: none; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; }
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .welcome-box { background: #222; color: var(--gold); padding: 15px; border-radius: 12px; margin-bottom: 10px; }
-        /* Leaderboard Styling */
-        .leaderboard { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 12px; padding: 15px; margin-bottom: 15px; text-align: left; }
-        .top-user { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ffcc80; font-weight: bold; font-size: 14px; }
+        .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        #wheel { width: 160px; height: 160px; border: 8px solid #333; border-radius: 50%; margin: 15px auto; transition: 3s; background: conic-gradient(var(--gold) 0% 25%, var(--primary) 25% 50%, #fff 50% 75%, #333 75% 100%); }
+        .leaderboard { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 12px; padding: 12px; margin-bottom: 15px; text-align: left; }
+        .top-user { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ffcc80; font-size: 14px; font-weight: bold; }
+        #wheel { width: 160px; height: 160px; border: 8px solid #333; border-radius: 50%; margin: 15px auto; transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(var(--gold) 0% 25%, var(--primary) 25% 50%, #fff 50% 75%, #333 75% 100%); }
         .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; }
-        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; background: var(--primary); color: white; }
-        #timerDisplay { font-weight: bold; color: var(--primary); font-size: 18px; margin-top: 10px; }
-        footer { background: #333; color: white; padding: 20px; font-size: 11px; margin-top: 20px; }
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px; }
+        .btn-red { background: var(--primary); color: white; }
+        .promo-text { font-size: 24px; font-weight: 800; color: var(--primary); margin: 10px 0; display: block; }
+        footer { background: #333; color: white; padding: 25px; font-size: 11px; margin-top: 20px; }
         footer a { color: var(--gold); text-decoration: none; margin: 0 5px; }
+        #timerDisplay { font-weight: bold; color: var(--primary); margin-top: 10px; font-size: 18px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
 <div class="container">
-    <div class="welcome-box"><h2>GM Agency Official</h2></div>
+    <div class="welcome-box">
+        <h2 style="margin:0;">GM Agency Official</h2>
+    </div>
 
     <div class="leaderboard">
         <h4 style="margin:0 0 10px 0; text-align:center; color:#e65100;">🏆 Approved Leaderboard</h4>
-        <div id="leaderboardContent">Syncing live entries...</div>
+        <div id="leaderboardContent">Syncing Live Data...</div>
     </div>
 
     <div class="coin-box">
@@ -38,65 +41,72 @@
     </div>
 
     <div class="card">
-        <h4>🎡 Daily Reward Spin</h4>
+        <h4 style="margin:0;">🎡 Daily Reward Spin</h4>
         <div id="wheel"></div>
-        <button id="spinBtn" class="btn" onclick="spinWheel()">SPIN NOW</button>
+        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="width:auto; padding: 10px 30px; margin-top:10px;">SPIN NOW</button>
         <div id="timerDisplay" style="display:none;">Next spin in: <span id="timeRemaining"></span></div>
     </div>
 
     <div class="card" style="background:#e3f2fd;">
         <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number">
-        <button onclick="checkStatus()" class="btn" style="background:#2196f3;">Check Account Status</button>
+        <button onclick="checkStatus()" class="btn" style="background:#2196f3; color:white;">Check Account Status</button>
         <div id="statusResult" style="display:none; margin-top:10px; font-weight:bold;"></div>
     </div>
 
-    <div class="card" style="border: 2px solid var(--primary);">
-        <p style="font-size:18px; font-weight:bold; color:var(--primary);">NayaPay: Rs. 300 to 03186761010</p>
+    <div class="card" style="border: 3px solid var(--primary); background: #fff5f5;">
+        <span class="promo-text">NayaPay: Rs. 300 to 03186761010</span>
+        <p style="font-weight:bold; font-size:14px; margin-bottom:15px;">(Registration + Mobile Win Lucky Draw)</p>
         <form id="regForm">
             <input type="text" id="name" placeholder="Full Name" required>
             <input type="number" id="phone" placeholder="WhatsApp Number" required>
             <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
-            <button type="submit" id="subBtn" class="btn">CONFIRM REGISTRATION</button>
+            <button type="submit" id="subBtn" class="btn btn-red">CONFIRM REGISTRATION</button>
         </form>
     </div>
 </div>
 
 <footer>
     <p>&copy; 2026 GM Agency Platform</p>
-    <a href="how-to.html">How it Works</a> | <a href="about.html">About</a> | <a href="privacy.html">Privacy</a>
+    <div>
+        <a href="how-to.html">How it Works</a> | <a href="about.html">About</a> | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a>
+    </div>
 </footer>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxn29PGGfYfIpzCX1rwYeqjm2fmqVUFp0LFNDw3usNatZHa2Kl3Za3qwTaG050xb1yv_A/exec";
     
-    let coins = localStorage.getItem("gm_coins") || 0;
+    let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
-    // Fix for Live Leaderboard
+    // Hardcore Security
+    document.onkeydown = (e) => { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85)) return false; };
+
+    // Leaderboard Fresh Sync Fix
     async function fetchLeaderboard() {
         try {
-            const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
+            const res = await fetch(SCRIPT_URL + "?nocache=" + new Date().getTime());
             const data = await res.json();
             
-            // Logic: Filter Column E for "Approved" and Sort by Coins (Column F)
-            let approvedUsers = data.slice(1).filter(row => row[4] === "Approved");
-
-            if (approvedUsers.length === 0) {
+            // Filter: Only 'Approved' users
+            let approved = data.slice(1).filter(r => r[4] === "Approved");
+            
+            if (approved.length === 0) {
                 document.getElementById("leaderboardContent").innerHTML = "<center>No entries approved yet.</center>";
                 return;
             }
 
+            // Sort by Coins (Column F)
+            approved.sort((a, b) => (b[5] || 0) - (a[5] || 0));
+
             let html = "";
-            approvedUsers.sort((a, b) => (b[5] || 0) - (a[5] || 0)).slice(0, 5).forEach((u, i) => {
+            approved.slice(0, 5).forEach((u, i) => {
                 html += `<div class="top-user"><span>#${i+1} ${u[0]}</span> <span>${u[5] || 0} Coins</span></div>`;
             });
             document.getElementById("leaderboardContent").innerHTML = html;
-        } catch(e) {
-            document.getElementById("leaderboardContent").innerHTML = "<center>Syncing Error...</center>";
-        }
+        } catch(e) { document.getElementById("leaderboardContent").innerText = "Syncing Error..."; }
     }
 
-    // Spin & Timer Logic
+    // Spin & Timer logic
     function checkSpin() {
         const last = localStorage.getItem("last_spin_time");
         const cooldown = 24 * 60 * 60 * 1000;
@@ -124,15 +134,38 @@
         wheel.style.transform = `rotate(${deg}deg)`;
         document.getElementById("spinBtn").disabled = true;
         setTimeout(() => {
-            coins = parseInt(coins) + 2;
+            coins += 2;
             localStorage.setItem("gm_coins", coins);
             localStorage.setItem("last_spin_time", new Date().getTime());
-            alert("2 Coins Added!");
+            alert("2 Coins added!");
             location.reload();
         }, 3100);
     }
 
+    async function checkStatus() {
+        const p = document.getElementById("checkPhone").value;
+        const resDiv = document.getElementById("statusResult");
+        resDiv.style.display = "block"; resDiv.innerText = "Checking...";
+        try {
+            const res = await fetch(SCRIPT_URL);
+            const data = await res.json();
+            const user = data.find(r => r[1].toString().includes(p));
+            if(user) {
+                resDiv.innerText = "Status: " + user[4];
+                resDiv.style.color = (user[4] === "Approved") ? "green" : "orange";
+            } else { resDiv.innerText = "Number not found."; }
+        } catch(e) {}
+    }
+
     window.onload = () => { fetchLeaderboard(); checkSpin(); };
+
+    document.getElementById("regForm").onsubmit = async (e) => {
+        e.preventDefault();
+        document.getElementById("subBtn").innerText = "Submitting...";
+        const p = { name: document.getElementById("name").value, phone: document.getElementById("phone").value, tid: document.getElementById("tid").value };
+        await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(p) });
+        alert("Registration Submitted!"); location.reload();
+    };
 </script>
 </body>
 </html>
