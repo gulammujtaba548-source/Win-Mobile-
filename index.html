@@ -11,7 +11,13 @@
         .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; animation: pulse 2s infinite; text-decoration: none; display: block; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
         .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
-        .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        
+        /* Redeem Button Styles */
+        .redeem-card { background: #fff; padding: 10px; border-radius: 15px; border: 2px dashed #ccc; margin-bottom: 15px; }
+        .btn-redeem { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; cursor: not-allowed; background: #e0e0e0; color: #888; transition: 0.3s; font-size: 14px; }
+        .btn-redeem.active { background: linear-gradient(45deg, #ffd700, #ffa000); color: #000; cursor: pointer; border: 1px solid #b8860b; box-shadow: 0 4px 10px rgba(255,215,0,0.3); }
+
         .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px auto; }
         #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
         .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
@@ -41,12 +47,15 @@
 
     <div class="coin-box"><span>🪙 My Coins:</span><span id="userCoins" style="font-size: 26px;">0</span></div>
 
+    <div class="redeem-card">
+        <button id="redeemBtn" onclick="redeemCoins()" class="btn-redeem">Redeem (Minimum 200 Coins Required)</button>
+    </div>
+
     <div class="card" style="border: 2px solid #333; background: #f9f9f9;">
         <h4 style="margin:0; color: #333;">🔍 Check Your Status</h4>
-        <p style="font-size: 12px; margin: 5px 0;">Apna WhatsApp number likh kar check karein.</p>
-        <input type="number" id="checkPhone" placeholder="03XXXXXXXXX">
+        <input type="number" id="checkPhone" placeholder="WhatsApp Number">
         <button onclick="checkUserStatus()" class="btn" style="background: #333; color: white; padding: 10px; height: auto;">CHECK STATUS</button>
-        <div id="statusResult" style="margin-top: 10px; font-weight: bold; font-size: 16px;"></div>
+        <div id="statusResult" style="margin-top: 10px; font-weight: bold;"></div>
     </div>
 
     <div class="card" id="spin-section">
@@ -89,9 +98,7 @@
     <p>© 2026 GM Agency Official</p>
     <p>📧 Email: <a href="mailto:Poppoliveofficial123@gmail.com" style="color:white; text-decoration:none;">Poppoliveofficial123@gmail.com</a></p>
     <div class="footer-links">
-        <a href="how-to.html">How it Works</a> | 
-        <a href="about.html">About Us</a> | 
-        <a href="terms.html">Terms</a>
+        <a href="how-to.html">How it Works</a> | <a href="about.html">About Us</a> | <a href="terms.html">Terms</a>
     </div>
     <div class="service-tags">
         <a href="services.html" class="tag">Poppo Recharge</a>
@@ -103,15 +110,28 @@
 <a href="https://wa.me/923023313131" class="wa-btn" target="_blank">WA</a>
 
 <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyodXHkAGa3hlXggJBH7dLpKFcGgnNA426otZn_SEl6XjbzRC5jHEKUOcMycNv3BEEglQ/exec';
+    // Aapka naya v8 Google Script Link
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1-UPK5PvAAVks2u_pfT5hdlhc7jtmQLQvN1X3H3O8A5RjAAXcqUoArO7XHQUn_VgXyQ/exec';
 
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
-    document.getElementById("userCoins").innerText = coins;
+
+    function updateCoinDisplay() {
+        document.getElementById("userCoins").innerText = coins;
+        const rBtn = document.getElementById("redeemBtn");
+        if(coins >= 200) {
+            rBtn.classList.add("active");
+            rBtn.innerText = "REDEEM 200 COINS NOW!";
+            rBtn.style.cursor = "pointer";
+        } else {
+            rBtn.classList.remove("active");
+            rBtn.innerText = `Redeem (Need ${200 - coins} more coins)`;
+            rBtn.style.cursor = "not-allowed";
+        }
+    }
 
     function spinWheel() {
         const wheel = document.getElementById("wheel");
-        const forcedDeg = 1836; 
-        wheel.style.transform = `rotate(${forcedDeg}deg)`;
+        wheel.style.transform = `rotate(1836deg)`; 
         document.getElementById("spinBtn").disabled = true;
         setTimeout(() => {
             coins += 2;
@@ -120,6 +140,18 @@
             alert("🎉 Mubarak! Aapne 2 Coins jeet liye hain.");
             location.reload();
         }, 4100);
+    }
+
+    function redeemCoins() {
+        if(coins < 200) return;
+        const msg = `Assalam-o-Alaikum GM Agency! Maine 200 coins mukammal kar liye hain. Kindly mera reward check karein.`;
+        window.open(`https://wa.me/923023313131?text=${encodeURIComponent(msg)}`, '_blank');
+        
+        // Coins zero kar diye
+        coins = 0;
+        localStorage.setItem("gm_coins", coins);
+        updateCoinDisplay();
+        alert("Request bhej di gayi hai aur coins reset ho gaye hain!");
     }
 
     function checkSpin() {
@@ -134,50 +166,33 @@
             }, 1000);
         }
     }
-    window.onload = checkSpin;
 
-    // Status Check Function
     function checkUserStatus() {
         const phone = document.getElementById('checkPhone').value;
-        const resultDiv = document.getElementById('statusResult');
-        if(!phone) { alert("Pehle Number likhein!"); return; }
-        
-        resultDiv.style.color = "blue";
-        resultDiv.innerText = "Checking... ⏳";
-
+        const res = document.getElementById('statusResult');
+        if(!phone) return;
+        res.innerText = "Checking... ⏳";
         fetch(`${SCRIPT_URL}?action=checkStatus&phone=${phone}`)
-        .then(res => res.json())
-        .then(data => {
+        .then(r => r.json()).then(data => {
             if(data.status) {
-                let color = data.status == "Approved" ? "green" : "orange";
-                resultDiv.innerHTML = `Status: <span style="color:${color};">${data.status}</span>`;
-            } else {
-                resultDiv.style.color = "red";
-                resultDiv.innerText = "Koi record nahi mila!";
-            }
-        })
-        .catch(() => {
-            resultDiv.style.color = "red";
-            resultDiv.innerText = "Error! Net check karein.";
-        });
+                res.innerHTML = `Status: <span style="color:${data.status=='Approved'?'green':'orange'}">${data.status}</span>`;
+            } else { res.innerText = "No record found!"; }
+        }).catch(() => { res.innerText = "Connection error!"; });
     }
 
-    // Form Submit
+    window.onload = function() {
+        checkSpin();
+        updateCoinDisplay();
+    };
+
     document.getElementById('regForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const subBtn = document.getElementById('subBtn');
         subBtn.innerText = "Processing...";
-        subBtn.disabled = true;
         fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this)})
         .then(() => {
-            alert("✅ Registration Successful! Checked in 24h.");
-            subBtn.innerText = "CONFIRM MOBILE REGISTRATION";
-            subBtn.disabled = false;
-            this.reset();
-        })
-        .catch(() => {
-            alert("Check your Sheet!");
-            subBtn.disabled = false;
+            alert("✅ Data Saved! Check status after 24h.");
+            location.reload();
         });
     });
 </script>
