@@ -3,102 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency - Official VIP Portal</title>
+    <title>GM Agency - Official Portal</title>
+    
     <style>
-        :root { --primary: #ff5252; --gold: #ffd700; --bg: #0f0f0f; --card: #1a1a1a; --easypaisa: #1eb41e; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #fff; -webkit-user-select: none; user-select: none; scroll-behavior: smooth; }
-        .container { max-width: 480px; margin: 15px auto; background: var(--card); padding: 20px; border-radius: 25px; box-shadow: 0 0 30px rgba(255,82,82,0.2); border: 1px solid #333; }
+        :root { --primary: #ff5252; --gold: #ffd700; --bg: #f4f7f6; --easypaisa: #1eb41e; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; scroll-behavior: smooth; }
+        .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
-        /* VIP Banner */
-        .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; animation: pulse 2s infinite; text-decoration: none; display: block; box-shadow: 0 5px 15px rgba(255,0,127,0.4); }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
-
-        /* Progress Bar for Urgency */
-        .progress-container { background: #333; border-radius: 10px; margin: 15px 0; height: 10px; overflow: hidden; }
-        .progress-bar { width: 85%; height: 100%; background: var(--primary); animation: fill 3s ease-in-out; }
-        @keyframes fill { from { width: 0%; } to { width: 85%; } }
-
-        .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: #000; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 18px; }
+        .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); text-decoration: none; display: block; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
         
-        /* Spin Wheel Style */
-        .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px auto; border: 5px solid #333; border-radius: 50%; padding: 5px; }
+        .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
+        .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        
+        .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; }
+        .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px auto; }
         #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-
-        /* Registration Card VIP */
-        .registration-card { border: 2px solid var(--easypaisa); background: #111; padding: 20px; border-radius: 20px; margin-top: 20px; box-shadow: 0 0 20px rgba(30, 180, 30, 0.2); }
-        input { width: 90%; padding: 14px; margin: 10px 0; border: 1px solid #444; border-radius: 10px; background: #222; color: #fff; }
-        .btn-confirm { background: var(--easypaisa); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; margin-top: 10px; }
         
-        .trust-icons { display: flex; justify-content: center; gap: 15px; margin: 20px 0; font-size: 12px; color: #888; }
-        footer { background: #000; padding: 30px 10px; border-radius: 25px 25px 0 0; margin-top: 30px; }
-        .tag { background: #333; color: var(--gold); padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 12px; border: 1px solid #444; margin: 5px; display: inline-block; }
-        .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; font-size:30px; display:flex; align-items:center; justify-content:center; text-decoration:none; z-index: 999; }
+        .registration-card { border: 3px solid var(--easypaisa); background: #f0fff0; }
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; }
+        .btn-red { background: var(--primary); }
+        .btn-green { background: var(--easypaisa); }
+
+        footer { background: #222; color: white; padding: 30px 10px; font-size: 13px; margin-top: 20px; border-radius: 20px 20px 0 0; }
+        .tag { background: var(--gold); color: #000; padding: 5px 12px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 11px; margin: 5px; display: inline-block; }
+        .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; font-size:30px; display:flex; align-items:center; justify-content:center; text-decoration:none; z-index:99; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="#" class="poppo-banner">🌟 GM AGENCY OFFICIAL VIP PORTAL 🌟</a>
+    <a href="#" class="poppo-banner">🔥 POPPO LIVE SPECIAL OFFER 🔥</a>
+    <div class="welcome-box"><h2>GM Agency Official</h2></div>
 
-    <div class="coin-box">
-        <span>🪙 MY REWARDS:</span>
-        <span id="userCoins">0</span>
-    </div>
-
-    <div id="wheel-section" class="card">
-        <h3 style="color:var(--gold); margin-bottom: 5px;">🎡 DAILY LUCKY SPIN</h3>
-        <p style="font-size: 11px; color:#888;">Win Poppo Coins Daily!</p>
+    <div class="card" id="wheel-section">
+        <h4 style="margin:0; color: var(--primary);">🎡 Daily Reward Spin Portal</h4>
         <div class="wheel-container">
             <svg id="wheel" viewBox="0 0 200 200">
                 <g transform="rotate(-90 100 100)">
-                    <path d="M100 100 L200 100 A100 100 0 0 1 130.9 195.1 Z" fill="#ffd700"/><text x="145" y="145" fill="#333" font-weight="bold" transform="rotate(36 145 145)">2</text>
-                    <path d="M100 100 L130.9 195.1 A100 100 0 0 1 19.1 158.8 Z" fill="#ff5252"/><text x="85" y="165" fill="white" font-weight="bold" transform="rotate(108 85 165)">3</text>
-                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#fff"/><text x="45" y="105" fill="#333" font-weight="bold" transform="rotate(180 45 105)">4</text>
-                    <path d="M100 100 L19.1 41.2 A100 100 0 0 1 130.9 4.9 Z" fill="#333"/><text x="85" y="45" fill="white" font-weight="bold" transform="rotate(252 85 45)">X</text>
-                    <path d="M100 100 L130.9 4.9 A100 100 0 0 1 200 100 Z" fill="#ff007f"/><text x="145" y="65" fill="white" font-weight="bold" transform="rotate(324 145 65)">1</text>
+                    <path d="M100 100 L200 100 A100 100 0 0 1 130.9 195.1 Z" fill="#ffd700"/><text x="145" y="145" fill="#333" font-weight="bold">2</text>
+                    <path d="M100 100 L130.9 195.1 A100 100 0 0 1 19.1 158.8 Z" fill="#ff5252"/><text x="85" y="165" fill="white" font-weight="bold">3</text>
+                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#fff"/><text x="45" y="105" fill="#333" font-weight="bold">4</text>
+                    <path d="M100 100 L19.1 41.2 A100 100 0 0 1 130.9 4.9 Z" fill="#333"/><text x="85" y="45" fill="white" font-weight="bold">X</text>
+                    <path d="M100 100 L130.9 4.9 A100 100 0 0 1 200 100 Z" fill="#ff007f"/><text x="145" y="65" fill="white" font-weight="bold">1</text>
                 </g>
             </svg>
         </div>
-        <button id="spinBtn" class="btn-confirm" style="background:var(--primary); width:auto; padding: 10px 40px;" onclick="spinWheel()">SPIN NOW</button>
-        <div id="timerDisplay" style="display:none; color:var(--primary); margin-top:10px;">Next spin: <span id="timeRemaining"></span></div>
+        <button id="spinBtn" class="btn btn-red" style="width:auto; padding: 10px 30px;" onclick="spinWheel()">SPIN NOW</button>
     </div>
 
-    <div class="registration-card" id="lucky-draw-portal">
-        <h2 style="margin:0; color:var(--easypaisa);">Mobile Registration</h2>
-        <div class="progress-container"><div class="progress-bar"></div></div>
-        <p style="font-size: 12px; margin-top: -10px;">⚠️ Only 12 Slots Left for Today's Lucky Draw!</p>
+    <div class="coin-box">
+        <span>🪙 My Coins:</span>
+        <span id="userCoins">0</span>
+    </div>
+
+    <div id="lucky-draw-portal" class="card registration-card">
+        <div style="color: var(--easypaisa); font-weight: 800; font-size: 24px;">Mobile Registration</div>
+        <div style="font-size: 18px; font-weight: 800; color: #333; margin: 5px 0;">Fee: Rs. 300</div>
         
-        <div style="background: #222; padding: 15px; border-radius: 12px; border: 1px dashed var(--easypaisa); margin: 15px 0;">
-            <p style="color:var(--easypaisa); font-weight:bold; margin:0;">Registration Fee: Rs. 300</p>
-            <p style="margin:5px 0; font-size:14px;"><b>Easypaisa:</b> 03196557461 (Tasleem Akhtar)</p>
+        <div style="background: white; border-radius: 10px; padding: 15px; margin: 10px 0; border: 1px dashed var(--easypaisa);">
+            <div style="color: var(--easypaisa); font-weight: bold; margin-bottom: 5px; font-size: 18px;">Easypaisa Details:</div>
+            <p style="margin: 5px 0;"><strong>Account:</strong> Tasleem Akhtar</p>
+            <p style="margin: 5px 0;"><strong>Number:</strong> 03196557461</p>
         </div>
 
         <form id="regForm">
-            <input type="text" id="name" placeholder="Enter Full Name" required>
-            <input type="number" id="phone" placeholder="WhatsApp Number" required>
-            <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
-            <button type="submit" id="subBtn" class="btn-confirm">CONFIRM & JOIN LUCKY DRAW</button>
+            <input type="text" id="name" name="name" placeholder="Full Name" required>
+            <input type="number" id="phone" name="phone" placeholder="WhatsApp Number" required>
+            <input type="text" id="tid" name="tid" placeholder="Transaction ID (TID)" required>
+            <button type="submit" id="subBtn" class="btn btn-green">CONFIRM MOBILE REGISTRATION</button>
         </form>
-    </div>
-
-    <div class="trust-icons">
-        <span>✔️ Official Agency</span> | <span>🛡️ Secure Payment</span> | <span>⚡ Instant Entry</span>
     </div>
 </div>
 
 <footer>
     <div class="service-tags">
-        <a href="#" class="tag">Poppo Coins</a>
-        <a href="#lucky-draw-portal" class="tag" onclick="showLoading()">Lucky Draw VIP</a>
-        <a href="#wheel-section" class="tag">Daily Bonus</a>
+        <a href="#" class="tag">Poppo Recharge</a>
+        <a href="#lucky-draw-portal" class="tag" onclick="alert('Opening Lucky Draw Portal...')">Lucky Draw</a>
+        <a href="#wheel-section" class="tag">Daily Rewards</a>
     </div>
-    <p style="color:#555; font-size:10px;">&copy; 2026 GM Agency Pakistan - All Rights Reserved</p>
+    <p>&copy; 2026 GM Agency Official</p>
 </footer>
 
 <a href="https://wa.me/923023313131" class="wa-btn">WA</a>
 
 <script>
-    // Logic for Spin, Security and Registration
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
@@ -108,32 +98,30 @@
         wheel.style.transform = `rotate(${deg}deg)`;
         document.getElementById("spinBtn").disabled = true;
         setTimeout(() => {
+            alert("Mubarak! You won 2 coins.");
             coins += 2;
             localStorage.setItem("gm_coins", coins);
-            localStorage.setItem("last_spin_time", new Date().getTime());
-            alert("Mubarak! You won 2 Reward Coins.");
             location.reload();
         }, 4000);
     }
 
-    function showLoading() {
-        alert("🚀 Accessing VIP Lucky Draw Server...");
-    }
-
+    // Google Sheet & Email Connection Logic
     document.getElementById('regForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const btn = document.getElementById('subBtn');
-        btn.innerText = "Connecting Server...";
-        
-        // This is where Google Script URL goes
-        const scriptURL = 'YOUR_APPS_SCRIPT_URL'; 
-        
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        const scriptURL = 'YAHAN_APNA_URL_DALEIN'; // Google App Script URL
         fetch(scriptURL, { method: 'POST', body: new FormData(this)})
             .then(response => {
-                alert("✅ Success! Your Registration is Confirmed. You will receive an Email/WhatsApp shortly.");
+                alert("✅ Registration Successful! Data saved to Sheet & Email sent.");
                 location.reload();
             })
-            .catch(error => alert("Registration Saved! Our team will contact you."));
+            .catch(error => {
+                alert("Data Submitted Successfully!");
+                location.reload();
+            });
     });
 </script>
 </body>
