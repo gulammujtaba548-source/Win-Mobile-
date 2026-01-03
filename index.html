@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GM Agency - Official Earning Portal</title>
+    
+    <meta name="keywords" content="Poppo Live Agency Pakistan, Cheapest Poppo Coins Recharge, Trusted Poppo Host Agency, Online Earning through Poppo Live, GM Agency Official, Easypaisa Mobile Registration">
+    <meta name="description" content="GM Agency Pakistan: Your trusted Poppo Live Agency for cheapest coins recharge and daily rewards via Easypaisa mobile registration.">
+
     <style>
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; --poppo: #ff007f; --easypaisa: #1eb41e; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; }
@@ -85,14 +89,19 @@
     </div>
 
     <div class="card" style="border: 3px solid var(--easypaisa); background: #f0fff0;">
-        <div style="color: var(--easypaisa); font-weight: 800; font-size: 20px;">Easypaisa Registration</div>
-        <div style="font-size: 18px; font-weight: 800;">Rs. 300</div>
-        <p><strong>Account:</strong> Tasleem Akhtar<br><strong>Number:</strong> 03196557461</p>
+        <div style="color: var(--easypaisa); font-weight: 800; font-size: 22px;">Easypaisa Mobile Registration</div>
+        <div style="font-size: 18px; font-weight: 800; color: #333; margin: 5px 0;">Rs. 300</div>
+        
+        <div style="background: white; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1px dashed var(--easypaisa);">
+            <p style="margin: 5px 0;"><strong>Account:</strong> Tasleem Akhtar</p>
+            <p style="margin: 5px 0;"><strong>Number:</strong> 03196557461</p>
+        </div>
+
         <form id="regForm">
             <input type="text" id="name" placeholder="Full Name" required>
             <input type="number" id="phone" placeholder="WhatsApp Number" required>
             <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
-            <button type="submit" id="subBtn" class="btn btn-red">CONFIRM REGISTRATION</button>
+            <button type="submit" id="subBtn" class="btn btn-red">CONFIRM MOBILE REGISTRATION</button>
         </form>
     </div>
 </div>
@@ -120,7 +129,6 @@
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
-    // Security Logic
     function disableSecurity(e) {
         if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85) || e.keyCode == 44) {
             return false;
