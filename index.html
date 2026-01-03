@@ -5,19 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GM Agency - Official Earning Portal</title>
     
-    <meta name="keywords" content="Poppo Live Agency Pakistan, Cheapest Poppo Coins Recharge, Trusted Poppo Host Agency, Online Earning through Poppo Live, GM Agency Official, Easypaisa Mobile Registration">
-    <meta name="description" content="GM Agency Pakistan: Your trusted Poppo Live Agency for cheapest coins recharge and daily rewards via Easypaisa mobile registration.">
-
     <style>
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; --poppo: #ff007f; --easypaisa: #1eb41e; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; scroll-behavior: smooth; }
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
         .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; animation: pulse 2s infinite; text-decoration: none; display: block; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
         .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         
-        /* 5-Box Wheel Style */
         .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px auto; }
         #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
         .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
@@ -27,12 +23,10 @@
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
         .btn-red { background: var(--primary); color: white; }
         
-        /* Footer & Service Tags */
         footer { background: #222; color: white; padding: 30px 10px; font-size: 13px; margin-top: 20px; border-radius: 20px 20px 0 0; }
         .service-tags { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        .tag { background: var(--gold); color: #000; padding: 5px 12px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 11px; }
+        .tag { background: var(--gold); color: #000; padding: 5px 12px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 11px; cursor: pointer; }
         
-        /* WhatsApp Floating Icon */
         .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; font-size:30px; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index:9999; display:flex; align-items:center; justify-content:center; text-decoration:none; }
     </style>
 </head>
@@ -49,11 +43,11 @@
     <div class="card" style="background: #f0fdf4; border: 2px solid #22c55e;">
         <h4 style="margin:0; color: #166534;">🎁 Redeem Your Reward</h4>
         <p style="font-size: 12px; margin: 5px 0;">100 Coins poore karein aur Poppo Gift hasil karein!</p>
-        <button id="redeemBtn" onclick="redeemCoins()" class="btn" style="background: #22c55e; color: white;">CLAIM GIFT (100 COINS)</button>
+        <button onclick="redeemCoins()" class="btn" style="background: #22c55e; color: white;">CLAIM GIFT (100 COINS)</button>
     </div>
 
     <div id="leaderboard" class="card" style="background: #fff3e0;">
-        <div id="totalJoined" style="font-weight:bold; color:var(--primary);">👥 Total Participants: 2</div>
+        <div style="font-weight:bold; color:var(--primary);">👥 Total Participants: 2</div>
         <h4 style="margin:10px 0; color:#e65100;">🏆 Top Earners</h4>
         <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #ffcc80;"><span>#1 Ghulam Mujtaba</span> <span>10 Coins</span></div>
         <div style="display:flex; justify-content:space-between; padding:5px 0;"><span>#2 Saeed Umar</span> <span>0 Coins</span></div>
@@ -64,7 +58,7 @@
         <span id="userCoins" style="font-size: 26px;">0</span>
     </div>
 
-    <div class="card">
+    <div class="card" id="spin-section">
         <h4 style="margin:0;">🎡 Daily Reward Spin</h4>
         <div class="wheel-container">
             <div class="wheel-pointer"></div>
@@ -88,12 +82,12 @@
         <div id="timerDisplay" style="display:none; font-weight:bold; color:var(--primary); margin-top:10px;">Next spin in: <span id="timeRemaining"></span></div>
     </div>
 
-    <div class="card" style="border: 3px solid var(--easypaisa); background: #f0fff0;">
-        <div style="color: var(--easypaisa); font-weight: 800; font-size: 22px;">Easypaisa Mobile Registration</div>
+    <div id="registration-section" class="card" style="border: 3px solid var(--easypaisa); background: #f0fff0;">
+        <div style="color: var(--easypaisa); font-weight: 800; font-size: 22px;">Mobile Registration</div>
         <div style="font-size: 18px; font-weight: 800; color: #333; margin: 5px 0;">Rs. 300</div>
         
         <div style="background: white; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1px dashed var(--easypaisa);">
-            <p style="margin: 5px 0;"><strong>Account:</strong> Tasleem Akhtar</p>
+            <p style="margin: 5px 0;"><strong>Easypaisa Account:</strong> Tasleem Akhtar</p>
             <p style="margin: 5px 0;"><strong>Number:</strong> 03196557461</p>
         </div>
 
@@ -101,7 +95,7 @@
             <input type="text" id="name" placeholder="Full Name" required>
             <input type="number" id="phone" placeholder="WhatsApp Number" required>
             <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
-            <button type="submit" id="subBtn" class="btn btn-red">CONFIRM MOBILE REGISTRATION</button>
+            <button type="submit" class="btn btn-red">CONFIRM MOBILE REGISTRATION</button>
         </form>
     </div>
 </div>
@@ -109,51 +103,30 @@
 <footer>
     <p>&copy; 2026 GM Agency Official</p>
     <p>📧 Email: <a href="mailto:Poppoliveofficial123@gmail.com" style="color:white; text-decoration:none;">Poppoliveofficial123@gmail.com</a></p>
-    <div style="margin: 15px 0;">
-        <a href="how-to.html" style="color:white;">How it Works</a> | 
-        <a href="about.html" style="color:white;">About Us</a> | 
-        <a href="terms.html" style="color:white;">Terms</a>
-    </div>
     <div class="service-tags">
         <a href="services.html" class="tag">Poppo Recharge</a>
-        <a href="services.html" class="tag">Lucky Draw</a>
-        <a href="services.html" class="tag">Daily Rewards</a>
+        <span onclick="document.getElementById('registration-section').scrollIntoView()" class="tag">Lucky Draw</span>
+        <span onclick="document.getElementById('spin-section').scrollIntoView()" class="tag">Daily Rewards</span>
     </div>
 </footer>
 
-<a href="https://wa.me/923023313131" class="wa-btn" target="_blank">
-    <svg viewBox="0 0 32 32" style="width:35px; fill:white;"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.733 5.479 2.015 7.79l-2.015 7.21 7.391-1.939c2.201 1.144 4.708 1.792 7.371 1.792 8.837 0 16-7.163 16-16s-7.163-16-16-16zM21.921 17.51c-0.325-0.163-1.921-0.948-2.22-1.058s-0.518-0.163-0.736 0.163c-0.218 0.325-0.844 1.058-1.034 1.275s-0.381 0.245-0.706 0.082c-0.325-0.163-1.374-0.506-2.617-1.615-0.967-0.863-1.621-1.929-1.811-2.254s-0.020-0.501 0.143-0.663c0.147-0.146 0.325-0.381 0.488-0.571s0.218-0.325 0.325-0.544 0.054-0.408-0.027-0.571c-0.082-0.163-0.736-1.771-1.008-2.427s-0.531-0.544-0.736-0.554c-0.191-0.010-0.408-0.012-0.626-0.012s-0.571 0.082-0.871 0.408c-0.299 0.325-1.143 1.116-1.143 2.72s1.17 3.153 1.334 3.371c0.163 0.218 2.302 3.515 5.576 4.93 0.779 0.336 1.387 0.537 1.861 0.688 0.783 0.248 1.496 0.213 2.059 0.129 0.628-0.094 1.921-0.785 2.193-1.545s0.272-1.414 0.191-1.545c-0.083-0.134-0.301-0.215-0.626-0.378z"></path></svg>
-</a>
+<a href="https://wa.me/923023313131" class="wa-btn" target="_blank">WA</a>
 
 <script>
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
     function disableSecurity(e) {
-        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85) || e.keyCode == 44) {
-            return false;
-        }
-    }
-
-    function redeemCoins() {
-        if (coins < 100) { 
-            alert("Aapko gift claim karne ke liye 100 coins chahiye. Aapke paas abhi " + coins + " coins hain."); 
-        } else {
-            if (confirm("Kya aap 100 coins redeem karke gift hasil karna chahte hain?")) {
-                coins -= 100;
-                localStorage.setItem("gm_coins", coins);
-                const msg = "GM Agency! Maine 100 coins poore kar liye hain. Mera gift send kar dein.";
-                window.open("https://wa.me/923023313131?text=" + encodeURIComponent(msg), "_blank");
-                location.reload();
-            }
-        }
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85)) return false;
     }
 
     function spinWheel() {
         const wheel = document.getElementById("wheel");
-        const randomDeg = Math.floor(Math.random() * 360) + 1800;
-        wheel.style.transform = `rotate(${randomDeg}deg)`;
+        // "2" number par rokne ke liye specific degree (36 degree) + full rounds
+        const forcedDeg = 1836; 
+        wheel.style.transform = `rotate(${forcedDeg}deg)`;
         document.getElementById("spinBtn").disabled = true;
+        
         setTimeout(() => {
             coins += 2;
             localStorage.setItem("gm_coins", coins);
@@ -176,6 +149,11 @@
         }
     }
     window.onload = checkSpin;
+
+    function redeemCoins() {
+        if (coins < 100) alert("100 coins chahiye!");
+        else window.open("https://wa.me/923023313131?text=Gift claim", "_blank");
+    }
 </script>
 </body>
 </html>
