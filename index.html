@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency - Premium Portal</title>
+    <title>GM Agency - Premium Earning Portal</title>
     <style>
-        :root { --primary: #ff5252; --dark: #121212; --card-bg: #ffffff; --gold: #ffb400; --text: #333; }
-        body { font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; text-align: center; color: var(--text); -webkit-user-select: none; user-select: none; }
+        :root { --primary: #ff5252; --dark: #121212; --gold: #ffb400; --bg: #f4f7f6; --poppo: #ff007f; --easypaisa: #1eb41e; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; scroll-behavior: smooth; }
         
         /* Premium Container */
         .container { max-width: 450px; margin: 10px auto; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); padding-bottom: 20px; }
@@ -15,36 +15,27 @@
         .header { background: var(--dark); color: var(--gold); padding: 25px 10px; border-bottom: 4px solid var(--gold); margin-bottom: 15px; }
         .header h2 { margin: 0; letter-spacing: 2px; text-transform: uppercase; font-size: 22px; }
 
-        /* Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 15px; margin-bottom: 15px; }
-        .stat-card { background: var(--dark); color: white; padding: 12px; border-radius: 15px; border-bottom: 3px solid var(--gold); }
-        .stat-card small { color: #aaa; font-size: 10px; display: block; }
-        .stat-card span { font-size: 18px; font-weight: bold; color: var(--gold); }
-
-        /* Main Coin Box */
+        .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin: 0 15px 15px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; animation: pulse 2s infinite; text-decoration: none; display: block; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
         .coin-box { background: linear-gradient(135deg, #222, #444); color: var(--gold); margin: 0 15px 15px; padding: 20px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--gold); }
         
         /* Redeem Button Custom */
         .redeem-area { padding: 0 15px 15px; }
-        .btn-redeem { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; background: #e0e0e0; color: #888; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); font-family: 'Poppins', sans-serif; }
+        .btn-redeem { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; background: #e0e0e0; color: #888; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
         .btn-redeem.active { background: linear-gradient(45deg, var(--gold), #ff8c00); color: #000; cursor: pointer; box-shadow: 0 5px 15px rgba(255,180,0,0.4); }
 
-        /* Modern Card Style */
+        .wheel-container { position: relative; width: 200px; height: 200px; margin: 15px auto; }
+        #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+        .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
+        
         .card { background: white; margin: 0 15px 15px; padding: 18px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        .card-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; color: var(--dark); display: flex; align-items: center; justify-content: center; gap: 8px; }
-
-        /* Input & Button */
-        input { width: 90%; padding: 12px; margin: 8px 0; border: 2px solid #eee; border-radius: 10px; outline: none; transition: 0.3s; font-family: 'Poppins', sans-serif; }
-        input:focus { border-color: var(--gold); }
-        .btn-action { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: bold; background: var(--dark); color: white; cursor: pointer; font-family: 'Poppins', sans-serif; }
-
-        /* Registration Special */
-        .reg-box { border: 2px solid #28a745 !important; background: #f8fff9 !important; }
-        .easypaisa-info { background: white; padding: 10px; border-radius: 10px; border: 1px dashed #28a745; margin: 10px 0; font-size: 14px; }
-
-        /* Footer */
-        footer { background: var(--dark); color: #888; padding: 30px 10px; border-radius: 30px 30px 0 0; font-size: 12px; }
-        .footer-tag { background: #333; color: var(--gold); padding: 5px 12px; border-radius: 20px; font-size: 11px; margin: 5px; display: inline-block; text-decoration: none; }
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; }
+        .btn-action { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; background: var(--dark); color: white; }
+        
+        .reg-box { border: 2px solid var(--easypaisa) !important; background: #f8fff9 !important; }
+        footer { background: var(--dark); color: white; padding: 30px 10px; font-size: 14px; margin-top: 20px; border-radius: 25px 25px 0 0; }
+        .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; font-size:18px; font-weight:bold; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index:9999; display:flex; align-items:center; justify-content:center; text-decoration:none; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -55,13 +46,10 @@
         <small style="color: #666;">Premium Earning Solutions</small>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card"><small>Total Participants</small><span>250+</span></div>
-        <div class="stat-card"><small>Monthly Rewards</small><span>Rs. 45k+</span></div>
-    </div>
+    <a href="services.html" class="poppo-banner">🔥 POPPO LIVE SPECIAL OFFER 🔥<br><span style="font-size: 11px;">Cheapest Coins Recharge - Click Here!</span></a>
 
     <div class="coin-box">
-        <div style="text-align: left;"><small style="color: #888; display: block;">Available Balance</small><span style="font-size: 24px; font-weight: 800;">🪙 <span id="userCoins">0</span></span></div>
+        <div style="text-align: left;"><small style="color: #888; display: block;">Balance</small><span style="font-size: 24px;">🪙 <span id="userCoins">0</span></span></div>
         <div style="font-size: 12px; opacity: 0.8;">GM Coins</div>
     </div>
 
@@ -70,62 +58,54 @@
     </div>
 
     <div class="card">
-        <div class="card-title">🔍 Verification Portal</div>
-        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number">
-        <button onclick="checkUserStatus()" class="btn-action" style="background: var(--gold); color: black;">VERIFY STATUS</button>
-        <div id="statusResult" style="margin-top: 10px; font-weight: bold; min-height: 20px;"></div>
+        <h4 style="margin:0 0 10px;">🔍 Check Status</h4>
+        <input type="number" id="checkPhone" placeholder="WhatsApp Number">
+        <button onclick="checkUserStatus()" class="btn-action" style="background: var(--gold); color: black;">VERIFY NOW</button>
+        <div id="statusResult" style="margin-top: 10px; font-weight: bold;"></div>
     </div>
 
     <div class="card">
-        <div class="card-title">🎡 Daily Fortune Spin</div>
-        <div style="position: relative; width: 180px; height: 180px; margin: 10px auto;">
-            <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 20px solid var(--dark); z-index: 10;"></div>
-            <svg id="wheel" viewBox="0 0 200 200" style="width: 100%; height: 100%; transition: 4s cubic-bezier(0.1, 0, 0.1, 1);">
+        <h4 style="margin:0;">🎡 Daily Spin</h4>
+        <div class="wheel-container">
+            <div class="wheel-pointer"></div>
+            <svg id="wheel" viewBox="0 0 200 200">
                 <g transform="rotate(-90 100 100)">
-                    <path d="M100 100 L200 100 A100 100 0 0 1 130.9 195.1 Z" fill="#ffb400"/><text x="145" y="145" font-size="14" transform="rotate(36 145 145)">2</text>
-                    <path d="M100 100 L130.9 195.1 A100 100 0 0 1 19.1 158.8 Z" fill="#ff5252"/><text x="85" y="165" fill="white" font-size="14" transform="rotate(108 85 165)">3</text>
-                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#222"/><text x="45" y="105" fill="white" font-size="14" transform="rotate(180 45 105)">4</text>
-                    <path d="M100 100 L19.1 41.2 A100 100 0 0 1 130.9 4.9 Z" fill="#555"/><text x="85" y="45" fill="white" font-size="14" transform="rotate(252 85 45)">X</text>
-                    <path d="M100 100 L130.9 4.9 A100 100 0 0 1 200 100 Z" fill="#ff007f"/><text x="145" y="65" fill="white" font-size="14" transform="rotate(324 145 65)">1</text>
+                    <path d="M100 100 L200 100 A100 100 0 0 1 130.9 195.1 Z" fill="#ffb400"/><text x="145" y="145" font-size="16" transform="rotate(36 145 145)">2</text>
+                    <path d="M100 100 L130.9 195.1 A100 100 0 0 1 19.1 158.8 Z" fill="#ff5252"/><text x="85" y="165" fill="white" font-size="16" transform="rotate(108 85 165)">3</text>
+                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#222"/><text x="45" y="105" fill="white" font-size="16" transform="rotate(180 45 105)">4</text>
+                    <path d="M100 100 L19.1 41.2 A100 100 0 0 1 130.9 4.9 Z" fill="#555"/><text x="85" y="45" fill="white" font-size="16" transform="rotate(252 85 45)">X</text>
+                    <path d="M100 100 L130.9 4.9 A100 100 0 0 1 200 100 Z" fill="#ff007f"/><text x="145" y="65" fill="white" font-size="16" transform="rotate(324 145 65)">1</text>
                 </g>
             </svg>
         </div>
-        <button id="spinBtn" class="btn-action" onclick="spinWheel()" style="width: 150px; margin-top: 10px;">SPIN NOW</button>
-        <div id="timerDisplay" style="display:none; font-weight:bold; color:var(--primary); margin-top:10px; font-size: 13px;">Next Spin: <span id="timeRemaining"></span></div>
+        <button id="spinBtn" class="btn-action" onclick="spinWheel()" style="width:auto; padding: 10px 30px;">SPIN NOW</button>
+        <div id="timerDisplay" style="display:none; font-weight:bold; color:var(--primary); margin-top:10px;">Next spin: <span id="timeRemaining"></span></div>
     </div>
 
     <div class="card reg-box" id="registration-section">
-        <div class="card-title" style="color: #28a745;">📝 Agent Registration</div>
-        <div class="easypaisa-info">
+        <h4 style="margin:0; color: var(--easypaisa);">📝 Agent Registration</h4>
+        <div style="background: white; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1px dashed var(--easypaisa); font-size: 14px;">
             <b>Easypaisa:</b> Tasleem Akhtar<br>
-            <b>Number:</b> 03196557461 <br>
-            <span style="font-size: 12px; color: #666;">Fee: Rs. 300</span>
+            <b>Number:</b> 03196557461 (Fee: 300)
         </div>
         <form id="regForm">
             <input type="text" name="name" placeholder="Full Name" required>
             <input type="number" name="phone" placeholder="WhatsApp Number" required>
             <input type="text" name="tid" placeholder="Transaction ID (TID)" required>
-            <button type="submit" id="subBtn" class="btn-action" style="background: #28a745;">SUBMIT APPLICATION</button>
+            <button type="submit" id="subBtn" class="btn-action" style="background: var(--easypaisa);">CONFIRM REGISTRATION</button>
         </form>
     </div>
 </div>
 
 <footer>
-    <div style="margin-bottom: 15px;">
-        <a href="how-to.html" class="footer-tag">How it Works</a>
-        <a href="about.html" class="footer-tag">About Agency</a>
-        <a href="terms.html" class="footer-tag">Terms</a>
-    </div>
-    © 2026 GM Agency Official Portal<br>
-    Support: Poppoliveofficial123@gmail.com
+    <p>© 2026 GM Agency Official Portal</p>
+    <p>📧 Support: Poppoliveofficial123@gmail.com</p>
 </footer>
 
-<a href="https://wa.me/923023313131" style="position:fixed; bottom:20px; right:20px; background:#25d366; color:white; width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.2); z-index:1000;">WA</a>
+<a href="https://wa.me/923023313131" class="wa-btn" target="_blank">WA</a>
 
 <script>
-    // Updated Script URL
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2_QLTxgt0QfeNewn5eycYE6R2HCEZlBCI8y6IhY44rnfmiecEagyLUHB0aSZuD03Osw/exec';
-    
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
 
     function updateCoinDisplay() {
@@ -133,12 +113,10 @@
         const rBtn = document.getElementById("redeemBtn");
         if(coins >= 200) {
             rBtn.classList.add("active");
-            rBtn.innerText = "CLAIM REWARD (200 COINS)";
-            rBtn.style.cursor = "pointer";
+            rBtn.innerText = "REDEEM 200 COINS NOW!";
         } else {
             rBtn.classList.remove("active");
-            rBtn.innerText = `Redeem (Goal: 200 | Need: ${200-coins})`;
-            rBtn.style.cursor = "not-allowed";
+            rBtn.innerText = `Redeem (Need ${200 - coins} more)`;
         }
     }
 
@@ -146,19 +124,13 @@
         let phone = document.getElementById('checkPhone').value.trim();
         const res = document.getElementById('statusResult');
         if(!phone) return;
+        res.innerText = "Checking... ⏳";
         
-        res.style.color = "#888";
-        res.innerText = "Verifying database... ⏳";
-        
-        // Zero fix logic integrated in URL request
         fetch(`${SCRIPT_URL}?action=checkStatus&phone=${phone}`)
         .then(r => r.json()).then(data => {
             if(data.status) {
-                res.innerHTML = `STATUS: <span style="color:${data.status=='Approved'?'#28a745':'#ff8c00'}">${data.status.toUpperCase()}</span>`;
-            } else {
-                res.style.color = "red";
-                res.innerText = "NO RECORD FOUND!";
-            }
+                res.innerHTML = `Status: <span style="color:${data.status=='Approved'?'green':'orange'}">${data.status.toUpperCase()}</span>`;
+            } else { res.innerText = "No record found!"; }
         }).catch(() => { res.innerText = "Connection Error!"; });
     }
 
@@ -170,17 +142,14 @@
             coins += 2;
             localStorage.setItem("gm_coins", coins);
             localStorage.setItem("last_spin_time", new Date().getTime());
-            alert("Mubarak! You won 2 Coins.");
+            alert("Mubarak! 2 Coins added.");
             location.reload();
         }, 4100);
     }
 
     function redeemCoins() {
         if(coins < 200) return;
-        const msg = `Assalam-o-Alaikum GM Agency! Maine 200 coins mukammal kar liye hain. Kindly mera reward verify karein.`;
-        window.open(`https://wa.me/923023313131?text=${encodeURIComponent(msg)}`, '_blank');
-        
-        // Reset coins
+        window.open(`https://wa.me/923023313131?text=I%20have%20completed%20200%20coins%20on%20GM%20Agency.`, '_blank');
         coins = 0;
         localStorage.setItem("gm_coins", coins);
         updateCoinDisplay();
@@ -193,11 +162,7 @@
             document.getElementById("timerDisplay").style.display = "block";
             setInterval(() => {
                 const remain = (parseInt(last) + cooldown) - new Date().getTime();
-                if(remain > 0) {
-                    document.getElementById("timeRemaining").innerText = `${Math.floor(remain/3600000)}h ${Math.floor((remain%3600000)/60000)}m`;
-                } else {
-                    location.reload();
-                }
+                document.getElementById("timeRemaining").innerText = `${Math.floor(remain/3600000)}h ${Math.floor((remain%3600000)/60000)}m`;
             }, 1000);
         }
     }
@@ -206,19 +171,10 @@
 
     document.getElementById('regForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const subBtn = document.getElementById('subBtn');
-        subBtn.innerText = "Submitting...";
-        subBtn.disabled = true;
-        
+        const btn = document.getElementById('subBtn');
+        btn.innerText = "Submitting...";
         fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this)})
-        .then(() => { 
-            alert("Application Sent Successfully!"); 
-            location.reload(); 
-        }).catch(() => {
-            alert("Error sending application. Try again.");
-            subBtn.innerText = "SUBMIT APPLICATION";
-            subBtn.disabled = false;
-        });
+        .then(() => { alert("Application Sent!"); location.reload(); });
     });
 </script>
 </body>
