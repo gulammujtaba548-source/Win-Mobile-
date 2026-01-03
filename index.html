@@ -87,22 +87,22 @@
         <div style="font-size: 18px; font-weight: 800; color: #333; margin: 5px 0;">Rs. 300</div>
         
         <div style="background: white; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1px dashed var(--easypaisa);">
-            <p style="margin: 5px 0;"><strong>Easypaisa Account:</strong> Tasleem Akhtar</p>
+            <p style="margin: 5px 0; color:var(--easypaisa); font-weight:bold;">Easypaisa Details:</p>
+            <p style="margin: 5px 0;"><strong>Account:</strong> Tasleem Akhtar</p>
             <p style="margin: 5px 0;"><strong>Number:</strong> 03196557461</p>
         </div>
 
         <form id="regForm">
-            <input type="text" id="name" placeholder="Full Name" required>
-            <input type="number" id="phone" placeholder="WhatsApp Number" required>
-            <input type="text" id="tid" placeholder="Transaction ID (TID)" required>
-            <button type="submit" class="btn btn-red">CONFIRM MOBILE REGISTRATION</button>
+            <input type="text" id="name" name="name" placeholder="Full Name" required>
+            <input type="number" id="phone" name="phone" placeholder="WhatsApp Number" required>
+            <input type="text" id="tid" name="tid" placeholder="Transaction ID (TID)" required>
+            <button type="submit" id="subBtn" class="btn btn-red">CONFIRM MOBILE REGISTRATION</button>
         </form>
     </div>
 </div>
 
 <footer>
     <p>&copy; 2026 GM Agency Official</p>
-    <p>📧 Email: <a href="mailto:Poppoliveofficial123@gmail.com" style="color:white; text-decoration:none;">Poppoliveofficial123@gmail.com</a></p>
     <div class="service-tags">
         <a href="services.html" class="tag">Poppo Recharge</a>
         <span onclick="document.getElementById('registration-section').scrollIntoView()" class="tag">Lucky Draw</span>
@@ -113,17 +113,19 @@
 <a href="https://wa.me/923023313131" class="wa-btn" target="_blank">WA</a>
 
 <script>
+    // 1. Coin System
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
+    // 2. Security
     function disableSecurity(e) {
         if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73) || (e.ctrlKey && e.keyCode == 85)) return false;
     }
 
+    // 3. Forced Spin to "2"
     function spinWheel() {
         const wheel = document.getElementById("wheel");
-        // "2" number par rokne ke liye specific degree (36 degree) + full rounds
-        const forcedDeg = 1836; 
+        const forcedDeg = 1836; // Logical degree for number 2
         wheel.style.transform = `rotate(${forcedDeg}deg)`;
         document.getElementById("spinBtn").disabled = true;
         
@@ -136,6 +138,7 @@
         }, 4100);
     }
 
+    // 4. Timer Logic
     function checkSpin() {
         const last = localStorage.getItem("last_spin_time"), cooldown = 86400000;
         if (last && (new Date().getTime() - last < cooldown)) {
@@ -150,9 +153,32 @@
     }
     window.onload = checkSpin;
 
+    // 5. Google Sheet Data Submission
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const subBtn = document.getElementById('subBtn');
+        subBtn.innerText = "Processing...";
+        subBtn.disabled = true;
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyodXHkAGa3hlXggJBH7dLpKFcGgnNA426otZn_SEl6XjbzRC5jHEKUOcMycNv3BEEglQ/exec';
+        const formData = new FormData(this);
+
+        fetch(scriptURL, { method: 'POST', body: formData})
+        .then(response => {
+            alert("✅ Shukriya! Data Sheet mein save ho gaya.");
+            subBtn.innerText = "CONFIRM MOBILE REGISTRATION";
+            subBtn.disabled = false;
+            this.reset();
+        })
+        .catch(error => {
+            alert("Error! Please try again.");
+            subBtn.disabled = false;
+        });
+    });
+
     function redeemCoins() {
-        if (coins < 100) alert("100 coins chahiye!");
-        else window.open("https://wa.me/923023313131?text=Gift claim", "_blank");
+        if (coins < 100) alert("Redeem karne ke liye 100 coins chahiye!");
+        else window.open("https://wa.me/923023313131?text=I want to redeem 100 coins", "_blank");
     }
 </script>
 </body>
