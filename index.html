@@ -141,8 +141,8 @@
 <a href="https://wa.me/923023313131" class="wa-btn" target="_blank">WA</a>
 
 <script>
-    // NEW Updated SCRIPT_URL
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxvNhPw9XhnNQIbMBGLZ-C2PKZDzDlWk8POh869waNrGCNYdWuKnOB5XgG_cF5rtCDx9w/exec';
+    // FINAL UPDATED SCRIPT_URL
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4XWfvmekHM4h-8cFcZKkoYPAEgWN4XpxCXfV6Z5wFJ_JwCQMZwAwq95-rb3UnemHzvg/exec';
 
     window.onload = function() {
         const params = new URLSearchParams(window.location.search);
@@ -157,7 +157,6 @@
     function loadLeaderboard() {
         fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS&source=leaderboard`)
         .then(r => r.json()).then(data => {
-            // Update Winner Box if data exists
             if(data.latestWinner) {
                 document.getElementById('winnerBox').style.display = "block";
                 document.getElementById('winnerName').innerText = data.latestWinner.name;
