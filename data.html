@@ -6,9 +6,9 @@
     <title>GM Agency - Master Admin Panel</title>
     <style>
         :root { --primary: #ff5252; --success: #2ecc71; --danger: #e74c3c; --dark: #2c3e50; --bg: #f4f7f6; }
+        /* Security: Page initially hidden */
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; display: none; text-align: center; }
         
-        /* Layout Styling */
         .header-btn { background: var(--primary); color: white; padding: 15px; border-radius: 12px; margin: 20px auto; width: 90%; max-width: 400px; font-weight: bold; font-size: 18px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: block; }
         .spin-btn { background: var(--success); color: white; padding: 15px; border-radius: 12px; width: 90%; max-width: 400px; font-weight: bold; border: none; margin-bottom: 10px; cursor: pointer; }
         .reset-btn { background: #f39c12; color: white; padding: 8px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
@@ -42,13 +42,13 @@
 
 <div id="loading-overlay">
     <div style="font-size: 40px;">⏳</div>
-    <div>Processing Request...</div>
+    <div>Syncing with Sheet...</div>
 </div>
 
 <div class="container">
     <button class="header-btn">GM Agency Master Admin</button>
-    <button class="spin-btn">🎡 SPIN FOR RANDOM WINNER</button><br>
-    <button class="reset-btn">Reset Winner Display</button>
+    <button class="spin-btn" onclick="alert('Winner selection feature coming soon!')">🎡 SPIN FOR RANDOM WINNER</button><br>
+    <button class="reset-btn" onclick="location.reload()">Refresh Data</button>
 
     <div class="stats">Total Participants: <span id="totalCount">0</span></div>
 
@@ -59,28 +59,28 @@
     </div>
     
     <div id="participantList">
-        <p style="padding:20px; color:#888;">Connecting to GM Agency Server...</p>
+        <p style="padding:20px; color:#888;">Loading secured data...</p>
     </div>
 </div>
 
 <script>
-    // Config
+    // Config - Private Details
     const PASSCODE = "0770";
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2_QLTxgt0QfeNewn5eycYE6R2HCEZlBCI8y6IhY44rnfmiecEagyLUHB0aSZuD03Osw/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoJSC6aYjqXyUC9J-x60BU_dX6SazD8TeArrV5nSzlfj0cRti1NpYLZ68ihOKGz19vrg/exec';
 
-    // 1. Passcode Check
-    window.onload = function() {
-        let code = prompt("Enter Master Admin Code:");
-        if (code === PASSCODE) {
+    // 1. Double-Layer Security Check
+    (function checkSecurity() {
+        let access = prompt("Enter Master Admin Code:");
+        if (access === PASSCODE) {
             document.body.style.display = "block";
             loadData();
         } else {
-            alert("Wrong Passcode!");
+            alert("Unauthorized Access!");
             window.location.href = "index.html";
         }
-    };
+    })();
 
-    // 2. Fetch All Data
+    // 2. Fetch Live Data
     function loadData() {
         fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS`)
         .then(r => r.json())
@@ -91,7 +91,7 @@
             
             if(data && data.records) {
                 total.innerText = data.records.length;
-                data.records.reverse().forEach(user => { // Newest first
+                data.records.reverse().forEach(user => {
                     const status = user.status || "PENDING";
                     list.innerHTML += `
                         <div class="list-item">
@@ -111,16 +111,16 @@
                     `;
                 });
             } else {
-                list.innerHTML = "<p>No data found in sheet.</p>";
+                list.innerHTML = "<p>Sheet is empty or connection failed.</p>";
             }
         }).catch(err => {
-            document.getElementById('participantList').innerHTML = "<p style='color:red'>Connection Error!</p>";
+            document.getElementById('participantList').innerHTML = "<p style='color:red'>Server Error!</p>";
         });
     }
 
     // 3. Update Status (Live Sync)
     function updateStatus(phone, newStatus) {
-        if(!confirm(`Are you sure you want to mark this as ${newStatus}?`)) return;
+        if(!confirm(`Confirm ${newStatus} for this user?`)) return;
         
         document.getElementById('loading-overlay').style.display = 'flex';
         
@@ -136,12 +136,8 @@
         }).then(() => {
             setTimeout(() => {
                 document.getElementById('loading-overlay').style.display = 'none';
-                alert("Sheet Updated Successfully!");
-                loadData();
-            }, 2500);
-        }).catch(err => {
-            alert("Failed to update sheet.");
-            document.getElementById('loading-overlay').style.display = 'none';
+                loadData(); // Auto-refresh
+            }, 2000);
         });
     }
 </script>
