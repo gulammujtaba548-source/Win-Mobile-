@@ -7,125 +7,102 @@
     <style>
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; --poppo: #ff007f; --easypaisa: #1eb41e; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; scroll-behavior: smooth; }
-        .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
-        
-        .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; animation: pulse 2s infinite; text-decoration: none; display: block; }
+        .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); text-decoration: none; display: block; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        
         .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
         .leaderboard-card { background: #fff3e0; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #fedcba; }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        
         .refer-card { background: #e3f2fd; border: 2px solid #2196f3; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: none; }
-        .ref-link-box { background: white; padding: 10px; border-radius: 8px; font-size: 12px; word-break: break-all; margin: 10px 0; border: 1px solid #bbdefb; }
-        
+        .ref-link-box { background: white; padding: 10px; border-radius: 8px; font-size: 11px; word-break: break-all; margin: 10px 0; border: 1px solid #bbdefb; }
         .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .btn-red { background: var(--primary); color: white; }
-        .btn-blue { background: #2196f3; color: white; margin-top: 5px; }
-        
-        /* Wheel CSS */
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; }
+        .btn-red { background: var(--primary); }
+        .btn-blue { background: #2196f3; }
         .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px auto; }
         #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-        .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
-
         footer { background: #1a1a1a; color: white; padding: 30px 10px; font-size: 14px; margin-top: 20px; border-radius: 25px 25px 0 0; }
-        .footer-links { margin: 10px 0; }
-        .footer-links a { color: white; text-decoration: underline; margin: 0 8px; font-size: 13px; }
-        .service-tags { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-        .tag { background: var(--gold); color: #000; padding: 8px 15px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 12px; cursor: pointer; }
-        .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; font-size:18px; font-weight:bold; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index:9999; display:flex; align-items:center; justify-content:center; text-decoration:none; }
+        .tag { background: var(--gold); color: #000; padding: 8px 15px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 11px; cursor: pointer; display: inline-block; margin: 5px; }
+        .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; font-size:18px; font-weight:bold; display:flex; align-items:center; justify-content:center; text-decoration:none; z-index:99; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="services.html" class="poppo-banner">🔥 POPPO LIVE SPECIAL OFFER 🔥<br><span style="font-size: 12px;">Cheapest Coins Recharge - Click Here!</span></a>
-    
+    <a href="services.html" class="poppo-banner">🔥 POPPO LIVE SPECIAL OFFER 🔥<br><span style="font-size: 10px;">Cheapest Coins Recharge - Click Here!</span></a>
     <div class="welcome-box"><h2>GM Agency Official</h2></div>
 
     <div id="leaderboard" class="leaderboard-card">
-        <div style="font-weight:bold; color:var(--primary);">👥 Approved Participants: <span id="totalDisplay">Loading...</span></div>
-        <h4 style="margin:10px 0; color:#e65100;">🏆 Top Earners</h4>
-        <div id="topEarnersList">Loading leaderboard...</div>
+        <div style="font-weight:bold; color:var(--primary);">👥 Approved Participants: <span id="totalDisplay">0</span></div>
+        <h4 style="margin:10px 0; color:#e65100;">🏆 Verified Members</h4>
+        <div id="topEarnersList">Loading...</div>
     </div>
-
-    <div class="coin-box"><span>🪙 My Coins:</span><span id="userCoins" style="font-size: 26px;">0</span></div>
 
     <div id="referralCard" class="refer-card">
-        <h4 style="margin:0; color:#1976d2;">📢 Invite & Earn</h4>
-        <div class="ref-link-box" id="refLinkText">Generating link...</div>
-        <button onclick="copyRefLink()" class="btn btn-blue" style="padding:8px; font-size:12px;">COPY LINK</button>
+        <h4 style="margin:0;">📢 Invite & Earn</h4>
+        <div class="ref-link-box" id="refLinkText">...</div>
+        <button onclick="copyRefLink()" class="btn btn-blue" style="padding:8px;">COPY LINK</button>
     </div>
 
-    <div class="card" style="border: 2px solid #333; background: #f9f9f9;">
-        <h4 style="margin:0; color: #333;">🔍 Check Your Status</h4>
+    <div class="coin-box"><span>🪙 My Coins:</span><span id="userCoins">0</span></div>
+
+    <div class="card" style="border: 2px solid #333;">
+        <h4>🔍 Check Status</h4>
         <input type="number" id="checkPhone" placeholder="WhatsApp Number">
-        <button onclick="checkUserStatus()" class="btn" style="background: #333; color: white;">CHECK STATUS</button>
-        <div id="statusResult" style="margin-top: 10px; font-weight: bold;"></div>
+        <button onclick="checkUserStatus()" class="btn" style="background:#333;">CHECK STATUS</button>
+        <div id="statusResult" style="margin-top:10px; font-weight:bold;"></div>
     </div>
 
     <div class="card" id="spin-section">
-        <h4 style="margin:0;">🎡 Daily Reward Spin</h4>
+        <h4>🎡 Daily Reward Spin</h4>
         <div class="wheel-container">
-            <div class="wheel-pointer"></div>
             <svg id="wheel" viewBox="0 0 200 200">
                 <g transform="rotate(-90 100 100)">
-                    <path d="M100 100 L200 100 A100 100 0 0 1 130.9 195.1 Z" fill="#ffd700"/><text x="145" y="145" font-size="16" transform="rotate(36 145 145)">2</text>
-                    <path d="M100 100 L130.9 195.1 A100 100 0 0 1 19.1 158.8 Z" fill="#ff5252"/><text x="85" y="165" fill="white" font-size="16" transform="rotate(108 85 165)">3</text>
-                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#ffffff" stroke="#eee"/><text x="45" y="105" font-size="16" transform="rotate(180 45 105)">4</text>
-                    <path d="M100 100 L19.1 41.2 A100 100 0 0 1 130.9 4.9 Z" fill="#333333"/><text x="85" y="45" fill="white" font-size="16" transform="rotate(252 85 45)">X</text>
-                    <path d="M100 100 L130.9 4.9 A100 100 0 0 1 200 100 Z" fill="#ff007f"/><text x="145" y="65" fill="white" font-size="16" transform="rotate(324 145 65)">1</text>
+                    <path d="M100 100 L200 100 A100 100 0 0 1 130.9 195.1 Z" fill="#ffd700"/><text x="145" y="145" font-size="12">2</text>
+                    <path d="M100 100 L130.9 195.1 A100 100 0 0 1 19.1 158.8 Z" fill="#ff5252"/><text x="85" y="165" fill="white" font-size="12">3</text>
+                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#ffffff"/><text x="45" y="105" font-size="12">4</text>
+                    <path d="M100 100 L130.9 4.9 A100 100 0 0 1 200 100 Z" fill="#ff007f"/><text x="145" y="65" fill="white" font-size="12">1</text>
                 </g>
-                <circle cx="100" cy="100" r="15" fill="white" stroke="#333" stroke-width="2"/>
             </svg>
         </div>
         <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="width:auto; padding: 10px 30px;">SPIN NOW</button>
         <div id="timerDisplay" style="display:none; font-weight:bold; color:var(--primary); margin-top:10px;">Next spin: <span id="timeRemaining"></span></div>
     </div>
 
-    <div id="registration-section" class="card" style="border: 3px solid #22c55e; background: #f0fff0;">
-        <div style="color: #1eb41e; font-weight: 800; font-size: 24px;">Mobile Registration</div>
-        <div style="font-size: 18px; font-weight: 800; color: #333; margin: 5px 0;">Rs. 300</div>
-        <div style="background: white; border-radius: 10px; padding: 12px; margin: 10px 0; border: 1px dashed #1eb41e;">
-            <p style="margin: 5px 0; color:#1eb41e; font-weight:bold;">Easypaisa: Tasleem Akhtar</p>
-            <p style="margin: 5px 0;"><strong>Number:</strong> 03196557461</p>
-        </div>
+    <div id="registration-section" class="card" style="border: 3px solid #22c55e;">
+        <h3 style="color:#1eb41e; margin:0;">Mobile Registration</h3>
+        <p>Fee: Rs. 300 (Easypaisa: 03196557461)</p>
         <form id="regForm">
             <input type="hidden" id="referrer_id" name="ref" value="Direct">
-            <input type="text" id="name" name="name" placeholder="Full Name" required>
-            <input type="number" id="phone" name="phone" placeholder="WhatsApp Number" required>
-            <input type="text" id="tid" name="tid" placeholder="Transaction ID (TID)" required>
-            <button type="submit" id="subBtn" class="btn btn-red">CONFIRM MOBILE REGISTRATION</button>
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="number" name="phone" placeholder="WhatsApp Number" required>
+            <input type="text" name="tid" placeholder="Transaction ID" required>
+            <button type="submit" id="subBtn" class="btn btn-red">CONFIRM REGISTRATION</button>
         </form>
     </div>
 </div>
 
 <footer>
     <p>© 2026 GM Agency Official</p>
-    <p>📧 Email: <a href="mailto:Poppoliveofficial123@gmail.com" style="color:white; text-decoration:none;">Poppoliveofficial123@gmail.com</a></p>
-    <div class="footer-links">
-        <a href="how-to.html">How it Works</a> | <a href="about.html">About Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a>
+    <p>📧 <a href="mailto:Poppoliveofficial123@gmail.com" style="color:white; text-decoration:none;">Poppoliveofficial123@gmail.com</a></p>
+    <div style="margin:10px 0;">
+        <a href="how-to.html" style="color:white;">How it Works</a> | <a href="privacy.html" style="color:white;">Privacy</a> | <a href="terms.html" style="color:white;">Terms</a>
     </div>
     <div class="service-tags">
-        <a href="services.html" class="tag">Poppo Recharge</a>
-        <span onclick="document.getElementById('registration-section').scrollIntoView()" class="tag">Lucky Draw</span>
-        <span onclick="document.getElementById('spin-section').scrollIntoView()" class="tag">Daily Rewards</span>
+        <span onclick="window.scrollTo(0,0)" class="tag">Lucky Draw</span>
+        <span onclick="document.getElementById('registration-section').scrollIntoView()" class="tag">Daily Rewards</span>
     </div>
 </footer>
 
 <a href="https://wa.me/923023313131" class="wa-btn" target="_blank">WA</a>
 
 <script>
-    // Updated with your provided deployment URL
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXRSO9zw0QTfF1i1v0aSHlgboCKgynizhLi1ZYDLiTmv4aiL-_mAE3xm65tkCxl2IE5A/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyr7G1LE5R8i9nlhtZWCl6foiRTjTBRGVokuvTRRcZ27wplmj17K1JhQ5r3NRx58YdQA/exec';
 
     window.onload = function() {
         const params = new URLSearchParams(window.location.search);
-        const ref = params.get('ref');
-        if(ref) document.getElementById('referrer_id').value = ref;
-        
+        if(params.get('ref')) document.getElementById('referrer_id').value = params.get('ref');
         loadLeaderboard();
         showReferralLink();
         updateCoinDisplay();
@@ -133,25 +110,30 @@
     };
 
     function loadLeaderboard() {
-        fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS`)
-        .then(r => r.json())
-        .then(data => {
-            // Sirf Approved ka count dikhayega
+        fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS&source=leaderboard`)
+        .then(r => r.json()).then(data => {
             document.getElementById('totalDisplay').innerText = data.total;
             const list = document.getElementById('topEarnersList');
             list.innerHTML = "";
-            
-            // Sirf approved users ko leaderboard mein dikhayega
-            const approvedOnes = data.records.filter(u => u.status === "Approved");
-            if(approvedOnes.length > 0) {
-                approvedOnes.slice(0, 5).forEach((user, index) => {
-                    list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #fedcba;">
-                        <span>#${index+1} ${user.name}</span> <span style="color:#28a745; font-weight:bold;">Verified ✅</span>
-                    </div>`;
+            const approved = data.records.filter(u => u.status === "Approved");
+            if(approved.length > 0) {
+                approved.slice(0,5).forEach((u, i) => {
+                    list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #eee;"><span>#${i+1} ${u.name}</span> <span style="color:green; font-weight:bold;">Verified ✅</span></div>`;
                 });
-            } else {
-                list.innerHTML = "<p style='font-size:12px; color:#888;'>No verified participants yet.</p>";
-            }
+            } else { list.innerHTML = "No verified members yet."; }
+        });
+    }
+
+    function checkUserStatus() {
+        const phone = document.getElementById('checkPhone').value;
+        const res = document.getElementById('statusResult');
+        res.innerText = "Checking...";
+        fetch(`${SCRIPT_URL}?action=checkStatus&phone=${phone}`)
+        .then(r => r.json()).then(data => {
+            if(data.status) {
+                res.innerHTML = "Status: " + data.status.toUpperCase();
+                if(data.myID) { localStorage.setItem("gm_user_id", data.myID); showReferralLink(); }
+            } else { res.innerText = "No record found!"; }
         });
     }
 
@@ -165,35 +147,21 @@
 
     function copyRefLink() {
         navigator.clipboard.writeText(document.getElementById('refLinkText').innerText);
-        alert("Referral link copied!");
+        alert("Link Copied!");
     }
 
     document.getElementById('regForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        document.getElementById('subBtn').innerText = "Submitting...";
+        document.getElementById('subBtn').innerText = "Sending...";
         fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this)})
-        .then(r => r.json())
-        .then(data => {
+        .then(r => r.json()).then(data => {
             localStorage.setItem("gm_user_id", data.myID);
-            alert("✅ Submitted! ID: " + data.myID);
+            alert("Success! Your ID: " + data.myID);
             location.reload();
-        }).catch(() => { alert("Registration Sent!"); location.reload(); });
+        });
     });
 
-    function checkUserStatus() {
-        const phone = document.getElementById('checkPhone').value;
-        const res = document.getElementById('statusResult');
-        res.innerText = "Checking...";
-        fetch(`${SCRIPT_URL}?action=checkStatus&phone=${phone}`)
-        .then(r => r.json()).then(data => {
-            if(data.status) {
-                if(data.myID) localStorage.setItem("gm_user_id", data.myID);
-                res.innerHTML = `Status: ${data.status.toUpperCase()}`;
-                showReferralLink();
-            } else { res.innerText = "No record found!"; }
-        });
-    }
-
+    // Spin Logic
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     function updateCoinDisplay() { document.getElementById("userCoins").innerText = coins; }
     function spinWheel() {
@@ -212,7 +180,7 @@
             setInterval(() => {
                 const remain = (parseInt(last) + cooldown) - new Date().getTime();
                 const h = Math.floor(remain/3600000); const m = Math.floor((remain%3600000)/60000);
-                document.getElementById("timeRemaining").innerText = `${h}h ${m}m`;
+                document.getElementById("timeRemaining").innerText = h + "h " + m + "m";
             }, 1000);
         }
     }
