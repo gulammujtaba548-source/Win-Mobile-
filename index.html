@@ -16,6 +16,9 @@
         .leaderboard-card { background: #fff3e0; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #fedcba; }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         
+        /* Redeem Card Style */
+        .redeem-card { background: #f0f4f8; border: 2px dashed #333; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
+        
         .refer-card { background: #e3f2fd; border: 2px solid #2196f3; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: none; }
         .ref-link-box { background: white; padding: 10px; border-radius: 8px; font-size: 12px; word-break: break-all; margin: 10px 0; border: 1px solid #bbdefb; }
         
@@ -24,6 +27,7 @@
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
         .btn-red { background: var(--primary); color: white; }
         .btn-blue { background: #2196f3; color: white; margin-top: 5px; }
+        .btn-green { background: #1eb41e; color: white; }
         
         /* Wheel CSS */
         .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px auto; }
@@ -31,11 +35,7 @@
         .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
 
         footer { background: #1a1a1a; color: white; padding: 30px 10px; font-size: 14px; margin-top: 20px; border-radius: 25px 25px 0 0; }
-        .footer-links { margin: 10px 0; }
-        .footer-links a { color: white; text-decoration: underline; margin: 0 8px; font-size: 13px; }
-        .service-tags { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-        .tag { background: var(--gold); color: #000; padding: 8px 15px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 12px; cursor: pointer; }
-        .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; font-size:18px; font-weight:bold; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index:9999; display:flex; align-items:center; justify-content:center; text-decoration:none; }
+        .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; display:flex; align-items:center; justify-content:center; text-decoration:none; z-index:9999; font-weight:bold; }
     </style>
 </head>
 <body>
@@ -46,12 +46,18 @@
     <div class="welcome-box"><h2>GM Agency Official</h2></div>
 
     <div id="leaderboard" class="leaderboard-card">
-        <div style="font-weight:bold; color:var(--primary);">👥 Approved Participants: <span id="totalDisplay">Loading...</span></div>
+        <div style="font-weight:bold; color:var(--primary);">👥 Approved Participants: <span id="totalDisplay">0</span></div>
         <h4 style="margin:10px 0; color:#e65100;">🏆 Top Earners</h4>
         <div id="topEarnersList">Loading leaderboard...</div>
     </div>
 
     <div class="coin-box"><span>🪙 My Coins:</span><span id="userCoins" style="font-size: 26px;">0</span></div>
+
+    <div class="redeem-card">
+        <h4 style="margin:0; color:#333;">🎁 Redeem Rewards</h4>
+        <p style="font-size:12px; margin:5px 0;">Minimum 200 Coins required to Redeem Cash.</p>
+        <button onclick="redeemCoins()" class="btn btn-green">REDEEM 200 COINS</button>
+    </div>
 
     <div id="referralCard" class="refer-card">
         <h4 style="margin:0; color:#1976d2;">📢 Invite & Earn</h4>
@@ -104,23 +110,16 @@
 
 <footer>
     <p>© 2026 GM Agency Official</p>
-    <p>📧 Email: <a href="mailto:Poppoliveofficial123@gmail.com" style="color:white; text-decoration:none;">Poppoliveofficial123@gmail.com</a></p>
-    <div class="footer-links">
-        <a href="how-to.html">How it Works</a> | <a href="about.html">About Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a>
-    </div>
-    <div class="service-tags">
-        <a href="services.html" class="tag">Poppo Recharge</a>
-        <span onclick="document.getElementById('registration-section').scrollIntoView()" class="tag">Lucky Draw</span>
-        <span onclick="document.getElementById('spin-section').scrollIntoView()" class="tag">Daily Rewards</span>
+    <div class="footer-links" style="margin: 10px 0;">
+        <a href="mailto:Poppoliveofficial123@gmail.com" style="color:white;">Email Us</a>
     </div>
 </footer>
 
 <a href="https://wa.me/923023313131" class="wa-btn" target="_blank">WA</a>
 
 <script>
-    // Ye raha aapka updated Google Script URL
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyr7G1LE5R8i9nlhtZWCl6foiRTjTBRGVokuvTRRcZ27wplmj17K1JhQ5r3NRx58YdQA/exec';
-    const ADMIN_PIN = "0770"; // Aapka secure code backend sync ke liye
+    // Aapka Updated Script URL
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx0wTrxyNcE9ztIqPDFVconTJv1Hn9QTDMNHijCFbXyh4ac9TdyNWroNjCFIN_RkPuEpA/exec';
 
     window.onload = function() {
         const params = new URLSearchParams(window.location.search);
@@ -134,14 +133,11 @@
     };
 
     function loadLeaderboard() {
-        // source=leaderboard isliye add kiya taake backend bina PIN ke basic info de de
         fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS&source=leaderboard`)
-        .then(r => r.json())
-        .then(data => {
-            document.getElementById('totalDisplay').innerText = data.total;
+        .then(r => r.json()).then(data => {
+            document.getElementById('totalDisplay').innerText = data.total || 0;
             const list = document.getElementById('topEarnersList');
             list.innerHTML = "";
-            
             const approvedOnes = data.records.filter(u => u.status === "Approved");
             if(approvedOnes.length > 0) {
                 approvedOnes.slice(0, 5).forEach((user, index) => {
@@ -149,9 +145,7 @@
                         <span>#${index+1} ${user.name}</span> <span style="color:#28a745; font-weight:bold;">Verified ✅</span>
                     </div>`;
                 });
-            } else {
-                list.innerHTML = "<p style='font-size:12px; color:#888;'>No verified participants yet.</p>";
-            }
+            } else { list.innerHTML = "<p style='font-size:12px;'>No verified users yet.</p>"; }
         });
     }
 
@@ -168,44 +162,30 @@
         alert("Referral link copied!");
     }
 
-    document.getElementById('regForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        document.getElementById('subBtn').innerText = "Submitting...";
-        fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this)})
-        .then(r => r.json())
-        .then(data => {
-            if(data.result === "Success") {
-                localStorage.setItem("gm_user_id", data.myID);
-                alert("✅ Submitted Successfully! Your ID: " + data.myID);
-                location.reload();
-            } else {
-                alert("Error: " + (data.error || "Submission failed"));
-            }
-        }).catch(() => { alert("Registration Sent!"); location.reload(); });
-    });
-
-    function checkUserStatus() {
-        const phone = document.getElementById('checkPhone').value;
-        const res = document.getElementById('statusResult');
-        res.innerText = "Checking...";
-        fetch(`${SCRIPT_URL}?action=checkStatus&phone=${phone}`)
-        .then(r => r.json()).then(data => {
-            if(data.status) {
-                if(data.myID) localStorage.setItem("gm_user_id", data.myID);
-                res.innerHTML = `Status: <span style="color:${data.status === 'Approved' ? 'green' : 'orange'}">${data.status.toUpperCase()}</span>`;
-                showReferralLink();
-            } else { res.innerText = "No record found!"; }
-        });
-    }
-
+    // Coin & Redeem Logic
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     function updateCoinDisplay() { document.getElementById("userCoins").innerText = coins; }
-    
+
+    function redeemCoins() {
+        if (coins < 200) {
+            alert("Not enough coins! You need at least 200 coins to redeem.");
+            return;
+        }
+        const phone = prompt("Enter your Easypaisa/JazzCash Number:");
+        if (phone) {
+            alert("Redeem Request Sent for " + phone + ". Your 200 coins are deducted.");
+            coins -= 200;
+            localStorage.setItem("gm_coins", coins);
+            updateCoinDisplay();
+            // Yahan chaho to admin ko WhatsApp bhejwa do
+            window.open(`https://wa.me/923023313131?text=Redeem Request: 200 Coins from ID ${localStorage.getItem("gm_user_id")} to number ${phone}`);
+        }
+    }
+
     function spinWheel() {
         const wheel = document.getElementById("wheel");
         wheel.style.transform = `rotate(1836deg)`; 
         document.getElementById("spinBtn").disabled = true;
-
         setTimeout(() => {
             coins += 2; 
             localStorage.setItem("gm_coins", coins);
@@ -223,12 +203,36 @@
             document.getElementById("timerDisplay").style.display = "block";
             setInterval(() => {
                 const remain = (parseInt(last) + cooldown) - new Date().getTime();
-                if(remain <= 0) { location.reload(); }
-                const h = Math.floor(remain/3600000); 
-                const m = Math.floor((remain%3600000)/60000);
+                if(remain <= 0) location.reload();
+                const h = Math.floor(remain/3600000), m = Math.floor((remain%3600000)/60000);
                 document.getElementById("timeRemaining").innerText = `${h}h ${m}m`;
             }, 1000);
         }
+    }
+
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('subBtn').innerText = "Processing...";
+        fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this)})
+        .then(r => r.json()).then(data => {
+            if(data.result === "Success") {
+                localStorage.setItem("gm_user_id", data.myID);
+                alert("✅ Registration Successful! ID: " + data.myID);
+                location.reload();
+            } else { alert("Error: " + data.error); }
+        });
+    });
+
+    function checkUserStatus() {
+        const phone = document.getElementById('checkPhone').value;
+        fetch(`${SCRIPT_URL}?action=checkStatus&phone=${phone}`)
+        .then(r => r.json()).then(data => {
+            if(data.status) {
+                if(data.myID) localStorage.setItem("gm_user_id", data.myID);
+                document.getElementById('statusResult').innerHTML = `Status: <span style="color:green">${data.status.toUpperCase()}</span>`;
+                showReferralLink();
+            } else { document.getElementById('statusResult').innerText = "No record found!"; }
+        });
     }
 </script>
 </body>
