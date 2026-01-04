@@ -213,18 +213,32 @@
     }
 
     function spinWheel() {
-        const wheel = document.getElementById("wheel");
-        wheel.style.transform = `rotate(1836deg)`; 
-        document.getElementById("spinBtn").disabled = true;
-        setTimeout(() => {
-            coins += 2; 
-            localStorage.setItem("gm_coins", coins);
-            localStorage.setItem("last_spin_time", new Date().getTime());
-            updateCoinDisplay();
-            alert("Congratulations! You won 2 coins.");
-            location.reload();
-        }, 4100);
-    }
+    const wheel = document.getElementById("wheel");
+    const btn = document.getElementById("spinBtn");
+    
+    // 2160 degrees matlab pura 6 chakkar (1800 + 360)
+    // Aapke wheel design ke mutabiq 2160 ya 1800 par ye hamesha 2 (Yellow) par rukega
+    const fixedRotation = 2160; 
+    
+    btn.disabled = true;
+    wheel.style.transform = `rotate(${fixedRotation}deg)`; 
+
+    setTimeout(() => {
+        // Amount fix kar di gayi hai
+        const wonCoins = 2; 
+
+        // Balance update karein
+        coins += wonCoins;
+        localStorage.setItem("gm_coins", coins);
+        localStorage.setItem("last_spin_time", new Date().getTime());
+        updateCoinDisplay();
+
+        alert("🎡 Congratulations! You won 2 coins.");
+        
+        location.reload();
+    }, 4100);
+}
+
 
     function checkSpin() {
         const last = localStorage.getItem("last_spin_time"), cooldown = 86400000;
