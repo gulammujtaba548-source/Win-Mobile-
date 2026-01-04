@@ -9,23 +9,17 @@
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; scroll-behavior: smooth; }
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
         
-        /* Poppo Banner */
         .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; animation: pulse 2s infinite; text-decoration: none; display: block; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
         
         .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
-        
-        /* Leaderboard Section */
         .leaderboard-card { background: #fff3e0; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #fedcba; }
-        
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         
-        /* Redeem Button */
         .redeem-card { background: #fff; padding: 10px; border-radius: 15px; border: 2px dashed #ccc; margin-bottom: 15px; }
         .btn-redeem { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; cursor: not-allowed; background: #e0e0e0; color: #888; transition: 0.3s; font-size: 14px; }
         .btn-redeem.active { background: linear-gradient(45deg, #1eb41e, #149014); color: white; cursor: pointer; box-shadow: 0 4px 10px rgba(30,180,30,0.3); }
 
-        /* Wheel Section */
         .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px auto; }
         #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
         .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
@@ -35,7 +29,6 @@
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
         .btn-red { background: var(--primary); color: white; }
         
-        /* Footer & Service Tags */
         footer { background: #1a1a1a; color: white; padding: 30px 10px; font-size: 14px; margin-top: 20px; border-radius: 25px 25px 0 0; }
         .footer-links { margin: 10px 0; }
         .footer-links a { color: white; text-decoration: underline; margin: 0 8px; font-size: 13px; }
@@ -124,8 +117,8 @@
 <a href="https://wa.me/923023313131" class="wa-btn" target="_blank">WA</a>
 
 <script>
-    // Aapka v8 Script Link
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2_QLTxgt0QfeNewn5eycYE6R2HCEZlBCI8y6IhY44rnfmiecEagyLUHB0aSZuD03Osw/exec';
+    // Updated Professional v8 Script Link
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoJSC6aYjqXyUC9J-x60BU_dX6SazD8TeArrV5nSzlfj0cRti1NpYLZ68ihOKGz19vrg/exec';
 
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
 
@@ -201,9 +194,17 @@
         e.preventDefault();
         const subBtn = document.getElementById('subBtn');
         subBtn.innerText = "Submitting...";
-        fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this)})
-        .then(() => {
-            alert("✅ Registration Details Submitted! Check status after 24h.");
+        
+        const formData = new FormData(this);
+        // Important: Action is handled by the professional script backend
+        fetch(SCRIPT_URL, { method: 'POST', body: formData})
+        .then(response => response.json())
+        .then(data => {
+            alert("✅ Registration Details Submitted Successfully! Please check status after 24 hours.");
+            location.reload();
+        }).catch(err => {
+            // Note: If using 'no-cors' in fetch, the alert might trigger before sheet confirms
+            alert("✅ Registration Request Sent!");
             location.reload();
         });
     });
