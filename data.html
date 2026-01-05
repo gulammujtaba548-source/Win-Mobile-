@@ -7,40 +7,28 @@
     <style>
         :root { --primary: #ff5252; --success: #2ecc71; --danger: #e74c3c; --dark: #2c3e50; --bg: #f4f7f6; --info: #2196f3; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; display: none; text-align: center; }
-        
         .header-btn { background: var(--primary); color: white; padding: 15px; border-radius: 12px; margin: 20px auto; width: 90%; max-width: 400px; font-weight: bold; font-size: 18px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: block; }
         .spin-btn { background: var(--success); color: white; padding: 15px; border-radius: 12px; width: 90%; max-width: 400px; font-weight: bold; border: none; margin-bottom: 10px; cursor: pointer; }
-        
-        /* New Reset Button Style */
         .reset-btn { background: var(--info); color: white; padding: 12px; border-radius: 10px; width: 90%; max-width: 400px; font-weight: bold; border: none; margin-bottom: 10px; cursor: pointer; }
-        
         .clear-btn { background: #333; color: white; padding: 12px; border-radius: 10px; width: 90%; max-width: 400px; font-weight: bold; border: 1px solid red; margin-bottom: 15px; cursor: pointer; }
-        
         .refresh-btn { background: #f39c12; color: white; padding: 8px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
-
         .stats { font-size: 20px; font-weight: bold; margin-bottom: 20px; }
         .stats span { color: var(--primary); }
-
         .container { max-width: 600px; margin: 0 auto; padding: 10px; }
-        
         .list-header { background: #333; color: white; display: flex; padding: 10px; font-size: 12px; font-weight: bold; border-radius: 5px 5px 0 0; }
         .list-item { background: white; border-bottom: 1px solid #eee; display: flex; align-items: center; padding: 15px 10px; text-align: left; font-size: 13px; }
-        
         .col-info { flex: 2.5; }
         .col-tid { flex: 3; color: #555; }
         .col-ctrl { flex: 1.5; text-align: right; }
-
         .name-box { font-weight: 800; font-size: 15px; margin-bottom: 2px; }
         .id-badge { background: #eee; padding: 2px 5px; border-radius: 4px; font-size: 10px; color: #333; border: 1px solid #ddd; }
         .status-tag { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-top: 5px; }
         .REJECTED { background: #ffebee; color: #c0392b; }
         .APPROVED { background: #e8f5e9; color: #27ae60; }
         .PENDING { background: #fff3e0; color: #e67e22; }
-
         .btn-ctrl { padding: 8px 10px; border-radius: 6px; border: none; color: white; font-weight: bold; font-size: 11px; cursor: pointer; margin: 2px; width: 80px; display: block; }
         .btn-approve { background: var(--success); }
         .btn-reject { background: var(--danger); }
-
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; font-weight: bold; color: var(--primary); }
     </style>
 </head>
@@ -53,13 +41,9 @@
 
 <div class="container">
     <button class="header-btn">GM Agency Master Admin Panel</button>
-    
     <button class="spin-btn" onclick="pickRandomWinner()">🎡 PICK & BROADCAST WINNER</button><br>
-    
     <button class="reset-btn" onclick="resetWinner()">🔄 RESET / CLEAN WINNER</button><br>
-    
     <button class="clear-btn" onclick="clearDatabase()">🗑️ CLEAR ALL DATABASE</button><br>
-    
     <button class="refresh-btn" onclick="loadData()">Refresh Data</button>
 
     <div class="stats">Approved Participants: <span id="totalCount">0</span></div>
@@ -69,7 +53,6 @@
         <div style="flex:3">TID / Ref Tracking</div>
         <div style="flex:1.5; text-align:right">Control</div>
     </div>
-    
     <div id="participantList">
         <p style="padding:20px; color:#888;">Connecting to GM Server...</p>
     </div>
@@ -77,7 +60,7 @@
 
 <script>
     const PASSCODE = "0770";
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzNBl_h1gPnCCviC6GJZCs8CDXIYkF3G9L3GpWN2Q6AU0EzP971uldOj7_736blDDn_Q/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz2XISdCy4g_t72UcJqnXRMThr2umnU1gMD09hkGKQCahx7_Ug4H-EX9Q8jQSpHF1ZKxw/exec';
 
     let approvedUsers = [];
 
@@ -96,18 +79,15 @@
         const list = document.getElementById('participantList');
         const total = document.getElementById('totalCount');
         list.innerHTML = "<p>Refreshing...</p>";
-        
         fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS&pin=${PASSCODE}`)
         .then(r => r.json())
         .then(data => {
             list.innerHTML = "";
             approvedUsers = []; 
-            
             if(data && data.records && data.records.length > 0) {
                 [...data.records].reverse().forEach(user => {
                     const status = user.status || "PENDING";
                     if(status === "Approved") approvedUsers.push(user);
-                    
                     list.innerHTML += `
                         <div class="list-item">
                             <div class="col-info">
@@ -140,13 +120,11 @@
     function updateStatus(phone, newStatus) {
         if(!confirm(`Mark this participant as ${newStatus}?`)) return;
         document.getElementById('loading-overlay').style.display = 'flex';
-        
         const params = new URLSearchParams();
         params.append('action', 'updateUserStatus');
         params.append('phone', phone);
         params.append('status', newStatus);
         params.append('pin', PASSCODE);
-
         fetch(SCRIPT_URL, { method: 'POST', body: params })
         .then(r => r.json())
         .then(res => {
@@ -161,12 +139,10 @@
     function clearDatabase() {
         if(!confirm("⚠️ DANGER: Delete ALL users?")) return;
         if(prompt("Type 'DELETE' to confirm:") !== "DELETE") return;
-        
         document.getElementById('loading-overlay').style.display = 'flex';
         const params = new URLSearchParams();
         params.append('action', 'clearAllData');
         params.append('pin', PASSCODE);
-
         fetch(SCRIPT_URL, { method: 'POST', body: params })
         .then(() => {
             document.getElementById('loading-overlay').style.display = 'none';
@@ -175,44 +151,42 @@
         });
     }
 
+    // UPDATED WINNER PICKER (No more undefined)
     function pickRandomWinner() {
         if(approvedUsers.length === 0) {
-            alert("No approved participants!");
+            alert("Pehle kisi ko Approve karein!");
             return;
         }
-        
         const winner = approvedUsers[Math.floor(Math.random() * approvedUsers.length)];
-        if(!confirm(`🎉 Winner Found: ${winner.name}\nDo you want to BROADCAST this winner to the website?`)) return;
-
+        const wName = winner.name || "Unknown";
+        const wID = winner.myID || "N/A";
+        if(!confirm(`🎉 Winner: ${wName}\nKya aap ise website par dikhana chahte hain?`)) return;
         document.getElementById('loading-overlay').style.display = 'flex';
         const params = new URLSearchParams();
         params.append('action', 'setWinner');
-        params.append('winnerName', winner.name);
-        params.append('winnerID', winner.myID);
+        params.append('winnerName', wName);
+        params.append('winnerID', wID);
         params.append('pin', PASSCODE);
-
         fetch(SCRIPT_URL, { method: 'POST', body: params })
         .then(r => r.json())
         .then(res => {
             document.getElementById('loading-overlay').style.display = 'none';
-            alert("🎊 SUCCESS!\n" + winner.name + " is now displayed on the website as the latest winner.");
-        }).catch(() => {
+            alert("🎊 Winner Published!");
+            loadData();
+        }).catch(err => {
             document.getElementById('loading-overlay').style.display = 'none';
-            alert("Winner selected but server update failed.");
+            alert("Error: Connection Failed!");
         });
     }
 
-    // NEW RESET WINNER FUNCTION
     function resetWinner() {
         if(!confirm("Are you sure you want to CLEAN the winner from website?")) return;
-        
         document.getElementById('loading-overlay').style.display = 'flex';
         const params = new URLSearchParams();
         params.append('action', 'setWinner');
         params.append('winnerName', ''); 
         params.append('winnerID', '');
         params.append('pin', PASSCODE);
-
         fetch(SCRIPT_URL, { method: 'POST', body: params })
         .then(r => r.json())
         .then(res => {
@@ -224,6 +198,5 @@
         });
     }
 </script>
-
 </body>
 </html>
