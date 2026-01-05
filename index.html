@@ -8,39 +8,29 @@
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; --poppo: #ff007f; --easypaisa: #1eb41e; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; scroll-behavior: smooth; }
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
-        
         .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; animation: pulse 2s infinite; text-decoration: none; display: block; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        
-        /* Winner Box Styling */
         #winnerBox { background: linear-gradient(45deg, #ffd700, #ff8c00); padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 2px solid white; color: #000; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        
         .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
         .leaderboard-card { background: #fff3e0; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #fedcba; }
         .coin-box { background: linear-gradient(135deg, var(--gold), #ffa000); color: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        
         .redeem-card { background: #f0f4f8; border: 2px dashed #333; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
         .refer-card { background: #e3f2fd; border: 2px solid #2196f3; padding: 15px; border-radius: 15px; margin-bottom: 15px; display: none; }
         .ref-link-box { background: white; padding: 10px; border-radius: 8px; font-size: 12px; word-break: break-all; margin: 10px 0; border: 1px solid #bbdefb; }
-        
         .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
         .btn-red { background: var(--primary); color: white; }
         .btn-blue { background: #2196f3; color: white; margin-top: 5px; }
         .btn-green { background: #1eb41e; color: white; }
-        
         .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px auto; }
         #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
         .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
-
         footer { background: #1a1a1a; color: white; padding: 30px 10px; font-size: 14px; margin-top: 20px; border-radius: 25px 25px 0 0; }
         .footer-links { margin: 15px 0; }
         .footer-links a { color: #ccc; text-decoration: none; margin: 0 10px; font-size: 13px; }
-        .footer-links a:hover { color: var(--gold); }
         .service-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 15px; }
         .tag { background: var(--gold); color: #000; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; cursor: pointer; text-decoration: none; }
-
         .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; text-align:center; display:flex; align-items:center; justify-content:center; text-decoration:none; z-index:9999; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-weight:bold; }
     </style>
 </head>
@@ -123,13 +113,11 @@
 <footer>
     <p>© 2026 GM Agency Official</p>
     <p style="font-size: 12px;">📧 <a href="mailto:Poppoliveofficial123@gmail.com" style="color:white; text-decoration:none;">Poppoliveofficial123@gmail.com</a></p>
-    
     <div class="footer-links">
         <a href="about.html">About Us</a> | 
         <a href="privacy.html">Privacy Policy</a> | 
         <a href="terms.html">Terms & Conditions</a>
     </div>
-
     <div class="service-tags">
         <a href="services.html" class="tag">Poppo Coins</a>
         <span onclick="document.getElementById('spin-section').scrollIntoView()" class="tag">Daily Rewards</span>
@@ -148,26 +136,36 @@
         const params = new URLSearchParams(window.location.search);
         const ref = params.get('ref');
         if(ref) document.getElementById('referrer_id').value = ref;
-        loadLeaderboard();
+        loadData(); // Updated combined function
         showReferralLink();
         updateCoinDisplay();
         checkSpin();
     };
 
-    function loadLeaderboard() {
-        fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS&source=leaderboard`)
-        .then(r => r.json()).then(data => {
-            if(data.latestWinner) {
-                document.getElementById('winnerBox').style.display = "block";
-                document.getElementById('winnerName').innerText = data.latestWinner.name;
-                document.getElementById('winnerID').innerText = "ID: " + data.latestWinner.id;
+    // COMBINED LOAD DATA FUNCTION (Fixes Winner & Leaderboard)
+    function loadData() {
+        fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS`)
+        .then(response => response.json())
+        .then(data => {
+            // 1. LATEST WINNER BOX FIX
+            const winnerBox = document.getElementById('winnerBox');
+            if (data.latestWinner && data.latestWinner !== "" && data.latestWinner !== "undefined") {
+                document.getElementById('winnerName').innerText = data.latestWinner;
+                document.getElementById('winnerID').innerText = "ID: " + (data.winnerID || "N/A");
+                winnerBox.style.display = 'block';
+            } else {
+                winnerBox.style.display = 'none';
             }
 
+            // 2. APPROVED PARTICIPANTS LIST
             const list = document.getElementById('topEarnersList');
-            if(data && data.records) {
+            list.innerHTML = "";
+            let count = 0;
+
+            if (data.records && data.records.length > 0) {
                 const approvedOnes = data.records.filter(u => u.status === "Approved");
                 document.getElementById('totalDisplay').innerText = approvedOnes.length;
-                list.innerHTML = "";
+                
                 if(approvedOnes.length > 0) {
                     approvedOnes.slice(0, 5).forEach((user, index) => {
                         list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #fedcba;">
@@ -176,20 +174,20 @@
                     });
                 } else { list.innerHTML = "<p style='font-size:12px;'>No verified users yet.</p>"; }
             }
-        }).catch(err => {
+        })
+        .catch(err => {
+            console.error("Data load error");
             document.getElementById('topEarnersList').innerHTML = "Server Error!";
         });
     }
 
     function showReferralLink() {
-    const myID = localStorage.getItem("gm_user_id");
-    if(myID && myID !== "N/A") {
-        document.getElementById('referralCard').style.display = "block";
-        // Manual link set kar diya hai taake 'index.site' na aaye
-        document.getElementById('refLinkText').innerText = "https://gmagency.site/index.html?ref=" + myID;
+        const myID = localStorage.getItem("gm_user_id");
+        if(myID && myID !== "N/A") {
+            document.getElementById('referralCard').style.display = "block";
+            document.getElementById('refLinkText').innerText = "https://gmagency.site/index.html?ref=" + myID;
+        }
     }
-}
-
 
     function copyRefLink() {
         navigator.clipboard.writeText(document.getElementById('refLinkText').innerText);
@@ -200,47 +198,31 @@
     function updateCoinDisplay() { document.getElementById("userCoins").innerText = coins; }
 
     function redeemCoins() {
-        if (coins < 200) {
-            alert("Not enough coins! You need at least 200 coins to redeem.");
-            return;
-        }
-        const phone = prompt("Enter your Easypaisa/JazzCash Number:");
+        if (coins < 200) { alert("Not enough coins!"); return; }
+        const phone = prompt("Enter Easypaisa/JazzCash Number:");
         if (phone) {
             coins -= 200;
             localStorage.setItem("gm_coins", coins);
             updateCoinDisplay();
             window.open(`https://wa.me/923023313131?text=Redeem Request: 200 Coins from ID ${localStorage.getItem("gm_user_id")} to number ${phone}`);
-            alert("Redeem Request Sent! Your 200 coins are deducted.");
         }
     }
 
     function spinWheel() {
-    const wheel = document.getElementById("wheel");
-    const btn = document.getElementById("spinBtn");
-    
-    // 2160 degrees matlab pura 6 chakkar (1800 + 360)
-    // Aapke wheel design ke mutabiq 2160 ya 1800 par ye hamesha 2 (Yellow) par rukega
-    const fixedRotation = 2160; 
-    
-    btn.disabled = true;
-    wheel.style.transform = `rotate(${fixedRotation}deg)`; 
-
-    setTimeout(() => {
-        // Amount fix kar di gayi hai
-        const wonCoins = 2; 
-
-        // Balance update karein
-        coins += wonCoins;
-        localStorage.setItem("gm_coins", coins);
-        localStorage.setItem("last_spin_time", new Date().getTime());
-        updateCoinDisplay();
-
-        alert("🎡 Congratulations! You won 2 coins.");
-        
-        location.reload();
-    }, 4100);
-}
-
+        const wheel = document.getElementById("wheel");
+        const btn = document.getElementById("spinBtn");
+        const fixedRotation = 2160; 
+        btn.disabled = true;
+        wheel.style.transform = `rotate(${fixedRotation}deg)`; 
+        setTimeout(() => {
+            coins += 2;
+            localStorage.setItem("gm_coins", coins);
+            localStorage.setItem("last_spin_time", new Date().getTime());
+            updateCoinDisplay();
+            alert("🎡 You won 2 coins.");
+            location.reload();
+        }, 4100);
+    }
 
     function checkSpin() {
         const last = localStorage.getItem("last_spin_time"), cooldown = 86400000;
@@ -265,7 +247,7 @@
                 localStorage.setItem("gm_user_id", data.myID);
                 alert("✅ Registration Successful! ID: " + data.myID);
                 location.reload();
-            } else { alert("Error: " + data.error); }
+            } else { alert("Error"); }
         });
     });
 
