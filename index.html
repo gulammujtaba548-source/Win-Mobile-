@@ -257,15 +257,37 @@
     });
 
     function checkUserStatus() {
-        const phone = document.getElementById('checkPhone').value;
-        fetch(`${SCRIPT_URL}?action=checkStatus&phone=${phone}`)
-        .then(r => r.json()).then(data => {
-            if(data.status) {
-                document.getElementById('statusResult').innerHTML = `Status: <span style="color:green">${data.status.toUpperCase()}</span>`;
-                showReferralLink();
-            }
-        });
+    const phone = document.getElementById('checkPhone').value;
+    if(!phone) { 
+        alert("Please enter your WhatsApp number!"); 
+        return; 
     }
+    
+    document.getElementById('statusResult').innerText = "Checking...";
+    
+    fetch(`${SCRIPT_URL}?action=checkStatus&phone=${phone}`)
+    .then(r => r.json())
+    .then(data => {
+        if(data.status) {
+            // ID save karna taake referral link ban sakay
+            if(data.myID) localStorage.setItem("gm_user_id", data.myID);
+            
+            // Status ka rang badalna (Green for Approved)
+            let color = (data.status === "Approved") ? "#1eb41e" : "#ff5252";
+            document.getElementById('statusResult').innerHTML = `Status: <span style="color:${color}; text-transform:uppercase;">${data.status}</span>`;
+            
+            // Agar approved hai to Invite link dikhao
+            showReferralLink();
+        } else {
+            document.getElementById('statusResult').innerHTML = `<span style="color:red">No record found!</span>`;
+        }
+    })
+    .catch(err => {
+        document.getElementById('statusResult').innerText = "Connection Error!";
+        console.error(err);
+    });
+}
+
 </script>
 </body>
 </html>
