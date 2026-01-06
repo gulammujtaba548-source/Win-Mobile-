@@ -249,16 +249,18 @@
     }
 
     document.getElementById('regForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this)})
-        .then(r => r.json()).then(data => {
-            if(data.result === "Success") {
-                localStorage.setItem("gm_user_id", data.myID);
-                alert("Registration Successful!");
-                location.reload();
-            }
-        });
+    e.preventDefault();
+    fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this)})
+    .then(r => r.json()).then(data => {
+        if(data.result === "Success") {
+            localStorage.setItem("gm_user_id", data.myID);
+            
+            // YAHAN TABDEELI HAI: Alert ki jagah direct success page par bhejen
+            window.location.href = "success.html"; 
+        }
     });
+});
+
 
     function checkUserStatus() {
         let inputPhone = document.getElementById('checkPhone').value.trim();
