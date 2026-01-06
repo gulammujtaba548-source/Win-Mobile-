@@ -167,15 +167,19 @@
     };
 
     function loadData() {
-        fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS`)
+        // Winner aur Records fetch karne ke liye
+        fetch(`${SCRIPT_URL}?action=getRecords`)
         .then(response => response.json())
         .then(data => {
             const winnerBox = document.getElementById('winnerBox');
-            if (data.latestWinner && data.latestWinner !== "" && data.latestWinner !== "undefined") {
+            // Agar Sheet mein winner (H2) mojood hai
+            if (data.latestWinner && data.latestWinner !== "" && data.latestWinner !== "No Winner Yet") {
                 document.getElementById('winnerName').innerText = data.latestWinner;
-                document.getElementById('winnerID').innerText = "ID: " + (data.winnerID || "N/A");
+                document.getElementById('winnerID').innerText = "Congratulations! 🏆";
                 winnerBox.style.display = 'block';
-            } else { winnerBox.style.display = 'none'; }
+            } else { 
+                winnerBox.style.display = 'none'; 
+            }
 
             const list = document.getElementById('topEarnersList');
             list.innerHTML = "";
@@ -257,68 +261,28 @@
     });
 
     function checkUserStatus() {
-    let inputPhone = document.getElementById('checkPhone').value.trim();
-    let statusBox = document.getElementById('statusResult');
-    
-    if(!inputPhone) { 
-        alert("Please enter number!"); 
-        return; 
-    }
-
-    statusBox.innerText = "Searching in Sheet...";
-    statusBox.style.color = "blue";
-
-    // Normalizing number: Shuru ka 0 hata kar check karna
-    let cleanPhone = inputPhone.startsWith("0") ? inputPhone.substring(1) : inputPhone;
-    
-    // API Call
-    fetch(`${SCRIPT_URL}?action=checkStatus&phone=${cleanPhone}`)
-    .then(r => r.json())
-    .then(data => {
-        if(data.status && data.status !== "No record found") {
-            let s = data.status.toLowerCase();
-            let color = (s === "approved" || s === "verified") ? "#1eb41e" : "#ff5252";
-            statusBox.innerHTML = `Status: <span style="color:${color}; font-weight:bold;">${data.status.toUpperCase()}</span>`;
-            
-            if(data.myID) localStorage.setItem("gm_user_id", data.myID);
-            showReferralLink();
-        } else {
-            // Agar clean number se na mile, to full number (0 ke sath) try karein
-            checkAgainWithFull(inputPhone);
-        }
-    })
-    .catch(e => { statusBox.innerText = "Network Error!"; });
-}
-
-function checkAgainWithFull(fullNumber) {
-    fetch(`${SCRIPT_URL}?action=checkStatus&phone=${fullNumber}`)
-    .then(r => r.json())
-    .then(data => {
+        let inputPhone = document.getElementById('checkPhone').value.trim();
         let statusBox = document.getElementById('statusResult');
-        if(data.status && data.status !== "No record found") {
-            statusBox.innerHTML = `Status: <span style="color:#1eb41e;">${data.status.toUpperCase()}</span>`;
-            showReferralLink();
-        } else {
-            statusBox.innerHTML = `<span style="color:red">Not Found! Ensure Column B has: ${fullNumber}</span>`;
-        }
-    });
-}
-
-
-function checkOriginalNumber(original) {
-    fetch(`${SCRIPT_URL}?action=checkStatus&phone=${original}`)
-    .then(r => r.json())
-    .then(data => {
-        if(data.status && data.status !== "No record found") {
-            document.getElementById('statusResult').innerHTML = `Status: <span style="color:#1eb41e; font-weight:bold;">${data.status.toUpperCase()}</span>`;
-            showReferralLink();
-        } else {
-            document.getElementById('statusResult').innerHTML = `<span style="color:red">No record found in Sheet!</span>`;
-        }
-    });
-}
-
-
+        
+        if(!inputPhone) { alert("Please enter number!"); return; }
+        statusBox.innerText = "Searching...";
+        
+        let cleanPhone = inputPhone.startsWith("0") ? inputPhone.substring(1) : inputPhone;
+        
+        fetch(`${SCRIPT_URL}?action=checkStatus&phone=${cleanPhone}`)
+        .then(r => r.json())
+        .then(data => {
+            if(data.status && data.status !== "No record found") {
+                let s = data.status.toLowerCase();
+                let color = (s === "approved" || s === "verified") ? "#1eb41e" : "#ff5252";
+                statusBox.innerHTML = `Status: <span style="color:${color}; font-weight:bold;">${data.status.toUpperCase()}</span>`;
+                if(data.myID) localStorage.setItem("gm_user_id", data.myID);
+                showReferralLink();
+            } else {
+                statusBox.innerHTML = `<span style="color:red">No record found!</span>`;
+            }
+        });
+    }
 </script>
 </body>
 </html>
