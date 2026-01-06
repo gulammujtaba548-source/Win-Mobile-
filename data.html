@@ -49,7 +49,7 @@
 
     <div class="list-header">
         <div style="flex:2.5">Participant & Status</div>
-        <div style="flex:3">Phone / TID</div>
+        <div style="flex:3">Phone / TID / Ref</div>
         <div style="flex:1.5; text-align:right">Control</div>
     </div>
     <div id="participantList">
@@ -95,7 +95,8 @@
                         </div>
                         <div class="col-tid">
                             <b>Ph:</b> ${user.phone}<br>
-                            <b>TID:</b> ${user.tid}
+                            <b>TID:</b> ${user.tid}<br>
+                            <b>Ref:</b> ${user.referrer || 'Direct'}
                         </div>
                         <div class="col-ctrl">
                             <button onclick="updateStatus(${user.id}, 'Approved')" class="btn-ctrl btn-approve">Approve</button>
@@ -110,14 +111,15 @@
             }
         })
         .catch(err => {
-            list.innerHTML = "<p style='color:red; padding:20px;'>Connection Error!</p>";
+            list.innerHTML = "<p style='color:red; padding:20px;'>Connection Error! Check URL.</p>";
         });
     }
 
     function updateStatus(id, newStatus) {
-        if(!confirm(`Mark this participant as ${newStatus}?`)) return;
+        if(!confirm(`Mark as ${newStatus}?`)) return;
         document.getElementById('loading-overlay').style.display = 'flex';
         
+        // POST request for updating status
         fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
@@ -130,7 +132,7 @@
             setTimeout(() => {
                 document.getElementById('loading-overlay').style.display = 'none';
                 loadData();
-            }, 1000);
+            }, 1200); // 1.2 sec wait for sheet to update
         });
     }
 
@@ -141,12 +143,10 @@
         .then(res => {
             document.getElementById('loading-overlay').style.display = 'none';
             if(res.result === "Success") {
-                if(confirm(`🎉 Potential Winner: ${res.winner}\n\nKya aap ise website par publish karna chahte hain?`)) {
+                if(confirm(`🎉 Winner Found: ${res.winner}\n\nKya aap ise website par publish karna chahte hain?`)) {
                     publishWinner(res.winner);
                 }
-            } else {
-                alert(res.result);
-            }
+            } else { alert(res.result); }
         });
     }
 
@@ -156,17 +156,16 @@
         .then(r => r.json())
         .then(res => {
             document.getElementById('loading-overlay').style.display = 'none';
-            alert("🎊 Published Successfully!");
+            alert("🎊 Published on Website!");
         });
     }
 
     function resetWinner() {
-        if(!confirm("Clean winner box?")) return;
-        publishWinner("No Winner Yet");
+        if(confirm("Clean winner box?")) publishWinner("No Winner Yet");
     }
 
     function clearDatabase() {
-        if(!confirm("⚠️ DANGER: Delete ALL users?")) return;
+        if(!confirm("⚠️ DELETE ALL USERS?")) return;
         if(prompt("Type 'DELETE' to confirm:") !== "DELETE") return;
         
         document.getElementById('loading-overlay').style.display = 'flex';
