@@ -76,48 +76,52 @@
     })();
 
     function loadData() {
-    const list = document.getElementById('participantsList');
-    list.innerHTML = "<tr><td colspan='3'>Loading data from Google Sheets...</td></tr>";
+    const list = document.getElementById('participantsList'); // Check karein aapki ID yahi hai
+    const statusText = document.querySelector('.status-text'); // Connecting status ke liye
+    
+    if(statusText) statusText.innerText = "Fetching data...";
 
-    // Action "checkStatus" ya "getRecords" jo bhi aapne script mein rakha hai use karein
-    fetch(`${SCRIPT_URL}?action=getRecords`) 
+    fetch(`${SCRIPT_URL}?action=getRecords`)
     .then(response => response.json())
     .then(data => {
-        // Yahan check karein ke data.records mojood hai
+        // Aapki script "records" ke naam se data bhej rahi hai
         if (data.records && data.records.length > 0) {
-            list.innerHTML = ""; // Purana text khatam karein
-            
-            // Participants ki counting update karein
-            const approvedCount = data.records.filter(u => u.status === "Approved").length;
-            document.getElementById('totalParticipants').innerText = approvedCount;
+            let html = "";
+            let approvedCount = 0;
 
             data.records.forEach((user) => {
-                let statusColor = user.status === "Approved" ? "text-success" : (user.status === "Rejected" ? "text-danger" : "text-warning");
+                if(user.status === "Approved") approvedCount++;
                 
-                list.innerHTML += `
-                <div class="participant-card" style="border-bottom: 1px solid #eee; padding: 10px; margin-bottom: 5px;">
-                    <div style="display:flex; justify-content:space-between;">
+                let statusClass = user.status === "Approved" ? "status-approved" : (user.status === "Rejected" ? "status-rejected" : "status-pending");
+                
+                // Ye HTML structure aapke design ke mutabiq hai
+                html += `
+                <div class="participant-card">
+                    <div class="card-row">
                         <strong>${user.name}</strong>
-                        <span class="${statusColor}">${user.status}</span>
+                        <span class="badge ${statusClass}">${user.status}</span>
                     </div>
-                    <div style="font-size: 12px; color: #666;">
+                    <div class="card-details">
                         Ph: ${user.phone} | TID: ${user.tid}<br>
-                        Ref By: ${user.referrer || 'Direct'}
+                        ID: ${user.id}
                     </div>
-                    <div style="margin-top: 5px;">
-                        <button onclick="updateStatus('${user.phone}', 'Approved')" class="btn-approve">Approve</button>
-                        <button onclick="updateStatus('${user.phone}', 'Rejected')" class="btn-reject">Reject</button>
+                    <div class="card-actions">
+                        <button onclick="updateStatus(${user.id}, 'Approved')" class="btn-approve">Approve</button>
+                        <button onclick="updateStatus(${user.id}, 'Rejected')" class="btn-reject">Reject</button>
                     </div>
                 </div>`;
             });
+
+            list.innerHTML = html;
+            document.getElementById('totalParticipants').innerText = approvedCount;
         } else {
-            list.innerHTML = "<div style='padding:20px;'>No records found in Google Sheet.</div>";
+            list.innerHTML = "<p style='text-align:center; padding:20px;'>No records found.</p>";
             document.getElementById('totalParticipants').innerText = "0";
         }
     })
     .catch(err => {
-        list.innerHTML = "<div style='color:red;'>Error fetching data! Check SCRIPT_URL.</div>";
-        console.error(err);
+        console.error("Fetch Error:", err);
+        list.innerHTML = "<p style='color:red; text-align:center;'>Connection Error! Check SCRIPT_URL.</p>";
     });
 }
 
