@@ -76,46 +76,51 @@
     })();
 
     function loadData() {
-        const list = document.getElementById('participantList');
-        const total = document.getElementById('totalCount');
-        list.innerHTML = "<p>Refreshing...</p>";
-        fetch(`${SCRIPT_URL}?action=checkStatus&phone=GET_ALL_RECORDS&pin=${PASSCODE}`)
-        .then(r => r.json())
-        .then(data => {
-            list.innerHTML = "";
-            approvedUsers = []; 
-            if(data && data.records && data.records.length > 0) {
-                [...data.records].reverse().forEach(user => {
-                    const status = user.status || "PENDING";
-                    if(status === "Approved") approvedUsers.push(user);
-                    list.innerHTML += `
-                        <div class="list-item">
-                            <div class="col-info">
-                                <div class="name-box">${user.name}</div>
-                                <span class="id-badge">ID: ${user.myID || 'N/A'}</span><br>
-                                <span class="status-tag ${status.toUpperCase()}">${status}</span>
-                            </div>
-                            <div class="col-tid">
-                                <b>Ph:</b> ${user.phone}<br>
-                                <b>TID:</b> ${user.tid}<br>
-                                <small style="color:blue"><b>Ref By:</b> ${user.refBy || 'Direct'}</small>
-                            </div>
-                            <div class="col-ctrl">
-                                <button class="btn-ctrl btn-approve" onclick="updateStatus('${user.phone}', 'Approved')">Approve</button>
-                                <button class="btn-ctrl btn-reject" onclick="updateStatus('${user.phone}', 'Rejected')">Reject</button>
-                            </div>
-                        </div>
-                    `;
-                });
-                total.innerText = approvedUsers.length;
-            } else {
-                list.innerHTML = "<p style='padding:20px;'>No records found.</p>";
-                total.innerText = "0";
-            }
-        }).catch(err => {
-            list.innerHTML = "<p style='color:red; padding:20px;'>Server Connection Error!</p>";
-        });
-    }
+    const list = document.getElementById('participantsList');
+    list.innerHTML = "<tr><td colspan='3'>Loading data from Google Sheets...</td></tr>";
+
+    // Action "checkStatus" ya "getRecords" jo bhi aapne script mein rakha hai use karein
+    fetch(`${SCRIPT_URL}?action=getRecords`) 
+    .then(response => response.json())
+    .then(data => {
+        // Yahan check karein ke data.records mojood hai
+        if (data.records && data.records.length > 0) {
+            list.innerHTML = ""; // Purana text khatam karein
+            
+            // Participants ki counting update karein
+            const approvedCount = data.records.filter(u => u.status === "Approved").length;
+            document.getElementById('totalParticipants').innerText = approvedCount;
+
+            data.records.forEach((user) => {
+                let statusColor = user.status === "Approved" ? "text-success" : (user.status === "Rejected" ? "text-danger" : "text-warning");
+                
+                list.innerHTML += `
+                <div class="participant-card" style="border-bottom: 1px solid #eee; padding: 10px; margin-bottom: 5px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <strong>${user.name}</strong>
+                        <span class="${statusColor}">${user.status}</span>
+                    </div>
+                    <div style="font-size: 12px; color: #666;">
+                        Ph: ${user.phone} | TID: ${user.tid}<br>
+                        Ref By: ${user.referrer || 'Direct'}
+                    </div>
+                    <div style="margin-top: 5px;">
+                        <button onclick="updateStatus('${user.phone}', 'Approved')" class="btn-approve">Approve</button>
+                        <button onclick="updateStatus('${user.phone}', 'Rejected')" class="btn-reject">Reject</button>
+                    </div>
+                </div>`;
+            });
+        } else {
+            list.innerHTML = "<div style='padding:20px;'>No records found in Google Sheet.</div>";
+            document.getElementById('totalParticipants').innerText = "0";
+        }
+    })
+    .catch(err => {
+        list.innerHTML = "<div style='color:red;'>Error fetching data! Check SCRIPT_URL.</div>";
+        console.error(err);
+    });
+}
+
 
     function updateStatus(phone, newStatus) {
         if(!confirm(`Mark this participant as ${newStatus}?`)) return;
