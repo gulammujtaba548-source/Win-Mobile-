@@ -18,10 +18,9 @@
         .list-header { background: #333; color: white; display: flex; padding: 10px; font-size: 12px; font-weight: bold; border-radius: 5px 5px 0 0; }
         .list-item { background: white; border-bottom: 1px solid #eee; display: flex; align-items: center; padding: 15px 10px; text-align: left; font-size: 13px; }
         .col-info { flex: 2.5; }
-        .col-tid { flex: 3; color: #555; }
+        .col-tid { flex: 3; color: #555; font-size: 11px; }
         .col-ctrl { flex: 1.5; text-align: right; }
         .name-box { font-weight: 800; font-size: 15px; margin-bottom: 2px; }
-        .id-badge { background: #eee; padding: 2px 5px; border-radius: 4px; font-size: 10px; color: #333; border: 1px solid #ddd; }
         .status-tag { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-top: 5px; }
         .REJECTED { background: #ffebee; color: #c0392b; }
         .APPROVED { background: #e8f5e9; color: #27ae60; }
@@ -41,7 +40,7 @@
 
 <div class="container">
     <button class="header-btn">GM Agency Master Admin Panel</button>
-    <button class="spin-btn" onclick="pickRandomWinner()">🎡 PICK & BROADCAST WINNER</button><br>
+    <button class="spin-btn" onclick="pickRandomWinner()">🎡 PICK & CONFIRM WINNER</button><br>
     <button class="reset-btn" onclick="resetWinner()">🔄 RESET / CLEAN WINNER</button><br>
     <button class="clear-btn" onclick="clearDatabase()">🗑️ CLEAR ALL DATABASE</button><br>
     <button class="refresh-btn" onclick="loadData()">Refresh Data</button>
@@ -49,8 +48,8 @@
     <div class="stats">Approved Participants: <span id="totalCount">0</span></div>
 
     <div class="list-header">
-        <div style="flex:2.5">Participant & IDs</div>
-        <div style="flex:3">TID / Ref Tracking</div>
+        <div style="flex:2.5">Participant & Status</div>
+        <div style="flex:3">Phone / TID</div>
         <div style="flex:1.5; text-align:right">Control</div>
     </div>
     <div id="participantList">
@@ -61,8 +60,6 @@
 <script>
     const PASSCODE = "0770";
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaPhp2qLrGzvHhOdNvu8QdhTFDF4-k0xSQ530Tdn8mTDsYqfvaE7X1hZUTeuIxXbjo9g/exec';
-
-    let approvedUsers = [];
 
     (function checkSecurity() {
         let access = prompt("Enter Master Admin Code:");
@@ -76,134 +73,109 @@
     })();
 
     function loadData() {
-    const list = document.getElementById('participantsList'); // Check karein aapki ID yahi hai
-    const statusText = document.querySelector('.status-text'); // Connecting status ke liye
-    
-    if(statusText) statusText.innerText = "Fetching data...";
+        const list = document.getElementById('participantList');
+        list.innerHTML = '<p style="padding:20px; color:#888;">Fetching latest data...</p>';
 
-    fetch(`${SCRIPT_URL}?action=getRecords`)
-    .then(response => response.json())
-    .then(data => {
-        // Aapki script "records" ke naam se data bhej rahi hai
-        if (data.records && data.records.length > 0) {
-            let html = "";
-            let approvedCount = 0;
-
-            data.records.forEach((user) => {
-                if(user.status === "Approved") approvedCount++;
+        fetch(`${SCRIPT_URL}?action=getRecords`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.records && data.records.length > 0) {
+                let html = "";
+                let approvedCount = 0;
                 
-                let statusClass = user.status === "Approved" ? "status-approved" : (user.status === "Rejected" ? "status-rejected" : "status-pending");
-                
-                // Ye HTML structure aapke design ke mutabiq hai
-                html += `
-                <div class="participant-card">
-                    <div class="card-row">
-                        <strong>${user.name}</strong>
-                        <span class="badge ${statusClass}">${user.status}</span>
-                    </div>
-                    <div class="card-details">
-                        Ph: ${user.phone} | TID: ${user.tid}<br>
-                        ID: ${user.id}
-                    </div>
-                    <div class="card-actions">
-                        <button onclick="updateStatus(${user.id}, 'Approved')" class="btn-approve">Approve</button>
-                        <button onclick="updateStatus(${user.id}, 'Rejected')" class="btn-reject">Reject</button>
-                    </div>
-                </div>`;
-            });
+                data.records.forEach((user) => {
+                    const status = user.status ? user.status.toUpperCase() : "PENDING";
+                    if(status === "APPROVED") approvedCount++;
 
-            list.innerHTML = html;
-            document.getElementById('totalParticipants').innerText = approvedCount;
-        } else {
-            list.innerHTML = "<p style='text-align:center; padding:20px;'>No records found.</p>";
-            document.getElementById('totalParticipants').innerText = "0";
-        }
-    })
-    .catch(err => {
-        console.error("Fetch Error:", err);
-        list.innerHTML = "<p style='color:red; text-align:center;'>Connection Error! Check SCRIPT_URL.</p>";
-    });
-}
+                    html += `
+                    <div class="list-item">
+                        <div class="col-info">
+                            <div class="name-box">${user.name}</div>
+                            <span class="status-tag ${status}">${status}</span>
+                        </div>
+                        <div class="col-tid">
+                            <b>Ph:</b> ${user.phone}<br>
+                            <b>TID:</b> ${user.tid}
+                        </div>
+                        <div class="col-ctrl">
+                            <button onclick="updateStatus(${user.id}, 'Approved')" class="btn-ctrl btn-approve">Approve</button>
+                            <button onclick="updateStatus(${user.id}, 'Rejected')" class="btn-ctrl btn-reject">Reject</button>
+                        </div>
+                    </div>`;
+                });
+                list.innerHTML = html;
+                document.getElementById('totalCount').innerText = approvedCount;
+            } else {
+                list.innerHTML = "<p style='padding:20px;'>No records found in Sheet.</p>";
+            }
+        })
+        .catch(err => {
+            list.innerHTML = "<p style='color:red; padding:20px;'>Connection Error!</p>";
+        });
+    }
 
-
-    function updateStatus(phone, newStatus) {
+    function updateStatus(id, newStatus) {
         if(!confirm(`Mark this participant as ${newStatus}?`)) return;
         document.getElementById('loading-overlay').style.display = 'flex';
-        const params = new URLSearchParams();
-        params.append('action', 'updateUserStatus');
-        params.append('phone', phone);
-        params.append('status', newStatus);
-        params.append('pin', PASSCODE);
-        fetch(SCRIPT_URL, { method: 'POST', body: params })
+        
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: new URLSearchParams({
+                'action': 'updateStatus',
+                'id': id,
+                'status': newStatus
+            })
+        }).then(() => {
+            setTimeout(() => {
+                document.getElementById('loading-overlay').style.display = 'none';
+                loadData();
+            }, 1000);
+        });
+    }
+
+    function pickRandomWinner() {
+        document.getElementById('loading-overlay').style.display = 'flex';
+        fetch(`${SCRIPT_URL}?action=pickWinner`)
         .then(r => r.json())
         .then(res => {
             document.getElementById('loading-overlay').style.display = 'none';
-            loadData(); 
-        }).catch(() => {
-            document.getElementById('loading-overlay').style.display = 'none';
-            loadData();
+            if(res.result === "Success") {
+                if(confirm(`🎉 Potential Winner: ${res.winner}\n\nKya aap ise website par publish karna chahte hain?`)) {
+                    publishWinner(res.winner);
+                }
+            } else {
+                alert(res.result);
+            }
         });
+    }
+
+    function publishWinner(name) {
+        document.getElementById('loading-overlay').style.display = 'flex';
+        fetch(`${SCRIPT_URL}?action=confirmWinner&winner=${encodeURIComponent(name)}`)
+        .then(r => r.json())
+        .then(res => {
+            document.getElementById('loading-overlay').style.display = 'none';
+            alert("🎊 Published Successfully!");
+        });
+    }
+
+    function resetWinner() {
+        if(!confirm("Clean winner box?")) return;
+        publishWinner("No Winner Yet");
     }
 
     function clearDatabase() {
         if(!confirm("⚠️ DANGER: Delete ALL users?")) return;
         if(prompt("Type 'DELETE' to confirm:") !== "DELETE") return;
+        
         document.getElementById('loading-overlay').style.display = 'flex';
-        const params = new URLSearchParams();
-        params.append('action', 'clearAllData');
-        params.append('pin', PASSCODE);
-        fetch(SCRIPT_URL, { method: 'POST', body: params })
-        .then(() => {
-            document.getElementById('loading-overlay').style.display = 'none';
-            alert("Database Cleared!");
-            loadData();
-        });
-    }
-
-    // UPDATED WINNER PICKER (No more undefined)
-    function pickRandomWinner() {
-        if(approvedUsers.length === 0) {
-            alert("Pehle kisi ko Approve karein!");
-            return;
-        }
-        const winner = approvedUsers[Math.floor(Math.random() * approvedUsers.length)];
-        const wName = winner.name || "Unknown";
-        const wID = winner.myID || "N/A";
-        if(!confirm(`🎉 Winner: ${wName}\nKya aap ise website par dikhana chahte hain?`)) return;
-        document.getElementById('loading-overlay').style.display = 'flex';
-        const params = new URLSearchParams();
-        params.append('action', 'setWinner');
-        params.append('winnerName', wName);
-        params.append('winnerID', wID);
-        params.append('pin', PASSCODE);
-        fetch(SCRIPT_URL, { method: 'POST', body: params })
+        fetch(`${SCRIPT_URL}?action=clearAll`)
         .then(r => r.json())
         .then(res => {
             document.getElementById('loading-overlay').style.display = 'none';
-            alert("🎊 Winner Published!");
+            alert(res.result);
             loadData();
-        }).catch(err => {
-            document.getElementById('loading-overlay').style.display = 'none';
-            alert("Error: Connection Failed!");
-        });
-    }
-
-    function resetWinner() {
-        if(!confirm("Are you sure you want to CLEAN the winner from website?")) return;
-        document.getElementById('loading-overlay').style.display = 'flex';
-        const params = new URLSearchParams();
-        params.append('action', 'setWinner');
-        params.append('winnerName', ''); 
-        params.append('winnerID', '');
-        params.append('pin', PASSCODE);
-        fetch(SCRIPT_URL, { method: 'POST', body: params })
-        .then(r => r.json())
-        .then(res => {
-            document.getElementById('loading-overlay').style.display = 'none';
-            alert("✅ SUCCESS! Winner box cleaned.");
-        }).catch(() => {
-            document.getElementById('loading-overlay').style.display = 'none';
-            alert("Winner reset failed.");
         });
     }
 </script>
