@@ -6,44 +6,65 @@
     <title>Poppo Withdraw - GM Agency</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .bg-poppo { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%); }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-50 font-sans antialiased">
 
-    <div class="max-w-md mx-auto bg-white min-h-screen shadow-lg p-6">
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-gray-800">Poppo Live Services</h1>
-            <p class="text-gray-500">Fast USDT Withdrawal & Coin Sale</p>
-        </div>
+    <div class="bg-poppo h-48 w-full absolute top-0 z-0"></div>
 
-        <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mb-6">
-            <h2 class="text-blue-800 font-bold mb-2"><i class="fa-solid fa-wallet mr-2"></i>Our USDT (TRC20) Address</h2>
-            <div class="bg-white p-3 rounded border border-blue-100 break-all text-sm font-mono text-gray-700 mb-3" id="usdtAddress">
-                TAG7JUMFMXAwzV8Yyd5j8QF9RoBRH1ujFM
+    <div class="relative z-10 max-w-md mx-auto px-4 pt-12 pb-10">
+        <div class="glass-card rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/50">
+            
+            <div class="p-8 text-center bg-white/50">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl mb-4 shadow-lg shadow-indigo-200">
+                    <i class="fa-solid fa-building-columns text-white text-2xl"></i>
+                </div>
+                <h1 class="text-3xl font-black text-gray-900 tracking-tight">POPPO WITHDRAW</h1>
+                <p class="text-gray-500 font-medium mt-1 uppercase text-xs tracking-widest">Official Service Dashboard</p>
             </div>
-            <button onclick="copyAddress()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition">
-                <i class="fa-solid fa-copy mr-2"></i> Copy Address
-            </button>
-            <p id="copyMsg" class="text-green-600 text-xs mt-2 hidden text-center">Address copied to clipboard!</p>
+
+            <div class="px-6 pb-8">
+                <div class="bg-indigo-50 rounded-3xl p-6 mb-6 border border-indigo-100">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="fa-solid fa-shield-halved text-indigo-600"></i>
+                        <span class="text-indigo-900 font-bold text-sm uppercase">Secure USDT (TRC20) Address</span>
+                    </div>
+                    
+                    <div class="bg-white border-2 border-dashed border-indigo-200 p-4 rounded-xl mb-4 break-all text-center">
+                        <code class="text-indigo-600 font-black text-sm select-all tracking-wider" id="usdtAddress">TAG7JUMFMXAwzV8Yyd5j8QF9RoBRH1ujFM</code>
+                    </div>
+
+                    <button onclick="copyAddress()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 text-base">
+                        <i class="fa-solid fa-copy"></i> COPY ADDRESS
+                    </button>
+                    <p id="copyMsg" class="text-green-600 text-xs mt-3 hidden text-center font-bold italic">✓ Address copied! Now paste in Poppo App</p>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <h3 class="text-gray-800 font-extrabold text-sm ml-2">FOLLOW THESE STEPS:</h3>
+                    <div class="flex items-start gap-4 bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
+                        <span class="bg-gray-100 text-gray-800 font-black w-8 h-8 flex items-center justify-center rounded-lg text-xs">01</span>
+                        <p class="text-sm text-gray-600 font-medium">Transfer your coins/USDT from Poppo to the address above.</p>
+                    </div>
+                    <div class="flex items-start gap-4 bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
+                        <span class="bg-gray-100 text-gray-800 font-black w-8 h-8 flex items-center justify-center rounded-lg text-xs">02</span>
+                        <p class="text-sm text-gray-600 font-medium">Take a clear screenshot of the **Successful Transaction**.</p>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/923023313131?text=Hi%20GM%20Agency,%20I%20have%20transferred%20USDT%20from%20Poppo.%20Here%20is%20the%20screenshot." 
+                   class="flex items-center justify-center gap-3 w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-black py-5 rounded-2xl shadow-xl shadow-green-100 transition-all active:scale-95 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i> CONFIRM ON WHATSAPP
+                </a>
+
+                <a href="index.html" class="block text-center mt-6 text-gray-400 hover:text-indigo-600 font-bold text-sm transition">
+                    <i class="fa-solid fa-house-chimney mr-1 text-xs"></i> EXIT TO HOME
+                </a>
+            </div>
         </div>
-
-        <div class="mb-6">
-            <h3 class="font-bold text-gray-700 mb-2">How to Withdraw?</h3>
-            <ul class="text-sm text-gray-600 space-y-2">
-                <li>1. Copy the USDT address above.</li>
-                <li>2. Transfer your coins/USDT from Poppo.</li>
-                <li>3. Take a screenshot of the success page.</li>
-                <li>4. Click the button below to send details on WhatsApp.</li>
-            </ul>
-        </div>
-
-        <a href="https://wa.me/923023313131?text=Hi%20GM%20Agency,%20I%20want%20to%20withdraw%20Poppo%20coins/USDT." 
-           class="block w-full bg-green-500 hover:bg-green-600 text-white text-center font-bold py-4 rounded-xl shadow-lg transition transform hover:scale-105 mb-4">
-            <i class="fa-brands fa-whatsapp mr-2 text-xl"></i> Contact on WhatsApp
-        </a>
-
-        <a href="index.html" class="block text-center text-gray-500 hover:text-gray-800 font-medium">
-            <i class="fa-solid fa-arrow-left mr-1"></i> Back to Home
-        </a>
     </div>
 
     <script>
@@ -52,7 +73,7 @@
             navigator.clipboard.writeText(address).then(() => {
                 const msg = document.getElementById('copyMsg');
                 msg.classList.remove('hidden');
-                setTimeout(() => msg.classList.add('hidden'), 2000);
+                setTimeout(() => msg.classList.add('hidden'), 3000);
             });
         }
     </script>
