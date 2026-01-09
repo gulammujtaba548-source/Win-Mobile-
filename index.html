@@ -3,169 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency - Official Earning Portal</title>
+    <title>GM Agency Official - Earning Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; --poppo: #ff007f; --easypaisa: #1eb41e; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; scroll-behavior: smooth; }
-        .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        
-        .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); text-decoration: none; display: block; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        
-        .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
-        .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; scroll-margin-top: 20px; }
-        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; text-align: center; }
-        
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 5px; box-sizing: border-box; }
+        :root { --primary: #ff5252; --gold: #ffd700; --poppo: #ff007f; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; text-align: center; user-select: none; scroll-behavior: smooth; }
+        .container { max-width: 480px; margin: 0 auto; background: white; padding: 15px; min-height: 100vh; }
+
+        /* 🔥 TOP ANIMATED BANNER */
+        .animated-banner {
+            background: linear-gradient(90deg, #ff007f, #7000ff, #ff007f);
+            background-size: 200% auto;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px 0 20px 0;
+            border: 3px solid var(--gold);
+            font-weight: bold;
+            position: relative;
+            animation: gradient-flow 3s linear infinite, bounce 2s infinite;
+            text-decoration: none;
+            display: block;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+        }
+        @keyframes gradient-flow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        /* Cards & Buttons */
+        .card { padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); scroll-margin-top: 20px; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 5px; box-sizing: border-box; transition: 0.3s; }
         .btn-red { background: var(--primary); color: white; }
         .btn-green { background: #1eb41e; color: white; }
-
-        .wheel-container { position: relative; width: 200px; height: 200px; margin: 15px auto; }
-        #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-        .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
-
-        .main-offer-box { border: 5px solid #ff00c8; background: #ffffff; border-radius: 2.5rem; padding: 25px; margin: 20px 0; box-shadow: 0 0 20px rgba(255, 0, 200, 0.4); position: relative; scroll-margin-top: 20px; }
-        .premium-btn-bold { background: linear-gradient(90deg, #4f46e5, #ec4899); display: block; width: 100%; color: white; font-weight: 900; font-size: 1.5rem; padding: 18px 0; border-radius: 1rem; text-transform: uppercase; text-decoration: none; text-align: center; }
-
-        .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none; z-index:9999; }
         
-        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
-        .modal-content { background: white; margin: 20% auto; padding: 25px; border-radius: 20px; width: 85%; max-width: 400px; color: #333; text-align: left; }
+        /* Lucky Draw Inputs */
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; text-align: center; }
+
+        /* Wheel Styles */
+        .wheel-container { position: relative; width: 180px; height: 180px; margin: 15px auto; }
+        #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+
+        /* Services Glow Section */
+        .main-offer-box { border: 4px solid #ff00c8; background: #fff; border-radius: 2rem; padding: 20px; margin: 20px 0; animation: border-glow 2s infinite alternate; }
+        @keyframes border-glow { from { box-shadow: 0 0 5px #ff00c8; } to { box-shadow: 0 0 20px #ff00c8; } }
+
+        /* Footer & Modals */
+        footer { background: #111; color: white; padding: 30px 15px; border-radius: 30px 30px 0 0; margin-top: 40px; }
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+        .modal-content { background: white; margin: 15% auto; padding: 25px; border-radius: 20px; width: 85%; color: #333; text-align: left; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="services.html" class="poppo-banner">🔥 POPPO LIVE SPECIAL OFFER 🔥</a>
-    
-    <div class="welcome-box"><h2>GM Agency Official</h2></div>
+    <a href="#service-box" class="animated-banner">
+        <div style="font-size: 18px; letter-spacing: 1px;">⚡ SPECIAL POPPO OFFER ⚡</div>
+        <div style="font-size: 12px; opacity: 0.9;">Lowest Coin Rates & Fast Support</div>
+    </a>
 
-    <div id="agency-box" class="card" style="border: 3px solid #ff007f; background: #fff0f6;">
-        <h3 style="color: #ff007f;">🌟 Poppo Agency Rewards 🌟</h3>
-        <div style="background: #1a1a1a; color: #ffd700; padding: 12px; border-radius: 12px; margin-bottom:10px;">
-            <span style="font-size: 11px;">Join Code:</span><br>
-            <strong style="font-size: 24px; letter-spacing: 3px;">2753578</strong>
-        </div>
-        <button class="btn btn-red" onclick="window.open('https://wa.me/923023313131')">CLAIM 5000 COINS NOW 🚀</button>
+    <div id="agency-box" class="card" style="border: 3px solid var(--poppo); background: #fff0f6;">
+        <h3 style="color: var(--poppo); margin: 0 0 10px 0;">🌟 New Host Rewards 🌟</h3>
+        <div style="background: #222; color: var(--gold); padding: 10px; border-radius: 10px; font-size: 20px; font-weight: bold; letter-spacing: 2px;">2753578</div>
+        <p style="font-size: 13px; font-weight: bold; margin: 10px 0;">Join Agency & Get 5,000 Coins Gift 🎁</p>
+        <a href="https://wa.me/923023313131" class="btn btn-red">CLAIM 5000 COINS</a>
     </div>
 
     <div id="spin-box" class="card">
-        <h4>🎡 Daily Reward Spin</h4>
+        <h4 style="margin:0;">🎡 Daily Spin & Win</h4>
         <div class="wheel-container">
-            <div class="wheel-pointer"></div>
             <svg id="wheel" viewBox="0 0 200 200">
                 <g transform="rotate(-90 100 100)">
                     <path d="M100 100 L200 100 A100 100 0 0 1 130.9 195.1 Z" fill="#ffd700"/><text x="145" y="145" font-weight="bold">2</text>
                     <path d="M100 100 L130.9 195.1 A100 100 0 0 1 19.1 158.8 Z" fill="#ff5252"/><text x="85" y="165" fill="white">3</text>
-                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#ffffff" stroke="#eee"/><text x="45" y="105">4</text>
-                    <path d="M100 100 L19.1 41.2 A100 100 0 0 1 130.9 4.9 Z" fill="#333333"/><text x="85" y="45" fill="white">X</text>
+                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#333"/><text x="45" y="105" fill="white">4</text>
+                    <path d="M100 100 L19.1 41.2 A100 100 0 0 1 130.9 4.9 Z" fill="#555"/><text x="85" y="45" fill="white">X</text>
                     <path d="M100 100 L130.9 4.9 A100 100 0 0 1 200 100 Z" fill="#ff007f"/><text x="145" y="65" fill="white">1</text>
                 </g>
             </svg>
         </div>
-        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="width:auto; margin:auto; padding:10px 40px;">SPIN NOW</button>
-        <div id="timerDisplay" style="display:none; font-weight:bold; color:red; margin-top:10px;">Next spin: <span id="timeRemaining"></span></div>
-    </div>
-
-    <div class="card" style="background:var(--gold); border:none;">
-        <span style="font-weight:bold;">🪙 My Coins: <span id="userCoins">0</span></span>
-    </div>
-
-    <div class="card" style="border: 2px dashed #333;">
-        <h4>🎁 Withdraw Cash</h4>
-        <button onclick="redeemCoins()" class="btn btn-green">REDEEM (Min 200)</button>
+        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()" style="width: auto; padding: 10px 30px; margin: 0 auto;">SPIN NOW</button>
+        <div id="timerDisplay" style="display:none; color:red; font-weight:bold; margin-top:10px;">Next Spin: <span id="timeRemaining"></span></div>
+        <div style="margin-top:15px; font-weight:bold; background: #eee; padding: 10px; border-radius: 10px;">🪙 My Coins: <span id="userCoins">0</span></div>
+        <button onclick="redeemCoins()" class="btn btn-green" style="margin-top: 10px;">REDEEM (Min 200)</button>
     </div>
 
     <div id="status-box" class="card" style="border: 2px solid #333;">
-        <h4>🔍 Check Your Status</h4>
+        <h4>🔍 Real-Time Status Check</h4>
         <input type="number" id="checkPhone" placeholder="WhatsApp Number">
         <button onclick="checkUserStatus()" class="btn" style="background:#333; color:white;">CHECK STATUS</button>
-        <div id="statusResult" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
+        <div id="statusResult" style="margin-top:10px; font-weight:bold; font-size:14px;"></div>
     </div>
 
-    <div id="lucky-draw" class="card" style="border: 3px solid #1eb41e; background: #f0fff0;">
-        <div style="color: #1eb41e; font-weight: 800; font-size: 22px;">Lucky Draw Registration</div>
+    <div id="lucky-draw" class="card" style="border: 3px solid #1eb41e; background: #f9fff9;">
+        <h3 style="color: #1eb41e; margin: 0;">🎰 Lucky Draw (Rs. 1000)</h3>
+        <p style="font-size: 11px; margin: 5px 0 10px 0;"><b>Account:</b> Tasleem Akhtar | <b>Easypaisa:</b> 03196557461</p>
         <input type="text" id="regName" placeholder="Full Name">
         <input type="text" id="regTID" placeholder="Transaction ID (TID)">
-        <button class="btn btn-red" onclick="window.open('https://wa.me/923023313131')">CONFIRM REGISTRATION</button>
+        <button class="btn btn-red" onclick="window.open('https://wa.me/923023313131?text=Lucky Draw Registration. Name: '+document.getElementById('regName').value)">CONFIRM REGISTRATION</button>
+        <a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce" style="text-decoration:none; color:#1eb41e; font-size:12px; font-weight:bold; display:block; margin-top:12px;">👉 View Community Proofs</a>
     </div>
 
     <div id="service-box" class="main-offer-box">
-        <h3 style="font-weight: 900; font-style: italic; margin: 0;">POPPO LIVE SERVICES</h3>
-        <a href="poppo.html" class="premium-btn-bold">OPEN NOW</a>
+        <h3 style="margin:0; color:#ff00c8;">POPPO LIVE SERVICES</h3>
+        <p style="font-size:12px; font-weight:bold; color:#666; margin-bottom: 15px;">USDT Withdrawal & Coin Exchange</p>
+        <a href="https://wa.me/923023313131" class="btn" style="background: linear-gradient(90deg, #4f46e5, #ec4899); color:white;">CONTACT OFFICIAL AGENT</a>
     </div>
 </div>
 
-<footer style="background: #1a1a1a; color: white; padding: 40px 15px 20px 15px; border-radius: 30px 30px 0 0;">
-    <p>© 2026 GM Agency Official</p>
-    <p style="font-size: 14px; color: #bbb;"><i class="fas fa-envelope" style="color:#ffd700;"></i> Poppoliveofficial123@gmail.com</p>
-    
-    <div style="margin: 20px 0; border-top: 1px solid #333; padding-top:15px;">
-        <span onclick="showModal('about')" style="cursor:pointer; font-size:12px;">About Us</span> | 
-        <span onclick="showModal('privacy')" style="cursor:pointer; font-size:12px;">Privacy Policy</span>
+<footer>
+    <div style="margin-bottom: 20px;">
+        <b>© 2026 GM Agency Official</b><br>
+        <span style="font-size: 13px; color: #bbb;">Poppoliveofficial123@gmail.com</span>
     </div>
-
-    <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
-        <a href="#agency-box" style="text-decoration:none; background:#ffd700; color:#000; padding:8px 12px; border-radius:20px; font-size:11px; font-weight:bold;">Poppo Coins</a>
-        <a href="#spin-box" style="text-decoration:none; background:#ffd700; color:#000; padding:8px 12px; border-radius:20px; font-size:11px; font-weight:bold;">Daily Rewards</a>
-        <a href="#lucky-draw" style="text-decoration:none; background:#ffd700; color:#000; padding:8px 12px; border-radius:20px; font-size:11px; font-weight:bold;">Lucky Draw</a>
+    <div style="margin-bottom: 20px; border-top: 1px solid #333; padding-top: 15px; font-size: 13px;">
+        <span onclick="showModal('about')" style="cursor:pointer">About Us</span> | 
+        <span onclick="showModal('privacy')" style="cursor:pointer">Privacy Policy</span> | 
+        <span onclick="showModal('terms')" style="cursor:pointer">Terms</span>
+    </div>
+    <div style="display: flex; justify-content: center; gap: 8px;">
+        <a href="#agency-box" style="background:var(--gold); color:#000; padding:6px 12px; border-radius:20px; text-decoration:none; font-size:11px; font-weight:bold;">Agency</a>
+        <a href="#spin-box" style="background:var(--gold); color:#000; padding:6px 12px; border-radius:20px; text-decoration:none; font-size:11px; font-weight:bold;">Spin</a>
+        <a href="#lucky-draw" style="background:var(--gold); color:#000; padding:6px 12px; border-radius:20px; text-decoration:none; font-size:11px; font-weight:bold;">Draw</a>
     </div>
 </footer>
 
-<div id="policyModal" class="modal">
-    <div class="modal-content">
-        <h3 id="modalTitle"></h3>
-        <p id="modalBody"></p>
-        <button onclick="closeModal()" class="btn btn-red">Close</button>
-    </div>
-</div>
-
-<a href="https://wa.me/923023313131" class="wa-btn"><i class="fab fa-whatsapp" style="font-size:35px; color:white;"></i></a>
+<div id="policyModal" class="modal"><div class="modal-content"><h3 id="modalTitle"></h3><p id="modalBody" style="line-height:1.6;"></p><button onclick="closeModal()" class="btn btn-red">Close</button></div></div>
 
 <script>
+    // Configuration
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaPhp2qLrGzvHhOdNvu8QdhTFDF4-k0xSQ530Tdn8mTDsYqfvaE7X1hZUTeuIxXbjo9g/exec';
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
+    window.onload = checkTimer;
+
+    // Spinner Logic
     function spinWheel() {
-        if (localStorage.getItem("last_spin_time") && (Date.now() - localStorage.getItem("last_spin_time") < 86400000)) return;
+        const last = localStorage.getItem("last_spin_time");
+        if (last && (Date.now() - last < 86400000)) return;
         document.getElementById("wheel").style.transform = "rotate(3600deg)";
         setTimeout(() => {
             coins += 2; 
             localStorage.setItem("gm_coins", coins);
             localStorage.setItem("last_spin_time", Date.now());
-            document.getElementById("userCoins").innerText = coins;
             location.reload();
         }, 4100);
     }
 
+    function checkTimer() {
+        const last = localStorage.getItem("last_spin_time");
+        if (last && (Date.now() - last < 86400000)) {
+            document.getElementById("spinBtn").style.display = "none";
+            document.getElementById("timerDisplay").style.display = "block";
+            setInterval(() => {
+                let diff = 86400000 - (Date.now() - last);
+                let h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+                document.getElementById("timeRemaining").innerText = `${h}h ${m}m ${s}s`;
+            }, 1000);
+        }
+    }
+
+    // Redeem Logic (Instant Zero)
     function redeemCoins() {
-        if (coins < 200) { alert("Minimum 200 coins required!"); return; }
-        // Setting data to Zero as requested
+        if (coins < 200) return alert("Minimum 200 coins required!");
         coins = 0; 
         localStorage.setItem("gm_coins", 0);
         document.getElementById("userCoins").innerText = 0;
-        window.open("https://wa.me/923023313131?text=Redeem Request: 200 Coins");
+        window.open("https://wa.me/923023313131?text=Assalam-o-Alaikum! Mere portal coins zero ho chuke hain, please verify karein.");
     }
 
+    // Real Status Check Logic
     function checkUserStatus() {
         const phone = document.getElementById("checkPhone").value;
-        const result = document.getElementById("statusResult");
-        if(!phone) return alert("Enter Number");
-        
-        result.style.color = "orange";
-        result.innerText = "CHECKING VERIFICATION...";
-        
-        setTimeout(() => {
-            result.style.color = "#1eb41e";
-            result.innerText = "STATUS: ACTIVE & VERIFIED ✅";
-        }, 2500);
+        const res = document.getElementById("statusResult");
+        if(!phone) return alert("Please enter number");
+        res.style.color = "orange"; res.innerText = "🔍 CHECKING DATABASE...";
+        fetch(`${SCRIPT_URL}?action=getRecords`).then(r => r.json()).then(data => {
+            const user = data.records.find(u => u.phone == phone || u.number == phone);
+            if(user) {
+                const s = user.status.toLowerCase();
+                res.style.color = s === 'approved' ? 'green' : (s === 'rejected' ? 'red' : 'orange');
+                res.innerText = `STATUS: ${user.status.toUpperCase()} ${s === 'approved' ? '✅' : ''}`;
+            } else { res.style.color = "red"; res.innerText = "STATUS: RECORD NOT FOUND"; }
+        }).catch(() => { res.innerText = "SERVER ERROR!"; });
     }
 
+    // Modal Handlers
     function showModal(type) {
         document.getElementById('policyModal').style.display = "block";
-        document.getElementById('modalTitle').innerText = type === 'about' ? "About Us" : "Privacy Policy";
-        document.getElementById('modalBody').innerText = "GM Agency is a trusted Poppo Live Partner.";
+        const content = {
+            about: "GM Agency is an official Poppo Live Partner since 2024, providing secure coin recharge and hosting services in Pakistan.",
+            privacy: "We value your privacy. Your phone numbers and Transaction IDs are stored securely and never shared with third parties.",
+            terms: "1. One spin per 24 hours. 2. Minimum redeem limit is 200 coins. 3. Providing fake TID will result in a permanent account ban."
+        };
+        document.getElementById('modalTitle').innerText = type.toUpperCase();
+        document.getElementById('modalBody').innerText = content[type];
     }
     function closeModal() { document.getElementById('policyModal').style.display = "none"; }
 </script>
