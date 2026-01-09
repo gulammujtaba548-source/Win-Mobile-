@@ -3,109 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency Official - Master Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>GM Agency Official</title>
     <style>
         :root { --primary: #ff5252; --gold: #ffd700; --poppo: #ff007f; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; text-align: center; user-select: none; }
-        .container { max-width: 480px; margin: 0 auto; background: white; padding: 15px; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-
-        /* RGB Animated Banner */
-        .animated-banner {
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; text-align: center; }
+        .container { max-width: 480px; margin: 0 auto; background: white; padding: 15px; min-height: 100vh; }
+        
+        /* 🔥 Animated Top Banner */
+        .top-banner {
             background: linear-gradient(90deg, #7000ff, #ff007f, #7000ff);
             background-size: 200% auto;
-            color: white; padding: 15px; border-radius: 15px; margin: 10px 0 20px 0;
-            border: 2px solid var(--gold); font-weight: bold;
+            color: white; padding: 15px; border-radius: 15px; margin: 10px 0;
+            border: 2px solid var(--gold); font-weight: bold; cursor: pointer;
             animation: grad 3s linear infinite; text-decoration: none; display: block;
         }
         @keyframes grad { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
-        /* Card Styles */
-        .card { padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .card { padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 8px; }
         .btn-red { background: var(--primary); color: white; }
         .btn-green { background: #1eb41e; color: white; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; text-align: center; }
 
-        /* Service Glow Box */
-        .service-glow-box { border: 4px solid #ff00ff; border-radius: 35px; padding: 25px; margin: 20px 0; box-shadow: 0 0 15px rgba(255, 0, 255, 0.3); }
-        .open-now-btn { background: linear-gradient(to right, #6366f1, #d946ef); color: white; padding: 15px; border-radius: 15px; font-size: 20px; font-weight: 800; display: block; text-decoration: none; margin-top: 15px; }
-
-        footer { background: #1a1a1a; color: white; padding: 30px 15px; border-radius: 30px 30px 0 0; margin-top: 40px; }
+        /* Trusted Recharge Section */
+        #recharge-section { display: none; border: 2px solid var(--poppo); border-radius: 20px; padding: 20px; margin: 15px 0; background: #fff; }
+        .service-tag { border: 1px dashed var(--poppo); padding: 10px; border-radius: 10px; margin: 10px 0; font-size: 13px; text-align: left; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="animated-banner">⚡ SPECIAL POPPO OFFER ⚡</div>
-
-    <div class="card" style="border: 3px solid var(--poppo); background: #fff0f6;">
-        <h3 style="color: var(--poppo); margin: 0;">🌟 New Host Rewards 🌟</h3>
-        <div style="background: #222; color: var(--gold); padding: 10px; border-radius: 10px; font-size: 22px; font-weight: 900; margin: 10px 0;">2753578</div>
-        <p style="font-size: 13px; font-weight: bold;">Join Agency & Get 5,000 Coins Gift 🎁</p>
-        <a href="https://wa.me/923023313131" class="btn btn-red">CLAIM 5000 COINS</a>
+    <div class="top-banner" onclick="toggleRecharge()">
+        ⚡ SPECIAL POPPO OFFER ⚡<br>
+        <span style="font-size: 11px; font-weight: normal;">Lowest Coin Rates & Fast Support</span>
     </div>
 
-    <div class="card" style="border: 2px solid #25D366; background: #e6fff0;">
-        <h4 style="margin: 0; color: #128C7E;">🔥 Join Live Rewards Group</h4>
-        <p style="font-size: 12px; margin: 10px 0;">Group join karein aur hasil karein <b>3,000 Coins</b> reward!</p>
-        <a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce" class="btn" style="background: #25D366; color: white;">JOIN GROUP & CLAIM 3000</a>
+    <div id="recharge-section" class="card">
+        <h2 style="color: var(--poppo);">✨ Poppo Live Coins ✨</h2>
+        <h3 style="color: #d1006d;">Trusted Coin Recharge</h3>
+        <p style="font-size: 13px;">GM Agency se Poppo Live ke coins khareedein, saste aur fast!</p>
+        
+        <div class="service-tag">💎 <b>Premium Recharge:</b> Direct coins transfer. Fast Delivery!</div>
+        <div class="service-tag">💰 <b>Special Rates:</b> Market se saste rate. Extra Bonus!</div>
+        <div class="service-tag">🔒 <b>100% Secure:</b> Aapka data bilkul mehfooz hai.</div>
+        
+        <a href="https://wa.me/923023313131" class="btn" style="background: #e91e63; color: white;">Buy Coins Now</a>
+        <button onclick="toggleRecharge()" style="margin-top: 10px; background: none; border: none; color: #666; cursor: pointer;">← Back to Dashboard</button>
     </div>
 
-    <div class="card">
-        <h4>🎡 Daily Spin & Win</h4>
-        <div style="margin-top:15px; font-weight:bold; background:#eee; padding:10px; border-radius:10px;">🪙 My Coins: <span id="userCoins">0</span></div>
-        <button onclick="redeemCoins()" class="btn btn-green">REDEEM (Min 200)</button>
-    </div>
+    <div id="main-dashboard">
+        <div class="card" style="border: 3px solid var(--poppo); background: #fff0f6;">
+            <h3 style="color: var(--poppo); margin: 0;">✨ New Host Rewards ✨</h3>
+            <div style="background: #222; color: var(--gold); padding: 10px; border-radius: 10px; font-size: 22px; font-weight: 900; margin: 10px 0;">2753578</div>
+            <p style="font-size: 13px; font-weight: bold;">Join Agency & Get 5,000 Coins Gift 🎁</p>
+            <a href="https://wa.me/923023313131" class="btn btn-red">CLAIM 5000 COINS</a>
+        </div>
 
-    <div class="card" style="border: 2px solid #333;">
-        <h4>🔍 Real-Time Status Check</h4>
-        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number">
-        <button onclick="checkUserStatus()" class="btn" style="background:#333; color:white;">CHECK STATUS</button>
-        <div id="statusResult" style="margin-top:10px; font-weight:bold;"></div>
-    </div>
+        <div class="card" style="border: 2px solid #25D366; background: #e6fff0;">
+            <h4 style="margin: 0; color: #128C7E;">🔥 Join Live Rewards Group</h4>
+            <p style="font-size: 12px; margin: 10px 0;">Group join karein aur hasil karein <b>3,000 Coins</b> reward!</p>
+            <a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce" class="btn" style="background: #25D366; color: white;">JOIN GROUP & CLAIM 3000</a>
+        </div>
 
-    <div class="service-glow-box">
-        <h2 style="font-style:italic; margin:0; font-weight:900;">POPPO LIVE SERVICES</h2>
-        <p style="color:#666; font-weight:bold; margin-top:5px;">Withdraw USDT & Sell Coins</p>
-        <a href="https://wa.me/923023313131" class="open-now-btn">OPEN NOW</a>
+        <div class="card">
+            <h4>🎡 Daily Spin & Win</h4>
+            <div style="font-weight:bold; background:#eee; padding:10px; border-radius:10px; margin: 10px 0;">🪙 My Coins: <span id="userCoins">0</span></div>
+            <button onclick="redeemCoins()" class="btn btn-green">REDEEM (Min 200)</button>
+        </div>
+
+        <div class="card" style="border: 2px solid #333;">
+            <h4>🔍 Real-Time Status Check</h4>
+            <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number">
+            <button onclick="checkUserStatus()" class="btn" style="background:#333; color:white;">CHECK STATUS</button>
+            <div id="statusResult" style="margin-top:10px; font-weight:bold;"></div>
+        </div>
     </div>
 </div>
-
-<footer>
-    <p>© 2026 GM Agency Official</p>
-    <p style="font-size:12px; color:#aaa;">Poppoliveofficial123@gmail.com</p>
-</footer>
 
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaPhp2qLrGzvHhOdNvu8QdhTFDF4-k0xSQ530Tdn8mTDsYqfvaE7X1hZUTeuIxXbjo9g/exec';
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
-    // Redeem Zero Logic
-    function redeemCoins() {
-        if (coins < 200) return alert("Min 200 coins required!");
-        coins = 0; 
-        localStorage.setItem("gm_coins", 0);
-        document.getElementById("userCoins").innerText = 0;
-        window.open("https://wa.me/923023313131?text=Redeem Request: My coins are zero. Verify payment.");
+    function toggleRecharge() {
+        const main = document.getElementById('main-dashboard');
+        const recharge = document.getElementById('recharge-section');
+        if (recharge.style.display === 'none') {
+            recharge.style.display = 'block';
+            main.style.display = 'none';
+        } else {
+            recharge.style.display = 'none';
+            main.style.display = 'block';
+        }
     }
 
-    // Status Check Real-Time
+    function redeemCoins() {
+        if (coins < 200) return alert("Min 200 coins!");
+        coins = 0; localStorage.setItem("gm_coins", 0);
+        document.getElementById("userCoins").innerText = 0;
+        window.open("https://wa.me/923023313131?text=Coins Zero Now. Verify me.");
+    }
+
     function checkUserStatus() {
         const phone = document.getElementById("checkPhone").value;
         const res = document.getElementById("statusResult");
-        if(!phone) return alert("Number likhein!");
-        res.style.color = "orange"; res.innerText = "CHECKING DATABASE...";
-        
+        if(!phone) return alert("Enter number");
+        res.style.color = "orange"; res.innerText = "CHECKING...";
         fetch(`${SCRIPT_URL}?action=getRecords`).then(r => r.json()).then(data => {
             const user = data.records.find(u => u.phone == phone || u.number == phone);
             if(user) {
-                const s = user.status.toUpperCase();
-                res.style.color = (s === 'APPROVED') ? 'green' : (s === 'REJECTED' ? 'red' : 'orange');
-                res.innerText = `STATUS: ${s}`;
-            } else { res.style.color = "red"; res.innerText = "STATUS: NOT REGISTERED"; }
-        }).catch(() => { res.innerText = "SERVER ERROR!"; });
+                res.style.color = user.status.toUpperCase() === 'APPROVED' ? 'green' : 'red';
+                res.innerText = `STATUS: ${user.status.toUpperCase()}`;
+            } else { res.style.color = "red"; res.innerText = "NOT FOUND"; }
+        });
     }
 </script>
 </body>
