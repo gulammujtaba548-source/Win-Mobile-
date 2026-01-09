@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --primary: #ff5252; --secondary: #333; --gold: #ffd700; --bg: #f4f7f6; --poppo: #ff007f; --easypaisa: #1eb41e; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; text-align: center; color: #333; -webkit-user-select: none; user-select: none; scroll-behavior: smooth; }
         .container { max-width: 480px; margin: 15px auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
         .poppo-banner { background: linear-gradient(45deg, #ff007f, #ff5252); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; font-weight: bold; border: 2px solid var(--gold); text-decoration: none; display: block; animation: pulse 2s infinite; }
@@ -15,34 +15,27 @@
         
         #winnerBox { background: linear-gradient(45deg, #ffd700, #ff8c00); padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 2px solid white; color: #000; display: none; }
         .welcome-box { background: #222; color: var(--gold); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--gold); }
-        .leaderboard-card { background: #fff3e0; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #fedcba; }
+        .leaderboard-card { background: #fff3e0; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #fedcba; text-align: left; }
         
         .card { padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; text-align: center; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 5px; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 5px; box-sizing: border-box; }
         .btn-red { background: var(--primary); color: white; }
         .btn-green { background: #1eb41e; color: white; }
 
-        /* Wheel Section */
-        .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px auto; }
+        /* Community Section */
+        .comm-btn { background: #25D366; color: white; padding: 15px; border-radius: 15px; text-decoration: none; display: flex; align-items: center; justify-content: space-between; margin: 15px 0; border-bottom: 4px solid rgba(0,0,0,0.2); }
+
+        /* Wheel */
+        .wheel-container { position: relative; width: 200px; height: 200px; margin: 15px auto; }
         #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
         .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
 
-        /* Poppo Special Box */
-        .main-offer-box { border: 5px solid #ff00c8; background: #ffffff; border-radius: 2.5rem; position: relative; padding: 25px; margin: 20px 0; box-shadow: 0 0 20px rgba(255, 0, 200, 0.3); }
+        /* Glow Box */
+        .main-offer-box { border: 5px solid #ff00c8; background: #ffffff; border-radius: 2.5rem; padding: 25px; margin: 20px 0; box-shadow: 0 0 20px rgba(255, 0, 200, 0.4); position: relative; }
         .premium-btn-bold { background: linear-gradient(90deg, #4f46e5, #ec4899); display: block; width: 100%; color: white; font-weight: 900; font-size: 1.5rem; padding: 18px 0; border-radius: 1rem; text-transform: uppercase; text-decoration: none; text-align: center; }
 
-        /* Registration Card */
-        .reg-card { border: 3px solid #22c55e; background: #f0fff0; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
-
         footer { background: #1a1a1a; color: white; padding: 30px 10px; margin-top: 20px; border-radius: 25px 25px 0 0; }
-        .footer-links a { color: #ccc; text-decoration: none; margin: 0 10px; font-size: 13px; cursor: pointer; }
-        .tag { background: var(--gold); color: #000; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; margin: 5px; display: inline-block; cursor: pointer; }
-
-        /* Modal */
-        .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-        .modal-content { background: white; margin: 15% auto; padding: 20px; border-radius: 15px; width: 80%; max-width: 400px; text-align: left; position: relative; }
-        
         .wa-btn { position:fixed; width:60px; height:60px; bottom:20px; right:20px; background-color:#25d366; color:#FFF; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none; z-index:9999; }
     </style>
 </head>
@@ -60,19 +53,39 @@
 
     <div id="leaderboard" class="leaderboard-card">
         <div style="font-weight:bold; color:var(--primary);">👥 Approved Participants: <span id="totalDisplay">0</span></div>
-        <div id="topEarnersList" style="margin-top:10px;"></div>
+        <div id="topEarnersList" style="margin-top:10px; font-size: 13px;"></div>
     </div>
 
     <div class="card" style="border: 3px solid #ff007f; background: #fff0f6;">
-        <h3 style="color: #ff007f;">🌟 Poppo Agency Join Rewards 🌟</h3>
-        <div style="background: #1a1a1a; color: #ffd700; padding: 15px; border-radius: 15px; margin: 10px auto; border: 1px solid #ffd700;">
-            <span style="font-size: 12px;">Agency Join Code:</span><br>
-            <strong style="font-size: 28px; letter-spacing: 4px;">2753578</strong>
+        <h3 style="color: #ff007f; margin-bottom:10px;">🌟 Poppo Agency Rewards 🌟</h3>
+        <div style="background: #1a1a1a; color: #ffd700; padding: 12px; border-radius: 12px; margin-bottom:10px;">
+            <span style="font-size: 11px;">Join Code:</span><br>
+            <strong style="font-size: 24px; letter-spacing: 3px;">2753578</strong>
         </div>
+        
+        <div style="background: white; border: 2px dashed #ff007f; padding: 15px; border-radius: 12px; margin-bottom:10px;">
+            <p style="margin:0; font-weight:900; color:#ff007f; font-size:17px;">🔥 5,000 COINS WELCOME GIFT</p>
+            <p style="margin:5px 0 0 0; font-size:12px; color:#444;">Naye hosts agency join kar ke 5000 coins hasil karein.</p>
+        </div>
+
+        <a href="https://chat.whatsapp.com/Kxmmzms3t0v7EapD6iySEK" style="text-decoration:none; display:block; margin-bottom:10px;">
+            <div style="background: #fff; color: #ff007f; border: 1px solid #ff007f; padding: 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">
+                📢 Join Daily 3000 Coins Group
+            </div>
+        </a>
+
         <a href="https://wa.me/923023313131" class="btn btn-red">CLAIM 5000 COINS NOW 🚀</a>
     </div>
 
-    <div class="card" id="spin-section">
+    <a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce" class="comm-btn">
+        <div style="text-align:left;">
+            <p style="margin:0; font-weight:900; font-size:14px; text-transform:uppercase;">View Winners Community</p>
+            <p style="margin:0; font-size:10px; font-weight:bold; opacity:0.9;">⭐ 1,200+ Active Payment Proofs</p>
+        </div>
+        <i class="fas fa-chevron-right"></i>
+    </a>
+
+    <div class="card">
         <h4 style="margin:0;">🎡 Daily Reward Spin</h4>
         <div class="wheel-container">
             <div class="wheel-pointer"></div>
@@ -93,56 +106,43 @@
     <div class="coin-box"><span>🪙 My Coins:</span><span id="userCoins" style="font-size: 26px;">0</span></div>
 
     <div class="card" style="border: 2px dashed #333; background: #f0f4f8;">
-        <h4>🎁 Redeem Rewards</h4>
-        <button onclick="redeemCoins()" class="btn btn-green">REDEEM 200 COINS</button>
+        <h4>🎁 Withdraw Cash</h4>
+        <button onclick="redeemCoins()" class="btn btn-green">REDEEM (Min 200)</button>
     </div>
 
     <div class="card" style="border: 2px solid #333;">
         <h4>🔍 Check Your Status</h4>
         <input type="number" id="checkPhone" placeholder="WhatsApp Number">
         <button onclick="checkUserStatus()" class="btn btn-dark" style="background:#333; color:white;">CHECK STATUS</button>
-        <div id="statusResult" style="margin-top:10px; font-weight:bold; color:orange;"></div>
+        <div id="statusResult" style="margin-top:10px; font-weight:bold; color:orange; font-size:13px;"></div>
     </div>
 
-    <div class="reg-card" id="lucky-draw">
+    <div class="card" style="border: 3px solid #1eb41e; background: #f0fff0;">
         <div style="color: #1eb41e; font-weight: 800; font-size: 22px;">Lucky Draw Registration</div>
-        <div style="font-size: 18px; font-weight: bold; color: #333;">Fee: Rs. 1000</div>
-        <div style="background: white; border-radius: 10px; padding: 10px; margin: 10px 0; border: 1px dashed #1eb41e; font-size:14px;">
+        <div style="font-size: 18px; font-weight: bold; color: #333;">Rs. 1000</div>
+        <div style="background: white; padding: 10px; border-radius: 10px; margin: 10px 0; border: 1px dashed #1eb41e; font-size:13px;">
             <p style="margin:5px 0;"><strong>Easypaisa:</strong> Tasleem Akhtar</p>
             <p style="margin:5px 0;"><strong>Number:</strong> 03196557461</p>
         </div>
         <input type="text" id="regName" placeholder="Full Name">
-        <input type="number" id="regPhone" placeholder="WhatsApp Number">
         <input type="text" id="regTID" placeholder="Transaction ID (TID)">
-        <button class="btn btn-red" onclick="submitLuckyDraw()">CONFIRM REGISTRATION</button>
+        <button class="btn btn-red" onclick="window.open('https://wa.me/923023313131?text=Lucky Draw Registration')">CONFIRM MOBILE REGISTRATION</button>
     </div>
 
     <div class="main-offer-box">
-        <h3 style="font-weight: 900; italic; margin:0;">POPPO LIVE SERVICES</h3>
-        <p style="font-size:13px; color:#666; font-weight:bold;">Withdraw USDT & Sell Coins</p>
+        <h3 style="font-weight: 900; font-style: italic; margin: 0;">POPPO LIVE SERVICES</h3>
+        <p style="font-size: 13px; color: #666; font-weight: bold; margin-bottom: 15px;">Withdraw USDT & Sell Coins</p>
         <a href="poppo.html" class="premium-btn-bold">OPEN NOW</a>
     </div>
 </div>
 
 <footer>
     <p>© 2026 GM Agency Official</p>
-    <p style="font-size: 12px;">📧 <a href="mailto:Poppoliveofficial123@gmail.com" style="color:white; text-decoration:none;">Poppoliveofficial123@gmail.com</a></p>
-    <div class="footer-links">
-        <a onclick="showModal('terms')">Terms</a> | <a onclick="showModal('privacy')">Privacy Policy</a>
-    </div>
-    <div class="service-tags">
-        <span class="tag" onclick="document.getElementById('spin-section').scrollIntoView()">Daily Rewards</span>
-        <span class="tag" onclick="document.getElementById('lucky-draw').scrollIntoView()">Lucky Draw</span>
+    <p style="font-size: 12px; margin-bottom: 10px;">📧 Poppoliveofficial123@gmail.com</p>
+    <div style="font-size:12px; opacity:0.7;">
+        <span onclick="alert('Terms applied')">Terms</span> | <span onclick="alert('Privacy Policy active')">Privacy</span>
     </div>
 </footer>
-
-<div id="infoModal" class="modal">
-    <div class="modal-content">
-        <h3 id="modalTitle"></h3>
-        <p id="modalBody" style="font-size:13px; line-height:1.6;"></p>
-        <button onclick="closeModal()" class="btn btn-red">Close</button>
-    </div>
-</div>
 
 <a href="https://wa.me/923023313131" class="wa-btn"><i class="fab fa-whatsapp" style="font-size:35px; color:white;"></i></a>
 
@@ -162,13 +162,12 @@
             const list = document.getElementById('topEarnersList');
             const approved = data.records.filter(u => u.status === "Approved");
             document.getElementById('totalDisplay').innerText = approved.length;
-            list.innerHTML = approved.slice(0,5).map(u => `<div style="padding:5px; border-bottom:1px solid #eee;">${u.name} - <span style="color:green;">Verified ✅</span></div>`).join('');
+            list.innerHTML = approved.slice(0,5).map(u => `<div style="padding:4px; border-bottom:1px solid #eee;">${u.name} - <span style="color:green;">Verified ✅</span></div>`).join('');
         });
     }
 
     function spinWheel() {
-        const last = localStorage.getItem("last_spin_time");
-        if (last && (Date.now() - last < 86400000)) return;
+        if (localStorage.getItem("last_spin_time") && (Date.now() - localStorage.getItem("last_spin_time") < 86400000)) return;
         document.getElementById("wheel").style.transform = "rotate(3600deg)";
         document.getElementById("spinBtn").disabled = true;
         setTimeout(() => {
@@ -205,27 +204,6 @@
         document.getElementById("statusResult").innerText = "Checking Verification...";
         setTimeout(() => { document.getElementById("statusResult").innerText = "STATUS: CHECKING VERIFICATION"; }, 1500);
     }
-
-    function submitLuckyDraw() {
-        const n = document.getElementById('regName').value;
-        if(!n) return alert("Details bharen!");
-        window.open(`https://wa.me/923023313131?text=Lucky Draw Registration: Name ${n}`);
-    }
-
-    function showModal(type) {
-        const m = document.getElementById('infoModal');
-        const t = document.getElementById('modalTitle');
-        const b = document.getElementById('modalBody');
-        if(type === 'terms') {
-            t.innerText = "Terms & Conditions";
-            b.innerText = "1. Rewards are for active Poppo hosts.\n2. One account per user.\n3. Fake entries will be banned.\n4. Lucky draw results are final.";
-        } else {
-            t.innerText = "Privacy Policy";
-            b.innerText = "We secure your data. Your number is only used for payments and verification. We never share your personal information.";
-        }
-        m.style.display = "block";
-    }
-    function closeModal() { document.getElementById('infoModal').style.display = "none"; }
 </script>
 </body>
 </html>
