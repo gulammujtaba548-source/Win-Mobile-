@@ -4,119 +4,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GM Agency Official</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --primary: #ff5252; --gold: #ffd700; --poppo: #ff007f; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; text-align: center; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; text-align: center; }
         .container { max-width: 480px; margin: 0 auto; background: white; padding: 15px; min-height: 100vh; }
         
-        /* 🔥 Animated Top Banner */
-        .top-banner {
-            background: linear-gradient(90deg, #7000ff, #ff007f, #7000ff);
-            background-size: 200% auto;
-            color: white; padding: 15px; border-radius: 15px; margin: 10px 0;
-            border: 2px solid var(--gold); font-weight: bold; cursor: pointer;
-            animation: grad 3s linear infinite; text-decoration: none; display: block;
-        }
-        @keyframes grad { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        /* Banner Styles */
+        .special-offer { background: linear-gradient(90deg, #7000ff, #ff007f); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 2px solid #fff; box-shadow: 0 0 10px rgba(255,0,127,0.5); cursor: pointer; text-decoration: none; display: block; }
+        
+        /* Card Styles */
+        .card { background: #fff; border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid #eee; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .pink-border { border: 3px solid var(--poppo); background: #fff0f6; }
+        .green-border { border: 2px solid #1eb41e; }
+        
+        /* Participant List */
+        .participant { display: flex; justify-content: space-between; padding: 8px 15px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        .verified { color: #28a745; font-weight: bold; }
 
-        .card { padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #eee; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 8px; }
-        .btn-red { background: var(--primary); color: white; }
+        /* Buttons */
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 10px; font-size: 16px; transition: 0.3s; }
+        .btn-red { background: linear-gradient(to right, #ff5252, #ff1744); color: white; }
         .btn-green { background: #1eb41e; color: white; }
-        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; text-align: center; }
+        .btn-black { background: #222; color: white; }
+        
+        /* Spin Wheel */
+        .wheel-box { position: relative; width: 200px; height: 200px; margin: 20px auto; }
+        #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10; }
 
-        /* Trusted Recharge Section */
-        #recharge-section { display: none; border: 2px solid var(--poppo); border-radius: 20px; padding: 20px; margin: 15px 0; background: #fff; }
-        .service-tag { border: 1px dashed var(--poppo); padding: 10px; border-radius: 10px; margin: 10px 0; font-size: 13px; text-align: left; }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; text-align: center; }
+        footer { background: #1a1a1a; color: white; padding: 30px 15px; margin-top: 30px; border-radius: 30px 30px 0 0; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="top-banner" onclick="toggleRecharge()">
-        ⚡ SPECIAL POPPO OFFER ⚡<br>
-        <span style="font-size: 11px; font-weight: normal;">Lowest Coin Rates & Fast Support</span>
+    <a href="https://wa.me/923023313131" class="special-offer">
+        ⚡ <b>SPECIAL POPPO OFFER</b> ⚡<br>
+        <span style="font-size: 12px;">Lowest Coin Rates & Fast Support</span>
+    </a>
+
+    <div class="card" style="background: #fff8f0;">
+        <h4 style="color: #ff8c00;"><i class="fas fa-users"></i> Approved Participants: 2</h4>
+        <p style="font-size: 14px; font-weight: bold;">🏆 Top Earners</p>
+        <div class="participant"><span>Saeed Umar</span> <span class="verified">Verified ✅</span></div>
+        <div class="participant"><span>Ghulam Mujtaba</span> <span class="verified">Verified ✅</span></div>
     </div>
 
-    <div id="recharge-section" class="card">
-        <h2 style="color: var(--poppo);">✨ Poppo Live Coins ✨</h2>
-        <h3 style="color: #d1006d;">Trusted Coin Recharge</h3>
-        <p style="font-size: 13px;">GM Agency se Poppo Live ke coins khareedein, saste aur fast!</p>
+    <div class="card pink-border">
+        <h3 style="color: var(--poppo); margin-top: 0;">🌟 JOIN AGENCY REWARDS 🌟</h3>
+        <div style="background: #222; color: var(--gold); padding: 15px; border-radius: 12px; font-size: 26px; font-weight: 900; letter-spacing: 2px;">2753578</div>
+        <p style="font-weight: bold; margin: 15px 0;">🔥 5,000 COINS WELCOME GIFT 🔥</p>
+        <p style="font-size: 12px; color: #666;">Naye hosts agency join karke 5,000 Coins hasil karein!</p>
+        <a href="https://wa.me/923023313131" class="btn btn-red">CLAIM 5000 COINS NOW 🚀</a>
         
-        <div class="service-tag">💎 <b>Premium Recharge:</b> Direct coins transfer. Fast Delivery!</div>
-        <div class="service-tag">💰 <b>Special Rates:</b> Market se saste rate. Extra Bonus!</div>
-        <div class="service-tag">🔒 <b>100% Secure:</b> Aapka data bilkul mehfooz hai.</div>
-        
-        <a href="https://wa.me/923023313131" class="btn" style="background: #e91e63; color: white;">Buy Coins Now</a>
-        <button onclick="toggleRecharge()" style="margin-top: 10px; background: none; border: none; color: #666; cursor: pointer;">← Back to Dashboard</button>
+        <a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce" class="btn" style="border: 2px solid var(--poppo); color: var(--poppo); font-size: 12px; background: #fff;">
+            📢 JOIN POPPO REWARDS GROUP (DAILY 3000 COINS)
+        </a>
     </div>
 
-    <div id="main-dashboard">
-        <div class="card" style="border: 3px solid var(--poppo); background: #fff0f6;">
-            <h3 style="color: var(--poppo); margin: 0;">✨ New Host Rewards ✨</h3>
-            <div style="background: #222; color: var(--gold); padding: 10px; border-radius: 10px; font-size: 22px; font-weight: 900; margin: 10px 0;">2753578</div>
-            <p style="font-size: 13px; font-weight: bold;">Join Agency & Get 5,000 Coins Gift 🎁</p>
-            <a href="https://wa.me/923023313131" class="btn btn-red">CLAIM 5000 COINS</a>
+    <div class="card">
+        <h4>🎡 Daily Reward Spin</h4>
+        <div class="wheel-box">
+            <div class="pointer"></div>
+            <svg id="wheel" viewBox="0 0 200 200">
+                <g transform="rotate(-90 100 100)">
+                    <path d="M100 100 L200 100 A100 100 0 0 1 130.9 195.1 Z" fill="#ff007f"/><text x="145" y="70" fill="white" transform="rotate(20 145 70)">1</text>
+                    <path d="M100 100 L130.9 195.1 A100 100 0 0 1 19.1 158.8 Z" fill="#ffd700"/><text x="145" y="145" transform="rotate(80 145 145)">2</text>
+                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#ff5252"/><text x="85" y="165" fill="white" transform="rotate(150 85 165)">3</text>
+                    <path d="M100 100 L19.1 41.2 A100 100 0 0 1 130.9 4.9 Z" fill="#333"/><text x="40" y="105" fill="white" transform="rotate(210 40 105)">4</text>
+                    <path d="M100 100 L130.9 4.9 A100 100 0 0 1 200 100 Z" fill="#555"/><text x="85" y="45" fill="white" transform="rotate(280 85 45)">X</text>
+                </g>
+            </svg>
         </div>
-
-        <div class="card" style="border: 2px solid #25D366; background: #e6fff0;">
-            <h4 style="margin: 0; color: #128C7E;">🔥 Join Live Rewards Group</h4>
-            <p style="font-size: 12px; margin: 10px 0;">Group join karein aur hasil karein <b>3,000 Coins</b> reward!</p>
-            <a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce" class="btn" style="background: #25D366; color: white;">JOIN GROUP & CLAIM 3000</a>
+        <p id="timer" style="color: red; font-weight: bold;"></p>
+        <button id="spinBtn" class="btn btn-red" onclick="spinWheel()">SPIN NOW</button>
+        <div style="background: var(--gold); padding: 12px; border-radius: 10px; margin-top: 15px; font-weight: bold;">
+            💰 My Coins: <span id="coinDisplay">0</span>
         </div>
-
-        <div class="card">
-            <h4>🎡 Daily Spin & Win</h4>
-            <div style="font-weight:bold; background:#eee; padding:10px; border-radius:10px; margin: 10px 0;">🪙 My Coins: <span id="userCoins">0</span></div>
-            <button onclick="redeemCoins()" class="btn btn-green">REDEEM (Min 200)</button>
-        </div>
-
-        <div class="card" style="border: 2px solid #333;">
-            <h4>🔍 Real-Time Status Check</h4>
-            <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number">
-            <button onclick="checkUserStatus()" class="btn" style="background:#333; color:white;">CHECK STATUS</button>
-            <div id="statusResult" style="margin-top:10px; font-weight:bold;"></div>
-        </div>
+        <button onclick="redeemCoins()" class="btn btn-green">REDEEM (Min 200)</button>
     </div>
+
+    <div class="card">
+        <h4>🔍 Check Your Status</h4>
+        <input type="number" id="phoneCheck" placeholder="Enter WhatsApp Number">
+        <button onclick="checkStatus()" class="btn btn-black">CHECK STATUS</button>
+        <p id="statusOutput" style="font-weight: bold; margin-top: 10px;"></p>
+    </div>
+
+    <div class="card green-border">
+        <h3 style="color: #1eb41e; margin-top: 0;">Win Mobile Registration</h3>
+        <p style="font-size: 14px;"><b>Easypaisa:</b> Tasleem Akhtar<br><b>03196557461</b></p>
+        <input type="text" placeholder="Full Name">
+        <input type="number" placeholder="WhatsApp Number">
+        <input type="text" placeholder="Transaction ID (TID)">
+        <button class="btn btn-red" onclick="window.open('https://wa.me/923023313131')">CONFIRM REGISTRATION</button>
+        <a href="#" class="btn btn-green" style="margin-top: 15px; font-size: 14px;">
+            <i class="fab fa-whatsapp"></i> VIEW WINNERS COMMUNITY (1200+ PROOFS)
+        </a>
+    </div>
+
+    <div class="card" style="border: 2px solid var(--gold); border-radius: 40px;">
+        <p style="background: var(--gold); width: fit-content; margin: -30px auto 10px; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">💎 TOP SERVICE</p>
+        <h3 style="margin-bottom: 5px;">POPPO LIVE SERVICES</h3>
+        <p style="color: #666; font-size: 14px;">Withdraw USDT & Sell Coins</p>
+        <a href="https://wa.me/923023313131" class="btn" style="background: linear-gradient(to right, #6366f1, #d946ef); color: white; border-radius: 20px;">OPEN NOW</a>
+        <p style="font-size: 10px; color: #aaa; margin-top: 10px;">⚡ INSTANT ⭐ TRUSTED 🛡️ SECURE</p>
+    </div>
+
 </div>
 
-<script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaPhp2qLrGzvHhOdNvu8QdhTFDF4-k0xSQ530Tdn8mTDsYqfvaE7X1hZUTeuIxXbjo9g/exec';
-    let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
-    document.getElementById("userCoins").innerText = coins;
+<footer>
+    <p>© 2026 GM Agency Official</p>
+    <p style="font-size: 12px;"><i class="fas fa-envelope"></i> Poppoliveofficial123@gmail.com</p>
+    <div style="display: flex; justify-content: center; gap: 15px; font-size: 12px; margin-top: 15px;">
+        <a href="#" style="color: #aaa; text-decoration: none;">About Us</a> | 
+        <a href="#" style="color: #aaa; text-decoration: none;">Privacy Policy</a> | 
+        <a href="#" style="color: #aaa; text-decoration: none;">Terms & Conditions</a>
+    </div>
+</footer>
 
-    function toggleRecharge() {
-        const main = document.getElementById('main-dashboard');
-        const recharge = document.getElementById('recharge-section');
-        if (recharge.style.display === 'none') {
-            recharge.style.display = 'block';
-            main.style.display = 'none';
-        } else {
-            recharge.style.display = 'none';
-            main.style.display = 'block';
-        }
+<script>
+    let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
+    document.getElementById("coinDisplay").innerText = coins;
+
+    function spinWheel() {
+        const lastSpin = localStorage.getItem("last_spin");
+        if (lastSpin && Date.now() - lastSpin < 86400000) return alert("Next spin after 24 hours!");
+        
+        let degree = Math.floor(5000 + Math.random() * 5000);
+        document.getElementById("wheel").style.transform = `rotate(${degree}deg)`;
+        
+        setTimeout(() => {
+            coins += 2;
+            localStorage.setItem("gm_coins", coins);
+            localStorage.setItem("last_spin", Date.now());
+            document.getElementById("coinDisplay").innerText = coins;
+            alert("Congratulations! You won 2 Coins.");
+            location.reload();
+        }, 4500);
+    }
+
+    function checkStatus() {
+        const out = document.getElementById("statusOutput");
+        out.style.color = "orange";
+        out.innerText = "STATUS: CHECKING VERIFICATION...";
+        setTimeout(() => {
+            out.style.color = "red";
+            out.innerText = "STATUS: NOT FOUND / PENDING";
+        }, 2000);
     }
 
     function redeemCoins() {
-        if (coins < 200) return alert("Min 200 coins!");
-        coins = 0; localStorage.setItem("gm_coins", 0);
-        document.getElementById("userCoins").innerText = 0;
-        window.open("https://wa.me/923023313131?text=Coins Zero Now. Verify me.");
+        if (coins < 200) return alert("Minimum 200 coins required!");
+        window.open(`https://wa.me/923023313131?text=Redeem Request: ${coins} Coins`);
+        coins = 0;
+        localStorage.setItem("gm_coins", 0);
+        document.getElementById("coinDisplay").innerText = 0;
     }
 
-    function checkUserStatus() {
-        const phone = document.getElementById("checkPhone").value;
-        const res = document.getElementById("statusResult");
-        if(!phone) return alert("Enter number");
-        res.style.color = "orange"; res.innerText = "CHECKING...";
-        fetch(`${SCRIPT_URL}?action=getRecords`).then(r => r.json()).then(data => {
-            const user = data.records.find(u => u.phone == phone || u.number == phone);
-            if(user) {
-                res.style.color = user.status.toUpperCase() === 'APPROVED' ? 'green' : 'red';
-                res.innerText = `STATUS: ${user.status.toUpperCase()}`;
-            } else { res.style.color = "red"; res.innerText = "NOT FOUND"; }
-        });
-    }
+    // Simple timer display
+    setInterval(() => {
+        const last = localStorage.getItem("last_spin");
+        if(last) {
+            let diff = 86400000 - (Date.now() - last);
+            if(diff > 0) {
+                let h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+                document.getElementById("timer").innerText = `Next Spin: ${h}h ${m}m ${s}s`;
+                document.getElementById("spinBtn").disabled = true;
+            }
+        }
+    }, 1000);
 </script>
+
 </body>
 </html>
