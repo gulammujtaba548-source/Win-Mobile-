@@ -10,7 +10,7 @@
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; text-align: center; }
         .container { max-width: 480px; margin: 0 auto; background: white; padding: 15px; min-height: 100vh; }
 
-        /* 🔥 Top Banner linked to services.html */
+        /* Top Banner -> services.html */
         .top-banner {
             background: linear-gradient(90deg, #7000ff, #ff007f, #7000ff);
             background-size: 200% auto; color: white; padding: 15px; border-radius: 15px; 
@@ -19,16 +19,27 @@
         }
         @keyframes grad { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
+        /* Leaderboard */
+        .leaderboard { background: #fff8f0; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #ffe0b2; }
+        .user-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee; }
+
         .card { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 8px; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; text-align: center; }
 
-        /* 24 Hour Timer Display */
-        #spinTimer { color: red; font-weight: bold; font-size: 14px; margin: 10px 0; display: none; }
+        /* Poppo Services Box -> poppo.html */
+        .service-card { border: 2px solid #ffd700; border-radius: 35px; padding: 20px; margin: 20px 0; position: relative; }
+        .service-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); padding: 2px 12px; border-radius: 10px; font-size: 10px; font-weight: bold; color: #000; }
+        .open-now-btn { background: linear-gradient(to right, #6366f1, #d946ef); color: white; padding: 15px; border-radius: 15px; font-size: 22px; font-weight: 800; display: block; text-decoration: none; margin-top: 15px; }
 
-        /* Service Card with Open Now -> poppo.html */
-        .service-card { border: 2px solid #ffd700; border-radius: 35px; padding: 20px; margin: 20px 0; }
-        .open-now-btn { background: linear-gradient(to right, #6366f1, #d946ef); color: white; padding: 15px; border-radius: 15px; font-size: 22px; font-weight: 800; display: block; text-decoration: none; }
+        /* Footer & Quick Links */
+        footer { background: #1a1a1a; color: white; padding: 30px 15px; border-radius: 30px 30px 0 0; margin-top: 40px; }
+        .footer-links { margin: 15px 0; font-size: 13px; }
+        .footer-links a { color: #aaa; text-decoration: none; margin: 0 5px; }
+        .quick-nav { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
+        .nav-btn { background: var(--gold); color: black; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; text-decoration: none; }
+        
+        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -39,47 +50,67 @@
         <span style="font-size: 11px; font-weight: normal;">Lowest Coin Rates & Fast Support</span>
     </a>
 
+    <div class="leaderboard">
+        <h4 style="color: #ef6c00; margin: 0;"><i class="fas fa-users"></i> Approved Participants: 2</h4>
+        <p style="font-size: 11px; font-weight: bold; margin: 5px 0;">🏆 Top Earners</p>
+        <div class="user-row"><span>#1 Saeed umar</span> <span style="color:green; font-weight:bold;">Verified ✅</span></div>
+        <div class="user-row"><span>#2 Ghulam Mujtaba</span> <span style="color:green; font-weight:bold;">Verified ✅</span></div>
+    </div>
+
     <div class="card">
-        <h4>🎡 Daily Reward Spin</h4>
-        <div id="spinTimer">Next Spin in: <span id="timeRemaining">--:--:--</span></div>
-        <button id="spinBtn" class="btn" style="background:#ff5252; color:white;" onclick="spinWheel()">SPIN NOW</button>
-        <div style="background:#f1f1f1; padding:10px; border-radius:10px; margin-top:10px;">🪙 My Coins: <span id="userCoins">0</span></div>
+        <h4><img src="https://cdn-icons-png.flaticon.com/512/3112/3112932.png" width="20"> Daily Reward Spin</h4>
+        <p id="spinTimer" style="color:red; font-size:12px; font-weight:bold; display:none;"></p>
+        <button id="spinBtn" class="btn" style="background:#ff5252; color:white;" onclick="collectDailyCoins()">SPIN NOW</button>
+        <div style="background:#f1f1f1; padding:10px; border-radius:10px; margin-top:10px; font-weight:bold;">🪙 My Coins: <span id="coinBalance">0</span></div>
+        <button class="btn" style="background:#1eb41e; color:white;" onclick="window.open('https://wa.me/923023313131')">REDEEM (Min 200)</button>
     </div>
 
     <div class="card">
         <h4>🔍 Check Your Status</h4>
-        <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number">
-        <button onclick="checkUserStatus()" class="btn" style="background:#222; color:white;">CHECK STATUS</button>
-        <div id="statusResult" style="margin-top:10px; font-weight:bold;"></div>
+        <input type="number" id="phoneInput" placeholder="03023313131">
+        <button onclick="checkDatabaseStatus()" class="btn" style="background:#222; color:white;">CHECK STATUS</button>
+        <div id="statusInfo" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
     </div>
 
     <div class="service-card">
+        <div class="service-badge">💎 TOP SERVICE</div>
         <h2 style="margin:5px 0;">POPPO LIVE SERVICES</h2>
         <p style="color:#666; font-size:14px; margin-bottom:15px;">Withdraw USDT & Sell Coins</p>
         <a href="poppo.html" class="open-now-btn">OPEN NOW</a>
+        <p style="font-size:10px; color:#aaa; margin-top:10px;">⚡ INSTANT ⭐ TRUSTED 🛡️ SECURE</p>
     </div>
 </div>
 
+<a href="https://wa.me/923023313131" class="wa-float"><i class="fab fa-whatsapp"></i></a>
+
+<footer>
+    <p>© 2026 GM Agency Official</p>
+    <p style="font-size: 11px;"><i class="fas fa-envelope"></i> Poppoliveofficial123@gmail.com</p>
+    <div class="footer-links">
+        <a href="about.html">About Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a>
+    </div>
+    <div class="quick-nav">
+        <a href="poppo.html" class="nav-btn">Poppo Coins</a>
+        <a href="#" class="nav-btn">Daily Rewards</a>
+        <a href="#" class="nav-btn">Lucky Draw</a>
+    </div>
+</footer>
+
 <script>
-    // --- 24 HOUR TIMER LOGIC ---
+    // --- 24h Collection Logic ---
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
-    document.getElementById("userCoins").innerText = coins;
+    document.getElementById("coinBalance").innerText = coins;
 
-    function updateTimer() {
-        const lastSpin = localStorage.getItem("last_spin_time");
-        if (lastSpin) {
-            const now = new Date().getTime();
-            const distance = (parseInt(lastSpin) + (24 * 60 * 60 * 1000)) - now;
-
-            if (distance > 0) {
+    function runTimer() {
+        const last = localStorage.getItem("last_collection");
+        if (last) {
+            const diff = (parseInt(last) + (24 * 60 * 60 * 1000)) - new Date().getTime();
+            if (diff > 0) {
                 document.getElementById("spinBtn").disabled = true;
                 document.getElementById("spinBtn").style.opacity = "0.5";
                 document.getElementById("spinTimer").style.display = "block";
-                
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById("timeRemaining").innerText = `${hours}h ${minutes}m ${seconds}s`;
+                const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+                document.getElementById("spinTimer").innerText = `Next Spin in: ${h}h ${m}m ${s}s`;
             } else {
                 document.getElementById("spinBtn").disabled = false;
                 document.getElementById("spinBtn").style.opacity = "1";
@@ -87,43 +118,37 @@
             }
         }
     }
-    setInterval(updateTimer, 1000);
+    setInterval(runTimer, 1000);
 
-    function spinWheel() {
-        // Collect coins and set 24h timer
+    function collectDailyCoins() {
         coins += 2;
         localStorage.setItem("gm_coins", coins);
-        localStorage.setItem("last_spin_time", new Date().getTime());
-        document.getElementById("userCoins").innerText = coins;
-        alert("You won 2 Coins! Next spin after 24 hours.");
-        updateTimer();
+        localStorage.setItem("last_collection", new Date().getTime());
+        document.getElementById("coinBalance").innerText = coins;
+        alert("2 Coins Collected!");
+        runTimer();
     }
 
-    // --- STATUS CHECK FIX ---
-    function checkUserStatus() {
-        const phone = document.getElementById("checkPhone").value;
-        const res = document.getElementById("statusResult");
-        const SCRIPT_URL = 'APNI_SHEET_URL_YAHAN_DALEIN'; // Make sure this is correct!
+    // --- Status Check Logic ---
+    function checkDatabaseStatus() {
+        const phone = document.getElementById("phoneInput").value;
+        const info = document.getElementById("statusInfo");
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaPhp2qLrGzvHhOdNvu8QdhTFDF4-k0xSQ530Tdn8mTDsYqfvaE7X1hZUTeuIxXbjo9g/exec';
 
-        if(!phone) return alert("Number likhein!");
-        res.style.color = "orange";
-        res.innerText = "STATUS: CHECKING...";
+        if(!phone) return alert("Number enter karein!");
+        info.style.color = "orange"; info.innerText = "STATUS: CHECKING...";
 
         fetch(`${SCRIPT_URL}?action=getRecords`)
-            .then(response => response.json())
+            .then(r => r.json())
             .then(data => {
                 const user = data.records.find(u => u.phone == phone || u.number == phone);
                 if(user) {
-                    res.style.color = user.status.toUpperCase() === 'APPROVED' ? 'green' : 'red';
-                    res.innerText = `STATUS: ${user.status.toUpperCase()}`;
-                } else {
-                    res.style.color = "red";
-                    res.innerText = "STATUS: NOT FOUND";
-                }
+                    info.style.color = user.status.toUpperCase() === 'APPROVED' ? 'green' : 'red';
+                    info.innerText = `STATUS: ${user.status.toUpperCase()}`;
+                } else { info.style.color = "red"; info.innerText = "STATUS: NOT REGISTERED"; }
             })
-            .catch(error => {
-                res.style.color = "red";
-                res.innerText = "ERROR: DATABASE NOT CONNECTED";
+            .catch(e => {
+                info.style.color = "red"; info.innerText = "ERROR: DATABASE NOT CONNECTED";
             });
     }
 </script>
