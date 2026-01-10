@@ -26,9 +26,16 @@
         .btn-redeem { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; }
         .btn-active { background: #28a745; color: white; }
         .btn-disabled { background: #ccc; color: #666; cursor: not-allowed; }
-        .service-card { border: 2px solid #ffd700; border-radius: 35px; padding: 20px; margin: 20px 0; position: relative; }
-        .open-now-btn { background: linear-gradient(to right, #6366f1, #d946ef); color: white; padding: 15px; border-radius: 15px; font-size: 22px; font-weight: 800; display: block; text-decoration: none; margin-top: 15px; }
+        .service-card { border: 2px solid #ffd700; border-radius: 25px; padding: 25px; margin: 25px 0; background: linear-gradient(145deg, #ffffff, #fffdf0); box-shadow: 0 10px 20px rgba(0,0,0,0.08); position: relative; overflow: hidden; }
+        .service-badge { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #ffd700; color: #000; padding: 4px 20px; border-radius: 0 0 15px 15px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .service-list { text-align: left; display: inline-block; margin: 15px 0; list-style: none; padding: 0; }
+        .service-list li { font-size: 14px; margin-bottom: 8px; color: #444; }
+        .service-list i { color: #28a745; margin-right: 10px; }
+        .pulse-btn { background: linear-gradient(45deg, #6366f1, #d946ef); color: white; padding: 18px; border-radius: 15px; font-size: 20px; font-weight: 800; display: block; text-decoration: none; margin-top: 10px; box-shadow: 0 5px 15px rgba(217, 70, 239, 0.4); transition: 0.3s; }
         footer { background: #1a1a1a; color: white; padding: 30px 15px; border-radius: 30px 30px 0 0; margin-top: 40px; }
+        .footer-links { margin: 15px 0; font-size: 13px; }
+        .footer-links a { color: #aaa; text-decoration: none; margin: 0 8px; transition: 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
         .nav-btn { background: var(--gold); color: black; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; text-decoration: none; margin: 5px; display: inline-block; }
         .wa-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
     </style>
@@ -43,7 +50,6 @@
 
     <div class="leaderboard">
         <h4 style="color: #ef6c00; margin: 0;"><i class="fas fa-users"></i> Approved Participants: 2</h4>
-        <p style="font-size: 11px; font-weight: bold; margin: 5px 0;">🏆 Top Earners</p>
         <div class="user-row"><span>#1 Saeed umar</span> <span style="color:green; font-weight:bold;">Verified ✅</span></div>
         <div class="user-row"><span>#2 Ghulam Mujtaba</span> <span style="color:green; font-weight:bold;">Verified ✅</span></div>
     </div>
@@ -70,7 +76,6 @@
                 <strong style="font-size: 24px; color: #333;">🪙 <span id="currentCoins">0</span></strong>
             </div>
             <button id="redeemBtn" class="btn-redeem btn-disabled" onclick="processRedeem()" disabled>REDEEM (Min 200)</button>
-            <p id="redeemMsg" style="font-size: 10px; margin-top: 5px; color: #888;">Aapko kam az kam 200 coins chahiye.</p>
         </div>
     </div>
 
@@ -81,94 +86,33 @@
         <div id="statusInfo" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
     </div>
 
-    <style>
-    .service-card {
-        border: 2px solid #ffd700;
-        border-radius: 25px;
-        padding: 25px;
-        margin: 25px 0;
-        background: linear-gradient(145deg, #ffffff, #fffdf0);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-        position: relative;
-        overflow: hidden;
-    }
-    .service-badge {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #ffd700;
-        color: #000;
-        padding: 4px 20px;
-        border-radius: 0 0 15px 15px;
-        font-size: 11px;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-    .service-list {
-        text-align: left;
-        display: inline-block;
-        margin: 15px 0;
-        list-style: none;
-        padding: 0;
-    }
-    .service-list li {
-        font-size: 14px;
-        margin-bottom: 8px;
-        color: #444;
-    }
-    .service-list i {
-        color: #28a745;
-        margin-right: 10px;
-    }
-    .pulse-btn {
-        background: linear-gradient(45deg, #6366f1, #d946ef);
-        color: white;
-        padding: 18px;
-        border-radius: 15px;
-        font-size: 20px;
-        font-weight: 800;
-        display: block;
-        text-decoration: none;
-        margin-top: 10px;
-        box-shadow: 0 5px 15px rgba(217, 70, 239, 0.4);
-        transition: 0.3s;
-    }
-    .pulse-btn:hover {
-        transform: scale(1.02);
-        filter: brightness(1.1);
-    }
-</style>
-
-<div class="service-card">
-    <div class="service-badge">💎 Verified Agency Service</div>
-    
-    <h2 style="margin-top: 10px; color: #333; font-size: 22px;">Poppo Live Official Center</h2>
-    <p style="color: #666; font-size: 13px;">GM Agency provide fast & secure coin services</p>
-
-    <ul class="service-list">
-        <li><i class="fas fa-check-circle"></i> 🟢 <b>Instant Coin Recharge</b> (24/7)</li>
-        <li><i class="fas fa-check-circle"></i> 💰 <b>Lowest Market Rates</b> Guaranteed</li>
-        <li><i class="fas fa-check-circle"></i> 💵 <b>Withdraw USDT</b> to Easypaisa/JazzCash</li>
-        <li><i class="fas fa-check-circle"></i> 🛡️ 100% Secure & Trusted Platform</li>
-    </ul>
-
-    <a href="poppo.html" class="pulse-btn">
-        OPEN SERVICES NOW <i class="fas fa-arrow-right" style="font-size: 16px; margin-left: 10px;"></i>
-    </a>
-    
-    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px; font-size: 10px; color: #888; font-weight: bold;">
-        <span>⚡ INSTANT</span>
-        <span>⭐ TRUSTED</span>
-        <span>🛡️ SECURE</span>
+    <div class="service-card">
+        <div class="service-badge">💎 Verified Agency Service</div>
+        <h2 style="margin-top: 10px; color: #333; font-size: 22px;">Poppo Live Official Center</h2>
+        <ul class="service-list">
+            <li><i class="fas fa-check-circle"></i> 🟢 <b>Instant Coin Recharge</b> (24/7)</li>
+            <li><i class="fas fa-check-circle"></i> 💰 <b>Lowest Market Rates</b></li>
+            <li><i class="fas fa-check-circle"></i> 🛡️ <b>100% Secure</b> Platform</li>
+        </ul>
+        <a href="poppo.html" class="pulse-btn">OPEN SERVICES NOW <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
-
 
 <a href="https://wa.me/923023313131" class="wa-float"><i class="fab fa-whatsapp"></i></a>
 
 <footer>
     <p>© 2026 GM Agency Official</p>
+    <p style="font-size: 11px;">
+        <i class="fas fa-envelope"></i> 
+        <a href="mailto:Poppoliveofficial123@gmail.com" style="color:#ffd700; text-decoration:none;">Poppoliveofficial123@gmail.com</a>
+    </p>
+
+    <div class="footer-links">
+        <a href="about.html">About Us</a> | 
+        <a href="privacy.html">Privacy Policy</a> | 
+        <a href="terms.html">Terms & Conditions</a>
+    </div>
+
     <div class="quick-nav">
         <a href="poppo.html" class="nav-btn">Poppo Coins</a>
         <a href="#" class="nav-btn">Daily Rewards</a>
