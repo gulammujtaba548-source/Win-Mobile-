@@ -27,6 +27,7 @@
         footer { background: #1a1a1a; color: white; padding: 30px 15px; margin-top: 30px; border-radius: 30px 30px 0 0; text-align: left; }
         .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .footer-grid a { color: #bbb; text-decoration: none; font-size: 13px; display: block; margin-bottom: 5px; }
+        #redeemBtn { display: none; background: #22c55e; color: white; margin-top: 10px; padding: 10px; border-radius: 10px; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -38,12 +39,10 @@
     </a>
 
     <div id="winnerBox" style="display:none; background: linear-gradient(45deg, #ffd700, #ffae00); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid white; box-shadow: 0 0 15px rgba(255,215,0,0.5); animation: pulse 1.5s infinite;">
-    <h3 style="margin:0; color: #000;">🎊 LATEST WINNER 🎊</h3>
-    <div id="winnerName" style="font-size: 24px; font-weight: 900; color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">...</div>
-</div>
+        <h3 style="margin:0; color: #000;">🎊 LATEST WINNER 🎊</h3>
+        <div id="winnerName" style="font-size: 24px; font-weight: 900; color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">...</div>
+    </div>
 
-<div class="card" style="background: #fff3e0;">
-    
     <div class="card" style="background: #fff3e0;">
         <h4 style="color:#e65100; margin:0;">🏆 TOP EARNERS</h4>
         <div style="font-size: 16px; font-weight: bold; color: #22c55e; margin: 5px 0;">Verified Participants: <span id="totalDisplay">0</span></div>
@@ -87,7 +86,9 @@
         </div>
         <button id="spinBtn" class="btn" style="background:var(--poppo); color:white;" onclick="spinWheel()">SPIN NOW</button>
         <p id="spinTimer" style="display:none; color:red; font-weight:bold; margin-top:10px;"></p>
+        
         <div style="margin-top:10px; font-weight:bold;">Wallet: <span id="userCoins">0</span> 🪙</div>
+        <a id="redeemBtn" href="#" onclick="redeemCoins()">REDEEM 200 COINS 🎁</a>
     </div>
 
     <div class="card" style="background: #0f0c29; color: white; border: 2px solid var(--gold);">
@@ -100,22 +101,18 @@
         <button onclick="submitWinEntry()" id="subBtn" class="btn" style="background:var(--gold); color:black;">Confirm Registration</button>
     </div>
 
-    <div class="card" style="border:2px solid #6366f1; background:#f8fafc;">
-        <h4 style="margin:0;">POPPO LIVE SERVICES</h4>
-        <a href="poppo.html" class="btn" style="background:linear-gradient(90deg, #4f46e5, #ec4899); color:white; text-decoration:none; display:block; margin-top:10px;">OPEN NOW</a>
-    </div>
-
     <footer>
         <div class="footer-grid">
             <div>
                 <h5 style="color:var(--poppo); margin:0 0 10px 0;">SERVICES</h5>
                 <a href="services.html">Coin Recharge</a>
                 <a href="services.html">USDT Withdraw</a>
+                <a href="poppo.html">Poppo Services</a>
             </div>
             <div>
                 <h5 style="color:var(--poppo); margin:0 0 10px 0;">LEGAL</h5>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Sitemap</a>
+                <a href="#" onclick="alert('Privacy Policy: Your data is safe with GM Agency Official.')">Privacy Policy</a>
+                <a href="#" onclick="alert('Terms: One spin per day. Multiple accounts not allowed.')">Terms & Conditions</a>
             </div>
         </div>
         <div style="border-top:1px solid #333; padding-top:10px; margin-top:15px; font-size:11px;">
@@ -131,6 +128,13 @@
     // Timer & Spin
     function updateTimer() {
         const last = localStorage.getItem("last_spin_time");
+        const coins = parseInt(localStorage.getItem("gm_coins") || 0);
+        document.getElementById("userCoins").innerText = coins;
+        
+        // Redeem button logic
+        if(coins >= 200) { document.getElementById("redeemBtn").style.display = "block"; }
+        else { document.getElementById("redeemBtn").style.display = "none"; }
+
         if(!last) return;
         const diff = (parseInt(last) + 86400000) - Date.now();
         if(diff > 0) {
@@ -152,40 +156,35 @@
             let coins = parseInt(localStorage.getItem("gm_coins") || 0) + 2;
             localStorage.setItem("gm_coins", coins);
             localStorage.setItem("last_spin_time", Date.now());
-            document.getElementById("userCoins").innerText = coins;
             alert("Mubarak! 2 Coins mil gaye.");
             updateTimer();
         }, 4000);
     }
 
-    // Load Records
+    function redeemCoins() {
+        localStorage.setItem("gm_coins", 0);
+        window.location.href = "https://wa.me/923023313131?text=Hello%20GM%20Agency,%20I%20want%20to%20redeem%20my%20200%20coins.";
+    }
+
+    // Load Records (Single Function Fix)
     function loadData() {
-    fetch(`${SCRIPT_URL}?action=getRecords`)
-    .then(res => res.json())
-    .then(data => {
-        // 1. Leaderboard & Count update karna
-        const approved = data.records.filter(u => u.status === "Approved");
-        document.getElementById('totalDisplay').innerText = approved.length;
-        document.getElementById('topEarnersList').innerHTML = approved.slice(0,5).map(u => `<div>${u.name} - Verified ✅</div>`).join('');
+        fetch(`${SCRIPT_URL}?action=getRecords`)
+        .then(res => res.json())
+        .then(data => {
+            const approved = data.records.filter(u => u.status === "Approved");
+            document.getElementById('totalDisplay').innerText = approved.length;
+            document.getElementById('topEarnersList').innerHTML = approved.slice(0,5).map(u => `<div>${u.name} - Verified ✅</div>`).join('');
 
-        // 2. Winner dhoondne ki logic (JO AAPNE PUCHI HAI)
-        // Hum check kar rahe hain ke kisi bhi column mein "WINNER" likha hai ya nahi
-        const winner = data.records.find(u => u.winner && u.winner.includes("WINNER"));
-        
-        const winnerBox = document.getElementById('winnerBox');
-        const winnerName = document.getElementById('winnerName');
+            const winner = data.records.find(u => u.winner && u.winner.includes("WINNER"));
+            if(winner) {
+                document.getElementById('winnerBox').style.display = "block";
+                document.getElementById('winnerName').innerText = winner.name;
+            } else {
+                document.getElementById('winnerBox').style.display = "none";
+            }
+        });
+    }
 
-        if(winner && winnerBox && winnerName) {
-            winnerBox.style.display = "block";
-            winnerName.innerText = winner.name;
-        } else if(winnerBox) {
-            winnerBox.style.display = "none";
-        }
-    });
-}
-
-
-    // Status Check
     function checkUserStatus() {
         const phone = document.getElementById('checkPhone').value;
         const res = document.getElementById('statusResult');
@@ -200,17 +199,18 @@
         });
     }
 
-    // Submit & Success Redirect
     function submitWinEntry() {
         const btn = document.getElementById("subBtn");
         btn.innerText = "Submitting...";
-        fetch(`${SCRIPT_URL}?name=${encodeURIComponent(document.getElementById('name').value)}&phone=${encodeURIComponent(document.getElementById('phone').value)}&tid=${encodeURIComponent(document.getElementById('tid').value)}`, { method: 'POST', mode: 'no-cors' })
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const tid = document.getElementById('tid').value;
+        fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&tid=${encodeURIComponent(tid)}`, { method: 'POST', mode: 'no-cors' })
         .then(() => { window.location.href = "success.html"; });
     }
 
     window.onload = () => {
         loadData();
-        document.getElementById("userCoins").innerText = localStorage.getItem("gm_coins") || 0;
         updateTimer();
         setInterval(updateTimer, 1000);
     };
