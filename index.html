@@ -81,11 +81,89 @@
         <div id="statusInfo" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
     </div>
 
-    <div class="service-card">
-        <h2 style="margin:5px 0;">POPPO LIVE SERVICES</h2>
-        <a href="poppo.html" class="open-now-btn">OPEN NOW</a>
+    <style>
+    .service-card {
+        border: 2px solid #ffd700;
+        border-radius: 25px;
+        padding: 25px;
+        margin: 25px 0;
+        background: linear-gradient(145deg, #ffffff, #fffdf0);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+    }
+    .service-badge {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ffd700;
+        color: #000;
+        padding: 4px 20px;
+        border-radius: 0 0 15px 15px;
+        font-size: 11px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .service-list {
+        text-align: left;
+        display: inline-block;
+        margin: 15px 0;
+        list-style: none;
+        padding: 0;
+    }
+    .service-list li {
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #444;
+    }
+    .service-list i {
+        color: #28a745;
+        margin-right: 10px;
+    }
+    .pulse-btn {
+        background: linear-gradient(45deg, #6366f1, #d946ef);
+        color: white;
+        padding: 18px;
+        border-radius: 15px;
+        font-size: 20px;
+        font-weight: 800;
+        display: block;
+        text-decoration: none;
+        margin-top: 10px;
+        box-shadow: 0 5px 15px rgba(217, 70, 239, 0.4);
+        transition: 0.3s;
+    }
+    .pulse-btn:hover {
+        transform: scale(1.02);
+        filter: brightness(1.1);
+    }
+</style>
+
+<div class="service-card">
+    <div class="service-badge">💎 Verified Agency Service</div>
+    
+    <h2 style="margin-top: 10px; color: #333; font-size: 22px;">Poppo Live Official Center</h2>
+    <p style="color: #666; font-size: 13px;">GM Agency provide fast & secure coin services</p>
+
+    <ul class="service-list">
+        <li><i class="fas fa-check-circle"></i> 🟢 <b>Instant Coin Recharge</b> (24/7)</li>
+        <li><i class="fas fa-check-circle"></i> 💰 <b>Lowest Market Rates</b> Guaranteed</li>
+        <li><i class="fas fa-check-circle"></i> 💵 <b>Withdraw USDT</b> to Easypaisa/JazzCash</li>
+        <li><i class="fas fa-check-circle"></i> 🛡️ 100% Secure & Trusted Platform</li>
+    </ul>
+
+    <a href="poppo.html" class="pulse-btn">
+        OPEN SERVICES NOW <i class="fas fa-arrow-right" style="font-size: 16px; margin-left: 10px;"></i>
+    </a>
+    
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px; font-size: 10px; color: #888; font-weight: bold;">
+        <span>⚡ INSTANT</span>
+        <span>⭐ TRUSTED</span>
+        <span>🛡️ SECURE</span>
     </div>
 </div>
+
 
 <a href="https://wa.me/923023313131" class="wa-float"><i class="fab fa-whatsapp"></i></a>
 
