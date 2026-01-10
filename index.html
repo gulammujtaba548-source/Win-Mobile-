@@ -9,36 +9,27 @@
         :root { --primary: #ff5252; --gold: #ffd700; --poppo: #ff007f; --bg: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; text-align: center; }
         .container { max-width: 480px; margin: 0 auto; background: white; padding: 15px; min-height: 100vh; }
-
-        /* Top Banner -> services.html */
-        .top-banner {
-            background: linear-gradient(90deg, #7000ff, #ff007f, #7000ff);
-            background-size: 200% auto; color: white; padding: 15px; border-radius: 15px; 
-            margin: 10px 0 20px 0; border: 2px solid var(--gold); font-weight: bold; 
-            text-decoration: none; display: block; animation: grad 3s linear infinite;
-        }
+        .top-banner { background: linear-gradient(90deg, #7000ff, #ff007f, #7000ff); background-size: 200% auto; color: white; padding: 15px; border-radius: 15px; margin: 10px 0 20px 0; border: 2px solid var(--gold); font-weight: bold; text-decoration: none; display: block; animation: grad 3s linear infinite; }
         @keyframes grad { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-
-        /* Leaderboard */
         .leaderboard { background: #fff8f0; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #ffe0b2; }
         .user-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee; }
-
         .card { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 8px; }
         input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; text-align: center; }
-
-        /* Poppo Services Box -> poppo.html */
+        .join-box { border: 3px solid var(--poppo); border-radius: 20px; padding: 20px; margin-bottom: 15px; background: #fff0f6; position: relative; }
+        .badge { position: absolute; top: 0; right: 10px; background: var(--poppo); color: white; padding: 3px 12px; border-radius: 0 0 10px 10px; font-size: 10px; font-weight: bold; }
+        .code-box { background: #222; color: var(--gold); padding: 12px; border-radius: 12px; font-size: 28px; font-weight: 900; margin: 15px 0; letter-spacing: 2px; }
+        .btn-claim { background: linear-gradient(to right, #ff5252, #ff1744); color: white; padding: 15px; border-radius: 12px; font-weight: bold; width: 100%; display: block; text-decoration: none; margin-top: 10px; }
+        .group-box { border: 2px solid var(--poppo); border-radius: 50px; padding: 12px; background: white; text-align: center; text-decoration: none; display: block; color: var(--poppo); font-weight: bold; font-size: 11px; margin-bottom: 15px; }
+        .redeem-section { margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
+        .coin-display { background: #f8f9fa; padding: 10px; border-radius: 12px; border: 2px dashed #ffc107; margin-bottom: 10px; }
+        .btn-redeem { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; }
+        .btn-active { background: #28a745; color: white; }
+        .btn-disabled { background: #ccc; color: #666; cursor: not-allowed; }
         .service-card { border: 2px solid #ffd700; border-radius: 35px; padding: 20px; margin: 20px 0; position: relative; }
-        .service-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); padding: 2px 12px; border-radius: 10px; font-size: 10px; font-weight: bold; color: #000; }
         .open-now-btn { background: linear-gradient(to right, #6366f1, #d946ef); color: white; padding: 15px; border-radius: 15px; font-size: 22px; font-weight: 800; display: block; text-decoration: none; margin-top: 15px; }
-
-        /* Footer & Quick Links */
         footer { background: #1a1a1a; color: white; padding: 30px 15px; border-radius: 30px 30px 0 0; margin-top: 40px; }
-        .footer-links { margin: 15px 0; font-size: 13px; }
-        .footer-links a { color: #aaa; text-decoration: none; margin: 0 5px; }
-        .quick-nav { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
-        .nav-btn { background: var(--gold); color: black; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; text-decoration: none; }
-        
+        .nav-btn { background: var(--gold); color: black; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; text-decoration: none; margin: 5px; display: inline-block; }
         .wa-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
     </style>
 </head>
@@ -57,103 +48,31 @@
         <div class="user-row"><span>#2 Ghulam Mujtaba</span> <span style="color:green; font-weight:bold;">Verified ✅</span></div>
     </div>
 
-<style>
-    :root { --poppo: #ff007f; --gold: #ffd700; }
-    .reward-container { max-width: 450px; margin: 20px auto; font-family: sans-serif; }
-    
-    /* Join Agency Box Style */
-    .join-box { 
-        border: 3px solid var(--poppo); 
-        border-radius: 20px; 
-        padding: 20px; 
-        margin-bottom: 20px; 
-        background: #fff0f6; 
-        position: relative; 
-        text-align: center;
-    }
-    .badge { 
-        position: absolute; top: 0; right: 10px; 
-        background: var(--poppo); color: white; 
-        padding: 3px 12px; border-radius: 0 0 10px 10px; 
-        font-size: 10px; font-weight: bold; 
-    }
-    .code-box { 
-        background: #222; color: var(--gold); 
-        padding: 12px; border-radius: 12px; 
-        font-size: 28px; font-weight: 900; 
-        margin: 15px 0; letter-spacing: 2px;
-    }
-    .btn-claim { 
-        background: linear-gradient(to right, #ff5252, #ff1744); 
-        color: white; padding: 15px; border: none; 
-        border-radius: 12px; font-weight: bold; 
-        width: 100%; display: block; text-decoration: none; 
-        font-size: 16px; margin-top: 10px;
-    }
-    
-    /* WhatsApp Group Box Style */
-    .group-box {
-        border: 2px solid var(--poppo);
-        border-radius: 50px;
-        padding: 12px;
-        background: white;
-        text-align: center;
-        text-decoration: none;
-        display: block;
-        color: var(--poppo);
-        font-weight: bold;
-        font-size: 11px;
-    }
-</style>
-
-<div class="reward-container">
     <div class="join-box">
         <div class="badge">OFFICIAL GM OFFER</div>
         <h3 style="color: var(--poppo); margin: 0;">🌟 Poppo Agency Join Rewards 🌟</h3>
         <p style="font-size: 12px; margin: 10px 0 5px;">Agency Join Code:</p>
         <div class="code-box">2753578</div>
         <p style="font-weight: bold; font-size: 14px; color: #333;">🔥 5,000 COINS WELCOME GIFT 🔥</p>
-        <p style="font-size: 11px; color: #666; margin-bottom: 15px;">Naye hosts hamari agency join karein aur hasil karein 5,000 Coins!</p>
-        <a href="https://wa.me/923023313131?text=Hi%20GM%20Agency,%20I%20joined%20your%20agency%20with%20code%202753578.%20Please%20give%20me%20my%205000%20coins%20reward." class="btn-claim">
-            CLAIM 5000 COINS NOW 🚀
-        </a>
+        <a href="https://wa.me/923023313131?text=Hi%20GM%20Agency,%20I%20joined%20your%20agency%20with%20code%202753578." class="btn-claim">CLAIM 5000 COINS NOW 🚀</a>
     </div>
 
-    <a href="https://chat.whatsapp.com/Kxmmzms3t0v7EapD6iySEK" class="group-box">
-        📢 JOIN POPPO REWARDS GROUP (DAILY 3000 COINS)
-    </a>
-</div>
-    
-    
+    <a href="https://chat.whatsapp.com/Kxmmzms3t0v7EapD6iySEK" class="group-box">📢 JOIN POPPO REWARDS GROUP (DAILY 3000 COINS)</a>
+
     <div class="card">
-        <h4><img src="https://cdn-icons-png.flaticon.com/512/3112/3112932.png" width="20"> Daily Reward Spin</h4>
+        <h4>🎡 Daily Reward Spin</h4>
         <p id="spinTimer" style="color:red; font-size:12px; font-weight:bold; display:none;"></p>
         <button id="spinBtn" class="btn" style="background:#ff5252; color:white;" onclick="collectDailyCoins()">SPIN NOW</button>
-        <div style="background:#f1f1f1; padding:10px; border-radius:10px; margin-top:10px; font-weight:bold;">🪙 My Coins: <span id="coinBalance">0</span></div>
-        <button class="btn" style="background:#1eb41e; color:white;" onclick="window.open('https://wa.me/923023313131')">REDEEM (Min 200)</button>
-    </div>
-    <div class="card">
-    <h4>🎡 Daily Reward Spin</h4>
-    <p id="spinTimer" style="color:red; font-size:12px; font-weight:bold; display:none;"></p>
-    <button id="spinBtn" class="btn" style="background:#ff5252; color:white;" onclick="collectDailyCoins()">SPIN NOW</button>
-    
-    <div class="redeem-section" style="margin-top:15px; border-top: 1px solid #eee; padding-top: 15px;">
-        <div class="coin-display" style="background: #f8f9fa; padding: 10px; border-radius: 12px; border: 2px dashed #ffc107;">
-            <span style="font-size: 12px; color: #555;">Remaining Coins</span><br>
-            <strong style="font-size: 24px; color: #333;">🪙 <span id="currentCoins">0</span></strong>
+        
+        <div class="redeem-section">
+            <div class="coin-display">
+                <span style="font-size: 12px; color: #555;">Remaining Coins</span><br>
+                <strong style="font-size: 24px; color: #333;">🪙 <span id="currentCoins">0</span></strong>
+            </div>
+            <button id="redeemBtn" class="btn-redeem btn-disabled" onclick="processRedeem()" disabled>REDEEM (Min 200)</button>
+            <p id="redeemMsg" style="font-size: 10px; margin-top: 5px; color: #888;">Aapko kam az kam 200 coins chahiye.</p>
         </div>
-
-        <button id="redeemBtn" class="btn-redeem btn-disabled" onclick="processRedeem()" disabled style="margin-top:10px;">
-            REDEEM (Min 200)
-        </button>
-        <p id="redeemMsg" style="font-size: 10px; margin-top: 5px; color: #888;">Min 200 coins required.</p>
     </div>
-</div>
-<div class="card">
-    <h4>🔍 Check Your Status</h4>
-    ...
-</div>
-    
 
     <div class="card">
         <h4>🔍 Check Your Status</h4>
@@ -163,11 +82,8 @@
     </div>
 
     <div class="service-card">
-        <div class="service-badge">💎 TOP SERVICE</div>
         <h2 style="margin:5px 0;">POPPO LIVE SERVICES</h2>
-        <p style="color:#666; font-size:14px; margin-bottom:15px;">Withdraw USDT & Sell Coins</p>
         <a href="poppo.html" class="open-now-btn">OPEN NOW</a>
-        <p style="font-size:10px; color:#aaa; margin-top:10px;">⚡ INSTANT ⭐ TRUSTED 🛡️ SECURE</p>
     </div>
 </div>
 
@@ -175,10 +91,6 @@
 
 <footer>
     <p>© 2026 GM Agency Official</p>
-    <p style="font-size: 11px;"><i class="fas fa-envelope"></i> Poppoliveofficial123@gmail.com</p>
-    <div class="footer-links">
-        <a href="about.html">About Us</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a>
-    </div>
     <div class="quick-nav">
         <a href="poppo.html" class="nav-btn">Poppo Coins</a>
         <a href="#" class="nav-btn">Daily Rewards</a>
@@ -187,9 +99,19 @@
 </footer>
 
 <script>
-    // --- 24h Collection Logic ---
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
-    document.getElementById("coinBalance").innerText = coins;
+    
+    function updateUI() {
+        document.getElementById("currentCoins").innerText = coins;
+        const btn = document.getElementById("redeemBtn");
+        if (coins >= 200) {
+            btn.className = "btn-redeem btn-active";
+            btn.disabled = false;
+        } else {
+            btn.className = "btn-redeem btn-disabled";
+            btn.disabled = true;
+        }
+    }
 
     function runTimer() {
         const last = localStorage.getItem("last_collection");
@@ -200,7 +122,7 @@
                 document.getElementById("spinBtn").style.opacity = "0.5";
                 document.getElementById("spinTimer").style.display = "block";
                 const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-                document.getElementById("spinTimer").innerText = `Next Spin in: ${h}h ${m}m ${s}s`;
+                document.getElementById("spinTimer").innerText = `Next Spin: ${h}h ${m}m ${s}s`;
             } else {
                 document.getElementById("spinBtn").disabled = false;
                 document.getElementById("spinBtn").style.opacity = "1";
@@ -208,39 +130,40 @@
             }
         }
     }
-    setInterval(runTimer, 1000);
 
     function collectDailyCoins() {
         coins += 2;
         localStorage.setItem("gm_coins", coins);
         localStorage.setItem("last_collection", new Date().getTime());
-        document.getElementById("coinBalance").innerText = coins;
+        updateUI();
         alert("2 Coins Collected!");
-        runTimer();
     }
 
-    // --- Status Check Logic ---
+    function processRedeem() {
+        if (coins >= 200) {
+            const amount = coins;
+            coins = 0;
+            localStorage.setItem("gm_coins", 0);
+            updateUI();
+            window.location.href = `https://wa.me/923023313131?text=Redeem%20Request:%20${amount}%20Coins`;
+        }
+    }
+
     function checkDatabaseStatus() {
         const phone = document.getElementById("phoneInput").value;
         const info = document.getElementById("statusInfo");
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaPhp2qLrGzvHhOdNvu8QdhTFDF4-k0xSQ530Tdn8mTDsYqfvaE7X1hZUTeuIxXbjo9g/exec';
-
-        if(!phone) return alert("Number enter karein!");
-        info.style.color = "orange"; info.innerText = "STATUS: CHECKING...";
-
-        fetch(`${SCRIPT_URL}?action=getRecords`)
-            .then(r => r.json())
-            .then(data => {
-                const user = data.records.find(u => u.phone == phone || u.number == phone);
-                if(user) {
-                    info.style.color = user.status.toUpperCase() === 'APPROVED' ? 'green' : 'red';
-                    info.innerText = `STATUS: ${user.status.toUpperCase()}`;
-                } else { info.style.color = "red"; info.innerText = "STATUS: NOT REGISTERED"; }
-            })
-            .catch(e => {
-                info.style.color = "red"; info.innerText = "ERROR: DATABASE NOT CONNECTED";
-            });
+        if(!phone) return alert("Enter Number");
+        info.innerText = "CHECKING...";
+        fetch(`https://script.google.com/macros/s/AKfycbyaPhp2qLrGzvHhOdNvu8QdhTFDF4-k0xSQ530Tdn8mTDsYqfvaE7X1hZUTeuIxXbjo9g/exec?action=getRecords`)
+        .then(r => r.json()).then(data => {
+            const user = data.records.find(u => u.phone == phone || u.number == phone);
+            info.innerText = user ? `STATUS: ${user.status.toUpperCase()}` : "NOT REGISTERED";
+            info.style.color = user?.status === 'approved' ? 'green' : 'red';
+        }).catch(() => { info.innerText = "DATABASE ERROR"; });
     }
+
+    setInterval(runTimer, 1000);
+    updateUI();
 </script>
 </body>
 </html>
