@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Agency - Official Portal</title>
+    <title>GM Agency - Master Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --primary: #ff5252; --gold: #ffd700; --poppo: #ff007f; --bg: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; text-align: center; }
         .container { max-width: 480px; margin: 0 auto; background: white; padding: 15px; min-height: 100vh; }
 
-        /* 🔥 Top Banner linked to poppo.html */
+        /* 🔥 Top Banner linked to services.html */
         .top-banner {
             background: linear-gradient(90deg, #7000ff, #ff007f, #7000ff);
             background-size: 200% auto; color: white; padding: 15px; border-radius: 15px; 
@@ -19,123 +19,112 @@
         }
         @keyframes grad { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
-        /* Approved Participants */
-        .approved-card { background: #fff8f0; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #ffe0b2; }
-        .user-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 14px; border-bottom: 1px solid #eee; }
-
-        /* Agency Join Box */
-        .join-box { border: 3px solid var(--poppo); border-radius: 20px; padding: 20px; margin-bottom: 20px; background: #fff0f6; position: relative; }
-        .agency-badge { position: absolute; top: 0; right: 10px; background: var(--poppo); color: white; padding: 2px 10px; border-radius: 0 0 10px 10px; font-size: 10px; }
-        .code-display { background: #222; color: var(--gold); padding: 10px; border-radius: 10px; font-size: 24px; font-weight: 900; margin: 10px 0; }
-
-        /* Spin Wheel */
-        .wheel-container { position: relative; width: 180px; height: 180px; margin: 15px auto; }
-        #wheel { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1); }
-
-        /* Service Box with Open Now */
-        .service-card { border: 2px solid #ffd700; border-radius: 35px; padding: 20px; margin: 20px 0; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
-        .open-now-btn { background: linear-gradient(to right, #6366f1, #d946ef); color: white; padding: 15px; border-radius: 15px; font-size: 22px; font-weight: 800; display: block; text-decoration: none; margin-top: 15px; }
-
+        .card { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; text-decoration: none; margin-top: 8px; }
-        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; }
-        
-        footer { background: #1a1a1a; color: white; padding: 30px 15px; border-radius: 30px 30px 0 0; margin-top: 40px; font-size: 12px; }
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; text-align: center; }
+
+        /* 24 Hour Timer Display */
+        #spinTimer { color: red; font-weight: bold; font-size: 14px; margin: 10px 0; display: none; }
+
+        /* Service Card with Open Now -> poppo.html */
+        .service-card { border: 2px solid #ffd700; border-radius: 35px; padding: 20px; margin: 20px 0; }
+        .open-now-btn { background: linear-gradient(to right, #6366f1, #d946ef); color: white; padding: 15px; border-radius: 15px; font-size: 22px; font-weight: 800; display: block; text-decoration: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="poppo.html" class="top-banner">
+    <a href="services.html" class="top-banner">
         ⚡ SPECIAL POPPO OFFER ⚡<br>
         <span style="font-size: 11px; font-weight: normal;">Lowest Coin Rates & Fast Support</span>
     </a>
 
-    <div class="approved-card">
-        <h4 style="color: #ef6c00; margin: 0;"><i class="fas fa-users"></i> Approved Participants: 2</h4>
-        <p style="font-size: 12px; margin: 5px 0;">🏆 Top Earners</p>
-        <div class="user-row"><span>#1 Saeed umar</span> <span style="color:green;">Verified ✅</span></div>
-        <div class="user-row"><span>#2 Ghulam Mujtaba</span> <span style="color:green;">Verified ✅</span></div>
-    </div>
-
-    <div class="join-box">
-        <div class="agency-badge">OFFICIAL GM OFFER</div>
-        <h3 style="color: var(--poppo); margin: 0;">🌟 Poppo Agency Join Rewards 🌟</h3>
-        <p style="font-size: 12px;">Agency Join Code:</p>
-        <div class="code-display">2753578</div>
-        <p style="font-weight: bold; font-size: 14px;">🔥 5,000 COINS WELCOME GIFT 🔥</p>
-        <a href="https://wa.me/923023313131" class="btn" style="background:#ff5252; color:white;">CLAIM 5000 COINS NOW 🚀</a>
-        <a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce" class="btn" style="border:1px solid var(--poppo); color:var(--poppo); background:white; font-size:11px;">📢 JOIN POPPO REWARDS GROUP (DAILY 3000 COINS)</a>
-    </div>
-
-    <div class="card" style="padding:15px; border:1px solid #eee; border-radius:15px;">
-        <h4 style="margin:0;"><i class="fas fa-dharmachakra"></i> Daily Reward Spin</h4>
-        <div class="wheel-container">
-            <svg id="wheel" viewBox="0 0 200 200">
-                <g transform="rotate(-90 100 100)">
-                    <path d="M100 100 L200 100 A100 100 0 0 1 130.9 195.1 Z" fill="#ff007f"/><text x="145" y="70" fill="white">1</text>
-                    <path d="M100 100 L130.9 195.1 A100 100 0 0 1 19.1 158.8 Z" fill="#ffd700"/><text x="145" y="145">2</text>
-                    <path d="M100 100 L19.1 158.8 A100 100 0 0 1 19.1 41.2 Z" fill="#ff5252"/><text x="85" y="165" fill="white">3</text>
-                    <path d="M100 100 L19.1 41.2 A100 100 0 0 1 130.9 4.9 Z" fill="#333"/><text x="45" y="105" fill="white">4</text>
-                    <path d="M100 100 L130.9 4.9 A100 100 0 0 1 200 100 Z" fill="#777"/><text x="85" y="45" fill="white">X</text>
-                </g>
-            </svg>
-        </div>
+    <div class="card">
+        <h4>🎡 Daily Reward Spin</h4>
+        <div id="spinTimer">Next Spin in: <span id="timeRemaining">--:--:--</span></div>
         <button id="spinBtn" class="btn" style="background:#ff5252; color:white;" onclick="spinWheel()">SPIN NOW</button>
         <div style="background:#f1f1f1; padding:10px; border-radius:10px; margin-top:10px;">🪙 My Coins: <span id="userCoins">0</span></div>
-        <button class="btn" style="background:#1eb41e; color:white;" onclick="redeemCoins()">REDEEM 200 COINS</button>
     </div>
 
-    <div class="card" style="padding:15px; border:1px solid #eee; border-radius:15px; margin-top:15px;">
+    <div class="card">
         <h4>🔍 Check Your Status</h4>
         <input type="number" id="checkPhone" placeholder="Enter WhatsApp Number">
         <button onclick="checkUserStatus()" class="btn" style="background:#222; color:white;">CHECK STATUS</button>
-        <div id="statusResult" style="margin-top:10px; font-weight:bold; font-size:12px;"></div>
+        <div id="statusResult" style="margin-top:10px; font-weight:bold;"></div>
     </div>
 
     <div class="service-card">
-        <p style="background:var(--gold); display:inline-block; padding:2px 10px; border-radius:10px; font-size:10px; font-weight:bold;">💎 TOP SERVICE</p>
         <h2 style="margin:5px 0;">POPPO LIVE SERVICES</h2>
-        <p style="color:#666; font-size:14px; margin:0;">Withdraw USDT & Sell Coins</p>
-        <a href="services.html" class="open-now-btn">OPEN NOW</a>
-        <p style="font-size:10px; color:#aaa; margin-top:10px;">⚡ INSTANT ⭐ TRUSTED 🛡️ SECURE</p>
+        <p style="color:#666; font-size:14px; margin-bottom:15px;">Withdraw USDT & Sell Coins</p>
+        <a href="poppo.html" class="open-now-btn">OPEN NOW</a>
     </div>
 </div>
 
-<footer>
-    <p>© 2026 GM Agency Official</p>
-    <p><i class="fas fa-envelope"></i> Poppoliveofficial123@gmail.com</p>
-    <div style="margin-top:15px;">
-        <a href="about.html" style="color:#aaa; text-decoration:none;">About Us</a> | 
-        <a href="privacy.html" style="color:#aaa; text-decoration:none;">Privacy Policy</a> | 
-        <a href="terms.html" style="color:#aaa; text-decoration:none;">Terms & Conditions</a>
-    </div>
-</footer>
-
 <script>
+    // --- 24 HOUR TIMER LOGIC ---
     let coins = parseInt(localStorage.getItem("gm_coins")) || 0;
     document.getElementById("userCoins").innerText = coins;
 
+    function updateTimer() {
+        const lastSpin = localStorage.getItem("last_spin_time");
+        if (lastSpin) {
+            const now = new Date().getTime();
+            const distance = (parseInt(lastSpin) + (24 * 60 * 60 * 1000)) - now;
+
+            if (distance > 0) {
+                document.getElementById("spinBtn").disabled = true;
+                document.getElementById("spinBtn").style.opacity = "0.5";
+                document.getElementById("spinTimer").style.display = "block";
+                
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("timeRemaining").innerText = `${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                document.getElementById("spinBtn").disabled = false;
+                document.getElementById("spinBtn").style.opacity = "1";
+                document.getElementById("spinTimer").style.display = "none";
+            }
+        }
+    }
+    setInterval(updateTimer, 1000);
+
     function spinWheel() {
-        document.getElementById("wheel").style.transform = "rotate(3600deg)";
-        setTimeout(() => {
-            coins += 2; localStorage.setItem("gm_coins", coins);
-            location.reload();
-        }, 4100);
+        // Collect coins and set 24h timer
+        coins += 2;
+        localStorage.setItem("gm_coins", coins);
+        localStorage.setItem("last_spin_time", new Date().getTime());
+        document.getElementById("userCoins").innerText = coins;
+        alert("You won 2 Coins! Next spin after 24 hours.");
+        updateTimer();
     }
 
+    // --- STATUS CHECK FIX ---
     function checkUserStatus() {
+        const phone = document.getElementById("checkPhone").value;
         const res = document.getElementById("statusResult");
-        res.style.color = "orange";
-        res.innerText = "STATUS: CHECKING VERIFICATION...";
-        setTimeout(() => {
-            res.style.color = "red";
-            res.innerText = "STATUS: NOT REGISTERED";
-        }, 2000);
-    }
+        const SCRIPT_URL = 'APNI_SHEET_URL_YAHAN_DALEIN'; // Make sure this is correct!
 
-    function redeemCoins() {
-        if(coins < 200) return alert("Min 200 coins required!");
-        window.open("https://wa.me/923023313131");
+        if(!phone) return alert("Number likhein!");
+        res.style.color = "orange";
+        res.innerText = "STATUS: CHECKING...";
+
+        fetch(`${SCRIPT_URL}?action=getRecords`)
+            .then(response => response.json())
+            .then(data => {
+                const user = data.records.find(u => u.phone == phone || u.number == phone);
+                if(user) {
+                    res.style.color = user.status.toUpperCase() === 'APPROVED' ? 'green' : 'red';
+                    res.innerText = `STATUS: ${user.status.toUpperCase()}`;
+                } else {
+                    res.style.color = "red";
+                    res.innerText = "STATUS: NOT FOUND";
+                }
+            })
+            .catch(error => {
+                res.style.color = "red";
+                res.innerText = "ERROR: DATABASE NOT CONNECTED";
+            });
     }
 </script>
 </body>
