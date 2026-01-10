@@ -6,224 +6,54 @@
     <title>GM Agency Official Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { 
-            --poppo-pink: #ff007f; 
-            --poppo-purple: #7000ff;
-            --gold: #ffd700; 
-            --bg: #f4f7f6; 
-        }
+        :root { --poppo-pink: #ff007f; --poppo-purple: #7000ff; --gold: #ffd700; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding-bottom: 50px; }
+        .container { max-width: 480px; margin: 0 auto; background: white; min-height: 100vh; padding: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
         
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; text-align: center; }
-        .container { max-width: 480px; margin: 0 auto; background: white; min-height: 100vh; padding: 15px; }
+        /* Glowing Banner */
+        .top-banner { background: linear-gradient(135deg, var(--poppo-purple), var(--poppo-pink)); color: white; padding: 25px 15px; border-radius: 25px; margin-bottom: 20px; text-decoration: none; display: block; animation: float 3s infinite; border: 2px solid var(--gold); position: relative; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        /* --- GM AGENCY OFFICIAL GLOWING BANNER --- */
-        .top-banner { 
-            background: linear-gradient(135deg, var(--poppo-purple), var(--poppo-pink), #ff5e00); 
-            background-size: 300% 300%; 
-            color: white; 
-            padding: 25px 15px; 
-            border-radius: 25px; 
-            margin: 10px 0 30px 0; 
-            border: 3px solid rgba(255, 215, 0, 0.6); 
-            font-weight: bold; 
-            text-decoration: none; 
-            display: block; 
-            box-shadow: 0 10px 20px rgba(255, 0, 127, 0.3);
-            animation: glow-move 4s ease infinite, float 3s ease-in-out infinite; 
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Color Moving Animation */
-        @keyframes glow-move {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating Animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .agency-name { 
-            font-size: 24px; 
-            letter-spacing: 2px; 
-            text-transform: uppercase; 
-            display: block; 
-            font-weight: 900;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-            margin-bottom: 5px;
-        }
-
-        .agency-tagline { 
-            font-size: 12px; 
-            font-weight: 500; 
-            letter-spacing: 1px;
-            background: rgba(0,0,0,0.2);
-            padding: 4px 12px;
-            border-radius: 50px;
-            display: inline-block;
-        }
+        /* General Card */
+        .card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
         
-        /* Side Icons */
-        .icon-left { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5; font-size: 25px; }
-        .icon-right { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5; font-size: 25px; }
+        /* Spin Wheel */
+        .wheel-container { position: relative; width: 180px; height: 180px; margin: 15px auto; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #333; position: relative; overflow: hidden; transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); }
+        .segment { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 10px; }
+        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 25px; background: var(--gold); clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 10; }
 
+        /* Inputs & Buttons */
+        .win-input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; outline: none; }
+        .win-input:focus { border-color: var(--poppo-pink); box-shadow: 0 0 8px rgba(255, 0, 127, 0.2); }
+        .btn-main { background: linear-gradient(to right, var(--poppo-pink), var(--poppo-purple)); color: white; border: none; padding: 15px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-main:active { transform: scale(0.98); }
+
+        /* Leaderboard Rows */
+        .user-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        .status-winner { color: var(--gold); font-weight: bold; text-shadow: 0 0 5px orange; }
+
+        /* Footer */
+        footer { margin-top: 30px; padding: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="services.html" class="top-banner">
-        <i class="fas fa-crown icon-left"></i>
-        <span class="agency-name">GM AGENCY OFFICIAL</span>
-        <span class="agency-tagline">POPPO LIVE VERIFIED CENTER</span>
-        <i class="fas fa-gem icon-right"></i>
-    </a>
-
+    <div class="top-banner">
+        <span style="font-size: 20px; font-weight: 900;">GM AGENCY OFFICIAL</span><br>
+        <span style="font-size: 11px; opacity: 0.9;">POPPO LIVE VERIFIED CENTER</span>
     </div>
 
-</body>
-</html>
-    <div class="leaderboard-card">
-        <div class="leader-header">
-            <h4><i class="fas fa-trophy"></i> LIVE LEADERBOARD</h4>
-            <span id="participantCount" class="count-badge">0 Participants</span>
-        </div>
-        
-        <div id="winnersList" class="winners-container">
-            <div class="loading-state">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>Fetching Approved Users...</p>
-            </div>
+    <div class="card">
+        <h4 style="color:var(--poppo-pink); margin-top:0;"><i class="fas fa-trophy"></i> LIVE LEADERBOARD</h4>
+        <div id="winnersList" style="min-height: 50px;">
+            <p style="color:#999; font-size:12px;">Fetching approved users...</p>
         </div>
     </div>
 
-    <style>
-        /* LEADERBOARD STYLING (V17) */
-        .leaderboard-card {
-            background: #ffffff;
-            border-radius: 20px;
-            margin-top: 20px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border: 1px solid #ffe0b2;
-        }
-        .leader-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #f4f7f6;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-        .leader-header h4 { margin: 0; color: #ff007f; font-size: 16px; }
-        .count-badge {
-            background: #7000ff;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        .winners-container { min-height: 100px; }
-        
-        /* User Row Styling */
-        .user-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: #fff;
-            margin-bottom: 8px;
-            border-radius: 12px;
-            border: 1px solid #f0f0f0;
-            transition: 0.3s;
-        }
-        .user-info { display: flex; align-items: center; gap: 10px; }
-        .user-rank { font-weight: bold; color: #888; font-size: 13px; }
-        .user-name { font-weight: 600; color: #333; font-size: 14px; }
-        
-        /* Winner & Verified Status */
-        .status-winner {
-            background: linear-gradient(45deg, #ffd700, #ffa500);
-            color: #000;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 900;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            animation: pulse-win 1.5s infinite;
-        }
-        .status-verified {
-            color: #28a745;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        @keyframes pulse-win {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .loading-state { padding: 30px; color: #999; font-size: 13px; }
-    </style>
-
-    <script>
-        // ⚠️ APNA SCRIPT URL YAHAN DALEIN
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwbDICcT9TQqyXHb4XOsVxj-rb-uT-bRrbNjoC02ZBv_ycFdGOMYDG-F20tvVHv6TH1fg/exec';
-
-        function loadLeaderboard() {
-            fetch(scriptURL + "?action=getRecords")
-            .then(res => res.json())
-            .then(data => {
-                const list = document.getElementById("winnersList");
-                const countBadge = document.getElementById("participantCount");
-                
-                // Sirf Approved members dikhana
-                const approved = data.records.filter(u => u.status === "Approved");
-                countBadge.innerText = approved.length + " Participants";
-
-                if(approved.length === 0) {
-                    list.innerHTML = `<p style="padding:20px; color:#999; font-size:12px;">No approved participants found yet.</p>`;
-                    return;
-                }
-
-                let html = "";
-                approved.forEach((user, index) => {
-                    // Winner check logic
-                    const isWinner = user.winner && user.winner.includes("WINNER");
-                    const label = isWinner ? 
-                        `<span class="status-winner">WINNER 🏆</span>` : 
-                        `<span class="status-verified"><i class="fas fa-check-circle"></i> Verified</span>`;
-
-                    html += `
-                        <div class="user-row" ${isWinner ? 'style="border:1px solid #ffd700; background:#fffdf0;"' : ''}>
-                            <div class="user-info">
-                                <span class="user-rank">#${index + 1}</span>
-                                <span class="user-name">${user.name}</span>
-                            </div>
-                            ${label}
-                        </div>`;
-                });
-                list.innerHTML = html;
-            })
-            .catch(err => {
-                document.getElementById("winnersList").innerHTML = "<p>Connection Error!</p>";
-            });
-        }
-
-        // Auto Refresh har 30 seconds baad
-        window.onload = loadLeaderboard;
-        setInterval(loadLeaderboard, 30000); 
-    </script>
-
-        <div class="card spin-section">
-        <h4 style="color: #ff007f;"><i class="fas fa-coins"></i> DAILY LUCKY SPIN</h4>
-        
+    <div class="card">
+        <h4>🎡 DAILY LUCKY SPIN</h4>
         <div class="wheel-container">
             <div id="wheel" class="wheel">
                 <div class="segment" style="transform: rotate(0deg); background: #ff007f;"><span>4 🪙</span></div>
@@ -234,756 +64,113 @@
             </div>
             <div class="pointer"></div>
         </div>
-
-        <p id="spinStatus" style="font-size: 12px; font-weight: bold; color: #555;">Kismat Azmaiye! Spin karein.</p>
-        <button id="spinBtn" class="btn-spin" onclick="startSpin()">SPIN NOW</button>
-        
-        <div class="coin-wallet">
-            <p style="font-size: 13px; margin:0;">Your Balance</p>
-            <strong id="balanceText" style="font-size: 24px;">🪙 0</strong>
-        </div>
-
-        <button id="redeemBtn" class="btn-redeem disabled" onclick="processRedeem()" style="margin-top:15px;">
-            REDEEM 200 COINS
-        </button>
+        <button class="btn-main" id="spinBtn" onclick="startSpin()">SPIN NOW</button>
+        <p style="margin-top:15px; font-weight:bold;">Your Wallet: <span id="balanceText">🪙 0</span></p>
     </div>
 
-    <style>
-        .wheel-container { position: relative; width: 200px; height: 200px; margin: 20px auto; }
-        .wheel { 
-            width: 100%; height: 100%; border-radius: 50%; border: 8px solid #222; 
-            position: relative; overflow: hidden; 
-            transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1); 
-        }
-        .segment { 
-            position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; 
-            display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px;
-        }
-        .segment span { transform: rotate(-45deg); display: block; margin-top: 30px; margin-left: 30px; }
-        
-        .pointer { 
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%); 
-            width: 25px; height: 35px; background: gold; clip-path: polygon(50% 100%, 0 0, 100% 0); 
-            z-index: 20; border: 2px solid #000;
-        }
-        
-        .btn-spin { background: linear-gradient(to right, #ff007f, #7000ff); color: white; border: none; padding: 12px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 80%; }
-        .btn-redeem { background: #28a745; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; }
-        .btn-redeem.disabled { background: #ccc; cursor: not-allowed; }
-        .coin-wallet { background: #f0f0f0; padding: 10px; border-radius: 15px; margin-top: 15px; border: 2px dashed #ff007f; }
-    </style>
-
-    <script>
-        let coins = parseInt(localStorage.getItem("gm_balance")) || 0;
-        const myWhatsApp = "923023313131";
-
-        function updateUI() {
-            document.getElementById("balanceText").innerText = "🪙 " + coins;
-            const rBtn = document.getElementById("redeemBtn");
-            rBtn.className = coins >= 200 ? "btn-redeem" : "btn-redeem disabled";
-        }
-
-        function startSpin() {
-            const lastSpin = localStorage.getItem("last_spin_date");
-            const today = new Date().toDateString();
-
-            if (lastSpin === today) {
-                alert("Yar, Aaj ka spin ho gaya! Kal dubara aana. 😊");
-                return;
-            }
-
-            const wheel = document.getElementById("wheel");
-            const btn = document.getElementById("spinBtn");
-            
-            // LOGIC: 5 segments (72 deg each). 
-            // 2 Coins wala segment (216 deg to 288 deg) par hai.
-            // 1800 (5 rounds) + 180 degree wheel ko aise ghumayega ke pointer 2 par rukay.
-            const fixedRotation = 1800 + 180; 
-            
-            wheel.style.transform = `rotate(${fixedRotation}deg)`;
-            btn.disabled = true;
-            document.getElementById("spinStatus").innerText = "Spinning... ⏳";
-
-            setTimeout(() => {
-                // Hamesha 2 coins milenge
-                coins += 2;
-                localStorage.setItem("gm_balance", coins);
-                localStorage.setItem("last_spin_date", today);
-                
-                document.getElementById("spinStatus").innerText = "Mubarak! 2 Coins added.";
-                alert("Mubarak ho! Aapko 2 Coins mil gaye. 🎉");
-                updateUI();
-                btn.disabled = false;
-            }, 5500);
-        }
-
-        function processRedeem() {
-            if (coins < 200) return alert("Yar, abhi 200 coins nahi hue!");
-            
-            const msg = `Salaam GM Agency! Mere website par 200 coins pure ho gaye hain. Meharbani karke reward bhej dein.`;
-            window.location.href = `https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`;
-            
-            coins = 0;
-            localStorage.setItem("gm_balance", 0);
-            updateUI();
-        }
-
-        updateUI();
-    </script>
-
-    <div class="reward-box-neon">
-    <div class="neon-badge">OFFICIAL AGENCY OFFER</div>
-    
-    <h3 class="neon-title">🌟 POPPO JOINING REWARDS 🌟</h3>
-    
-    <div class="agency-code-section">
-        <p>Agency Join Code:</p>
-        <div class="glow-code">2753578</div>
-    </div>
-
-    <div class="reward-item">
-        <div class="reward-info">
-            <span class="reward-amount">5,000 COINS</span>
-            <span class="reward-target">FOR NEW HOSTS ONLY</span>
-        </div>
-        <a href="https://wa.me/923023313131?text=Hi%20GM%20Agency,%20I%20have%20joined%20your%20agency%20with%20code%202753578.%20Please%20send%20my%205000%20Welcome%20Coins." class="btn-reward-claim">
-            CLAIM 5000 NOW <i class="fab fa-whatsapp"></i>
-        </a>
-    </div>
-
-    <div class="divider-glow"></div>
-
-    <div class="reward-item">
-        <div class="reward-info">
-            <span class="reward-amount" style="color: #00e5ff;">3,000 COINS</span>
-            <span class="reward-target">DAILY LIVE REWARDS GROUP</span>
-        </div>
-        <a href="https://chat.whatsapp.com/Kxmmzms3t0v7EapD6iySEK" class="btn-group-join">
-            JOIN REWARDS GROUP <i class="fas fa-users"></i>
-        </a>
-    </div>
-</div>
-
-<style>
-    /* NEON BOX STYLING (V20) */
-    .reward-box-neon {
-        background: #1a1a1a;
-        border: 3px solid #ff007f;
-        border-radius: 25px;
-        padding: 25px 15px;
-        margin: 25px 0;
-        position: relative;
-        box-shadow: 0 0 20px rgba(255, 0, 127, 0.5), inset 0 0 10px rgba(255, 0, 127, 0.2);
-        color: white;
-    }
-
-    .neon-badge {
-        position: absolute;
-        top: -15px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #ff007f;
-        color: white;
-        padding: 5px 15px;
-        border-radius: 50px;
-        font-size: 10px;
-        font-weight: bold;
-        letter-spacing: 1px;
-        box-shadow: 0 0 10px #ff007f;
-    }
-
-    .neon-title {
-        color: #ff007f;
-        text-shadow: 0 0 10px #ff007f;
-        margin-bottom: 20px;
-        font-size: 20px;
-    }
-
-    .glow-code {
-        background: #222;
-        color: #ffd700;
-        font-size: 32px;
-        font-weight: 900;
-        padding: 10px;
-        border-radius: 15px;
-        border: 2px dashed #ffd700;
-        margin: 10px 0 20px 0;
-        letter-spacing: 3px;
-        text-shadow: 0 0 5px #ffd700;
-    }
-
-    .reward-item { margin-bottom: 15px; }
-
-    .reward-info {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
-    }
-
-    .reward-amount {
-        font-size: 24px;
-        font-weight: 900;
-        color: #ffd700;
-    }
-
-    .reward-target {
-        font-size: 11px;
-        opacity: 0.8;
-        letter-spacing: 1px;
-    }
-
-    .btn-reward-claim {
-        background: linear-gradient(45deg, #ff007f, #ff5252);
-        color: white;
-        text-decoration: none;
-        display: block;
-        padding: 15px;
-        border-radius: 12px;
-        font-weight: bold;
-        box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4);
-        transition: 0.3s;
-    }
-
-    .btn-group-join {
-        background: linear-gradient(45deg, #00c853, #00e5ff);
-        color: white;
-        text-decoration: none;
-        display: block;
-        padding: 15px;
-        border-radius: 12px;
-        font-weight: bold;
-        box-shadow: 0 4px 15px rgba(0, 200, 83, 0.4);
-    }
-
-    .divider-glow {
-        height: 2px;
-        background: linear-gradient(90deg, transparent, #ff007f, transparent);
-        margin: 20px 0;
-    }
-        </style>
-
-            <div class="win-form">
-        <input type="text" id="winName" class="win-input" placeholder="Apna Mukammal Naam Likhein">
+    <div class="card" style="background: #1a1a1a; color: white; border: 2px solid var(--gold);">
+        <h3 style="color:var(--gold); margin-top:0;">LUCKY MOBILE WIN 🎁</h3>
+        <p style="font-size:12px; color:#ddd;">Easypaisa Name: <b>Tasleem Akhtar</b><br>Number: <b>03196557491</b></p>
+        <input type="text" id="winName" class="win-input" placeholder="Apna Naam Likhein">
         <input type="number" id="winWa" class="win-input" placeholder="WhatsApp Number">
         <input type="text" id="winTid" class="win-input" placeholder="Transaction ID (TID)">
-        
-        <button class="btn-submit-draw" id="drawBtn" onclick="submitWinEntry()">
-            SUBMIT ENTRY NOW 🚀
-        </button>
+        <button class="btn-main" id="drawBtn" onclick="submitWinEntry()" style="background:var(--gold); color:black;">SUBMIT ENTRY 🚀</button>
     </div>
 
-    <div class="community-wrapper">
-        <div class="join-text">Behtar Support Ke Liye Join Karein</div>
-        <a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce" class="btn-community-pro">
-            <div class="pro-content">
-                <i class="fab fa-whatsapp"></i>
-                <span>JOIN GM COMMUNITY</span>
-            </div>
-            <i class="fas fa-chevron-right arrow-move"></i>
+    <div class="card">
+        <h4>🔍 CHECK ENTRY STATUS</h4>
+        <input type="number" id="statusPhone" class="win-input" placeholder="Enter Phone Number">
+        <button class="btn-main" onclick="checkMyStatus()" style="background:var(--poppo-purple)">CHECK STATUS</button>
+        <div id="statusResult" style="margin-top:15px; font-size:14px; font-weight:bold;"></div>
+    </div>
+
+    <div class="card" style="background:#f9f9f9;">
+        <a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce" style="text-decoration:none; color:#25d366; font-weight:bold; display:block; margin-bottom:15px;">
+            <i class="fab fa-whatsapp"></i> JOIN GM COMMUNITY
         </a>
+        <button class="btn-main" onclick="alert('Withdraw Link: https://gm-agency-withdraw.com (Copied!)')">COPY WITHDRAW LINK</button>
     </div>
+
+    <footer>
+        <p><b>Contact:</b> poppoliveofficial123@gmail.com</p>
+        <p><b>Agency Code:</b> 2753578</p>
+        <p>&copy; 2026 GM Agency Official. All Rights Reserved.</p>
+    </footer>
 </div>
-
-<style>
-    /* Professional Community Wrapper */
-    .community-wrapper {
-        margin-top: 25px;
-        padding-top: 15px;
-        border-top: 1px solid rgba(255, 215, 0, 0.2);
-    }
-
-    .join-text {
-        font-size: 11px;
-        color: #ffd700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 10px;
-        font-weight: bold;
-    }
-
-    .btn-community-pro {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: rgba(37, 211, 102, 0.15); /* WhatsApp Green but Transparent */
-        border: 2px solid #25d366;
-        padding: 15px 20px;
-        border-radius: 15px;
-        color: white;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .btn-community-pro:hover {
-        background: #25d366;
-        box-shadow: 0 0 20px rgba(37, 211, 102, 0.6);
-        transform: translateY(-2px);
-    }
-
-    .pro-content {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .pro-content i {
-        font-size: 24px;
-        color: #25d366;
-        background: white;
-        width: 35px;
-        height: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: 0.3s;
-    }
-
-    .btn-community-pro:hover .pro-content i {
-        color: #25d366;
-    }
-
-    .pro-content span {
-        font-weight: 800;
-        font-size: 14px;
-        letter-spacing: 0.5px;
-    }
-
-    .arrow-move {
-        animation: slideRight 1.5s infinite;
-        font-size: 18px;
-    }
-
-    @keyframes slideRight {
-        0%, 100% { transform: translateX(0); opacity: 0.5; }
-        50% { transform: translateX(10px); opacity: 1; }
-    }
-
-    /* Input Glow Effect */
-    .win-input:focus {
-        outline: none;
-        border: 2px solid #ff007f;
-        box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
-    }
-        </style>
-
-        <div class="card status-card">
-    <div class="status-header">
-        <i class="fas fa-search-dollar"></i>
-        <h4>CHECK ENTRY STATUS</h4>
-    </div>
-    <p style="font-size: 11px; color: #666; margin-bottom: 15px;">Apna WhatsApp number likhein status check karne ke liye</p>
-    
-    <div class="search-box">
-        <input type="number" id="statusPhone" placeholder="0302XXXXXXX" class="status-input">
-        <button onclick="checkMyStatus()" class="btn-check">
-            <i class="fas fa-arrow-right"></i>
-        </button>
-    </div>
-
-    <div id="statusResult" class="status-result-box" style="display: none;">
-        <div class="result-item">
-            <span>Name:</span>
-            <strong id="resName">-</strong>
-        </div>
-        <div class="result-item">
-            <span>Status:</span>
-            <strong id="resStatus">-</strong>
-        </div>
-        <div id="winnerBadge" class="winner-alert" style="display: none;">
-            🎊 MUBARAK HO! AAP WINNER HAIN 🎊
-        </div>
-    </div>
-</div>
-
-<style>
-    .status-card {
-        background: #fff;
-        border-radius: 20px;
-        padding: 20px;
-        margin-top: 25px;
-        border: 2px solid #f0f0f0;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-    .status-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px; }
-    .status-header i { color: #7000ff; font-size: 20px; }
-    .status-header h4 { margin: 0; color: #333; }
-
-    .search-box {
-        display: flex;
-        background: #f4f7f6;
-        border-radius: 50px;
-        padding: 5px;
-        border: 1px solid #ddd;
-    }
-    .status-input {
-        flex: 1;
-        background: transparent;
-        border: none;
-        padding: 10px 15px;
-        outline: none;
-        font-size: 15px;
-        font-weight: bold;
-    }
-    .btn-check {
-        background: #7000ff;
-        color: white;
-        border: none;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .btn-check:hover { background: #ff007f; }
-
-    /* Result Box Styling */
-    .status-result-box {
-        margin-top: 20px;
-        padding: 15px;
-        background: #fafafa;
-        border-radius: 15px;
-        border: 1px solid #eee;
-        text-align: left;
-    }
-    .result-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-        font-size: 14px;
-    }
-    .winner-alert {
-        background: linear-gradient(45deg, #ffd700, #ff8000);
-        color: black;
-        padding: 10px;
-        border-radius: 10px;
-        text-align: center;
-        font-weight: 900;
-        font-size: 12px;
-        margin-top: 10px;
-        animation: glow 1s infinite alternate;
-    }
-    @keyframes glow {
-        from { box-shadow: 0 0 5px #ffd700; }
-        to { box-shadow: 0 0 15px #ff8000; }
-    }
-</style>
 
 <script>
-    function checkMyStatus() {
-        let phoneInput = document.getElementById("statusPhone").value.trim();
-        const resultBox = document.getElementById("statusResult");
-        const loader = document.querySelector(".btn-check i");
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwbDICcT9TQqyXHb4XOsVxj-rb-uT-bRrbNjoC02ZBv_ycFdGOMYDG-F20tvVHv6TH1fg/exec';
 
-        if (!phoneInput) return alert("Number likhein!");
-
-        // Smart Logic: Agar number 0 se shuru ho raha hai toh usko hata do comparison ke liye
-        let cleanInput = phoneInput.startsWith('0') ? phoneInput.substring(1) : phoneInput;
-
-        loader.className = "fas fa-spinner fa-spin";
-        
-        fetch(scriptURL + "?action=getRecords")
-        .then(r => r.json())
-        .then(data => {
-            // Sheet ke numbers mein bhi '0' ka faraq ho sakta hai, isliye dono ko clean karke match karenge
-            const user = data.records.find(u => {
-                let sheetPhone = u.phone.toString().trim();
-                let cleanSheetPhone = sheetPhone.startsWith('0') ? sheetPhone.substring(1) : sheetPhone;
-                return cleanSheetPhone === cleanInput;
+    // Leaderboard
+    function loadLeaderboard() {
+        fetch(scriptURL + "?action=getRecords").then(res => res.json()).then(data => {
+            let html = "";
+            const approved = data.records.filter(u => u.status === "Approved");
+            approved.forEach(user => {
+                html += `<div class="user-row"><span>${user.name}</span> <span class="${user.winner ? 'status-winner' : ''}">${user.winner || 'Verified ✓'}</span></div>`;
             });
-
-            loader.className = "fas fa-arrow-right";
-            resultBox.style.display = "block";
-
-            if (user) {
-                document.getElementById("resName").innerText = user.name;
-                document.getElementById("resStatus").innerText = user.status;
-                document.getElementById("resStatus").style.color = (user.status === 'Approved') ? 'green' : 'orange';
-                
-                // Winner Check
-                const isWinner = user.winner && user.winner.includes("WINNER");
-                document.getElementById("winnerBadge").style.display = isWinner ? "block" : "none";
-            } else {
-                document.getElementById("resName").innerText = "Not Found";
-                document.getElementById("resStatus").innerText = "Pending/Not Registered";
-                document.getElementById("resStatus").style.color = "red";
-                document.getElementById("winnerBadge").style.display = "none";
-            }
-        })
-        .catch(() => {
-            loader.className = "fas fa-arrow-right";
-            alert("Internet ka masla hai!");
-        });
-    }
-</script>
-
-<div class="card service-main-card" onclick="openWithdrawModal()">
-    <div class="service-glow-edge"></div>
-    <div class="service-content">
-        <div class="service-icon-box">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6A7D8uP5KkI_0q8WlQW0_0_Jz8m8-0o8p2w&s" alt="Poppo">
-        </div>
-        <div class="service-info">
-            <h4>Poppo Live Withdraw</h4>
-            <p>Exchange your coins into real cash</p>
-            <div class="service-tags">
-                <span>Fast</span><span>Secure</span><span>Official</span>
-            </div>
-        </div>
-        <i class="fas fa-chevron-right open-arrow"></i>
-    </div>
-</div>
-
-<div id="withdrawModal" class="modal-overlay">
-    <div class="modal-card">
-        <div class="modal-header">
-            <h3>Withdraw Link</h3>
-            <button onclick="closeWithdrawModal()" class="close-btn">&times;</button>
-        </div>
-        <div class="modal-body">
-            <p>Niche diye gaye link ko copy karein aur browser mein open karein:</p>
-            <div class="copy-link-box">
-                <input type="text" id="withdrawUrl" value="https://gm-agency-withdraw.com" readonly>
-                <button onclick="copyWithdrawLink()">Copy</button>
-            </div>
-            <div class="warning-text">
-                <i class="fas fa-info-circle"></i> 24/7 Service Available
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    /* Service Card Styling */
-    .service-main-card {
-        background: #1a1a1a;
-        border-radius: 20px;
-        padding: 15px;
-        margin-top: 20px;
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
-        border: 1px solid #333;
-        transition: 0.3s;
-    }
-    .service-main-card:active { transform: scale(0.95); }
-    
-    .service-glow-edge {
-        position: absolute;
-        top: 0; left: 0; width: 4px; height: 100%;
-        background: linear-gradient(to bottom, #7000ff, #ff007f);
+            document.getElementById("winnersList").innerHTML = html || "No entries yet.";
+        }).catch(() => { document.getElementById("winnersList").innerText = "Connection Error!"; });
     }
 
-    .service-content { display: flex; align-items: center; gap: 15px; text-align: left; }
-    
-    .service-icon-box img { width: 55px; height: 55px; border-radius: 12px; border: 2px solid #ff007f; }
-    
-    .service-info h4 { color: white; margin: 0; font-size: 16px; }
-    .service-info p { color: #aaa; margin: 3px 0; font-size: 11px; }
-    
-    .service-tags { display: flex; gap: 5px; margin-top: 5px; }
-    .service-tags span { 
-        font-size: 9px; background: rgba(255, 0, 127, 0.2); 
-        color: #ff007f; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255, 0, 127, 0.3);
-    }
-    
-    .open-arrow { color: #555; margin-left: auto; }
+    // Spin Logic
+    let coins = parseInt(localStorage.getItem("gm_balance")) || 0;
+    document.getElementById("balanceText").innerText = "🪙 " + coins;
 
-    /* Modal Styling */
-    .modal-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.8); display: none; align-items: center;
-        justify-content: center; z-index: 1000; backdrop-filter: blur(5px);
-    }
-    
-    .modal-card {
-        background: white; width: 90%; max-width: 350px;
-        border-radius: 25px; padding: 20px; position: relative;
-        animation: slideUp 0.3s ease-out;
-    }
-    
-    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .modal-header h3 { margin: 0; font-size: 18px; color: #333; }
-    .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #999; }
-
-    .copy-link-box {
-        display: flex; background: #f0f0f0; border-radius: 12px;
-        padding: 5px; margin: 15px 0; border: 1px solid #ddd;
-    }
-    .copy-link-box input {
-        flex: 1; background: none; border: none; padding: 10px;
-        font-size: 13px; color: #555; outline: none;
-    }
-    .copy-link-box button {
-        background: #7000ff; color: white; border: none;
-        padding: 0 20px; border-radius: 10px; font-weight: bold; cursor: pointer;
-    }
-
-    .warning-text { font-size: 11px; color: #28a745; font-weight: bold; }
-</style>
-
-<script>
-    function openWithdrawModal() {
-        document.getElementById("withdrawModal").style.display = "flex";
-    }
-
-    function closeWithdrawModal() {
-        document.getElementById("withdrawModal").style.display = "none";
-    }
-
-    function copyWithdrawLink() {
-        const copyText = document.getElementById("withdrawUrl");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); // Mobile ke liye
-        navigator.clipboard.writeText(copyText.value);
+    function startSpin() {
+        const lastSpin = localStorage.getItem("last_spin_date");
+        if (lastSpin === new Date().toDateString()) return alert("Yar, aaj ka spin ho gaya! Kal aana.");
         
-        const btn = document.querySelector(".copy-link-box button");
-        btn.innerText = "Copied!";
-        btn.style.background = "#28a745";
+        const btn = document.getElementById("spinBtn");
+        btn.disabled = true;
+        document.getElementById("wheel").style.transform = "rotate(1980deg)"; // Magnet to 2
         
         setTimeout(() => {
-            btn.innerText = "Copy";
-            btn.style.background = "#7000ff";
-        }, 2000);
+            coins += 2;
+            localStorage.setItem("gm_balance", coins);
+            localStorage.setItem("last_spin_date", new Date().toDateString());
+            document.getElementById("balanceText").innerText = "🪙 " + coins;
+            alert("Mubarak! 2 Coins wallet mein add ho gaye.");
+            btn.disabled = false;
+        }, 4000);
     }
+
+    // Submit Entry
+    function submitWinEntry() {
+        const name = document.getElementById("winName").value;
+        const wa = document.getElementById("winWa").value;
+        const tid = document.getElementById("winTid").value;
+        const btn = document.getElementById("drawBtn");
+
+        if(!name || !wa || !tid) return alert("Sari details bharein!");
+        
+        btn.innerText = "Processing... ⏳";
+        btn.disabled = true;
+
+        fetch(`${scriptURL}?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(wa)}&tid=${encodeURIComponent(tid)}`, { method: 'POST', mode: 'no-cors' })
+        .then(() => { 
+            alert("Entry Successful!");
+            window.location.reload(); 
+        })
+        .catch(() => { alert("Error! Try again."); btn.disabled = false; btn.innerText = "SUBMIT ENTRY 🚀"; });
+    }
+
+    // Status Check
+    function checkMyStatus() {
+        const phone = document.getElementById("statusPhone").value;
+        if(!phone) return alert("Number likhein!");
+        const resDiv = document.getElementById("statusResult");
+        resDiv.innerText = "Searching... 🔍";
+        
+        fetch(scriptURL + "?action=getRecords").then(r => r.json()).then(data => {
+            const user = data.records.find(u => u.phone.toString().includes(phone.slice(-10)));
+            resDiv.innerText = user ? `Hello ${user.name}! Your Status: ${user.status}` : "No Record Found.";
+            resDiv.style.color = user ? (user.status === "Approved" ? "green" : "orange") : "red";
+        });
+    }
+
+    window.onload = loadLeaderboard;
 </script>
 
-    <footer class="main-footer">
-        <div class="footer-divider"></div>
-        
-        <div class="sitemap-grid">
-            <div class="footer-section">
-                <h5>ABOUT GM AGENCY</h5>
-                <p>Pakistan's most trusted Poppo Live Agency. Providing instant coin services and lucky draw rewards since 2024.</p>
-            </div>
-            
-            <div class="footer-section">
-                <h5>QUICK LINKS</h5>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="openWithdrawModal()"><i class="fas fa-angle-right"></i> Withdraw Portal</a></li>
-                    <li><a href="https://chat.whatsapp.com/Dd1rtjmg1oz4iMgDkiRAce"><i class="fas fa-angle-right"></i> Join Community</a></li>
-                    <li><a href="#"><i class="fas fa-angle-right"></i> Terms & Conditions</a></li>
-                    <li><a href="#"><i class="fas fa-angle-right"></i> Privacy Policy</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h5>CONTACT US</h5>
-                <p><i class="fas fa-envelope"></i> help@gmagency.com</p>
-                <p><i class="fab fa-whatsapp"></i> +92 302 3313131</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 GM Agency Official. All Rights Reserved.</p>
-            <div class="developer-tag">Design by GM Tech Team</div>
-        </div>
-    </footer>
-</div> <style>
-    /* FOOTER STYLING */
-    .main-footer {
-        margin-top: 50px;
-        padding: 30px 10px 20px 10px;
-        background: #fdfdfd;
-        border-top: 1px solid #eee;
-        text-align: left;
-    }
-
-    .footer-divider {
-        height: 4px;
-        width: 60px;
-        background: linear-gradient(90deg, #7000ff, #ff007f);
-        margin: 0 auto 30px auto;
-        border-radius: 10px;
-    }
-
-    .sitemap-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-    .footer-section h5 {
-        color: #333;
-        font-size: 14px;
-        margin-bottom: 15px;
-        border-left: 3px solid #ff007f;
-        padding-left: 10px;
-        letter-spacing: 1px;
-    }
-
-    .footer-section p {
-        font-size: 12px;
-        color: #666;
-        line-height: 1.6;
-    }
-
-    .footer-links {
-        list-style: none;
-        padding: 0;
-    }
-
-    .footer-links li {
-        margin-bottom: 8px;
-    }
-
-    .footer-links a {
-        text-decoration: none;
-        color: #7000ff;
-        font-size: 13px;
-        transition: 0.3s;
-    }
-
-    .footer-links a:hover {
-        color: #ff007f;
-        padding-left: 5px;
-    }
-
-    .social-icons {
-        margin-top: 15px;
-        display: flex;
-        gap: 15px;
-    }
-
-    .social-icons i {
-        font-size: 20px;
-        color: #555;
-        transition: 0.3s;
-    }
-
-    .social-icons i:hover {
-        color: #ff007f;
-    }
-
-    .footer-bottom {
-        margin-top: 40px;
-        padding-top: 20px;
-        border-top: 1px solid #eee;
-        text-align: center;
-        font-size: 11px;
-        color: #999;
-    }
-
-    .developer-tag {
-        margin-top: 5px;
-        font-weight: bold;
-        color: #ccc;
-    }
-
-    /* Mobile adjustments */
-    @media (min-width: 480px) {
-        .sitemap-grid {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-        </style>
-        
+</body>
+</html>
