@@ -153,12 +153,30 @@
 
     // Load Records
     function loadData() {
-        fetch(`${SCRIPT_URL}?action=getRecords`).then(res => res.json()).then(data => {
-            const approved = data.records.filter(u => u.status === "Approved");
-            document.getElementById('totalDisplay').innerText = approved.length;
-            document.getElementById('topEarnersList').innerHTML = approved.slice(0,5).map(u => `<div>${u.name} - Verified ✅</div>`).join('');
-        });
-    }
+    fetch(`${SCRIPT_URL}?action=getRecords`)
+    .then(res => res.json())
+    .then(data => {
+        // 1. Leaderboard & Count update karna
+        const approved = data.records.filter(u => u.status === "Approved");
+        document.getElementById('totalDisplay').innerText = approved.length;
+        document.getElementById('topEarnersList').innerHTML = approved.slice(0,5).map(u => `<div>${u.name} - Verified ✅</div>`).join('');
+
+        // 2. Winner dhoondne ki logic (JO AAPNE PUCHI HAI)
+        // Hum check kar rahe hain ke kisi bhi column mein "WINNER" likha hai ya nahi
+        const winner = data.records.find(u => u.winner && u.winner.includes("WINNER"));
+        
+        const winnerBox = document.getElementById('winnerBox');
+        const winnerName = document.getElementById('winnerName');
+
+        if(winner && winnerBox && winnerName) {
+            winnerBox.style.display = "block";
+            winnerName.innerText = winner.name;
+        } else if(winnerBox) {
+            winnerBox.style.display = "none";
+        }
+    });
+}
+
 
     // Status Check
     function checkUserStatus() {
