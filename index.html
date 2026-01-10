@@ -195,14 +195,42 @@
         }
     }
 
-    function submitWinEntry() {
+        function submitWinEntry() {
         const name = document.getElementById('winName').value;
         const wa = document.getElementById('winWa').value;
         const tid = document.getElementById('winTid').value;
-        if(!name || !wa || !tid) { alert("Tamam details bharein!"); return; }
-        const msg = `Win%20Mobile%201000%20Entry:%0AName:%20${name}%0AWhatsApp:%20${wa}%0ATID:%20${tid}`;
-        window.location.href = `https://wa.me/923023313131?text=${msg}`;
+        const info = document.querySelector('.win-card p'); // Status dikhane ke liye
+
+        if(!name || !wa || !tid) { 
+            alert("Tamam details bharein!"); 
+            return; 
+        }
+
+        info.innerText = "Processing... Please wait ⏳";
+        info.style.color = "#ffd700";
+
+        // Google Sheet URL (Aapki maujooda Script ID use ki hai)
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyaPhp2qLrGzvHhOdNvu8QdhTFDF4-k0xSQ530Tdn8mTDsYqfvaE7X1hZUTeuIxXbjo9g/exec';
+        
+        // Data Sheet mein bhejne ke liye
+        const formData = new FormData();
+        formData.append('action', 'register'); // Ya jo bhi aapki script ka action name hai
+        formData.append('name', name);
+        formData.append('phone', wa);
+        formData.append('tid', tid);
+        formData.append('status', 'pending'); // Default pending rahay ga
+
+        fetch(scriptURL, { method: 'POST', body: formData })
+        .then(response => {
+            // Submit hone ke baad Success Page par bhej dega
+            window.location.href = "success.html";
+        })
+        .catch(error => {
+            alert("Error! Dubara koshish karein.");
+            info.innerText = "Luckydraw mein shamil hone ke liye details submit karein";
+        });
     }
+
 
     function checkDatabaseStatus() {
         const phone = document.getElementById("phoneInput").value;
