@@ -167,16 +167,43 @@
     }
 
     function spinWheel() {
-        document.getElementById("wheel").style.transform = `rotate(1980deg)`; 
-        setTimeout(() => {
-            let coins = parseInt(localStorage.getItem("gm_coins") || 0) + 2;
-            localStorage.setItem("gm_coins", coins);
-            localStorage.setItem("last_spin_time", Date.now());
-            alert("Mubarak! 2 Coins mil gaye.");
-            updateTimer();
-        }, 4000);
+    // 1. Check karein ke user dobara spin to nahi kar raha jaldi
+    const lastSpin = localStorage.getItem("last_spin_time");
+    if (lastSpin && Date.now() - lastSpin < 24 * 60 * 60 * 1000) {
+        alert("Agla spin 24 ghante baad milega!");
+        return;
     }
 
+    // 2. ALGORITHM: Hamesha 2 coins par rokne ke liye fix degree (792deg)
+    // 720 (2 rounds) + 72 (Angle for section '2')
+    const wheel = document.getElementById("wheel");
+    wheel.style.transition = "transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67)";
+    wheel.style.transform = "rotate(792deg)"; 
+
+    setTimeout(() => {
+        // 3. Wallet update logic
+        let currentCoins = parseInt(localStorage.getItem("gm_coins") || 0);
+        let newCoins = currentCoins + 2; // Algorithm ke mutabiq hamesha 2 coins
+        
+        localStorage.setItem("gm_coins", newCoins);
+        localStorage.setItem("last_spin_time", Date.now());
+        
+        // UI Update
+        document.getElementById("walletBalance").innerText = newCoins;
+        alert("Mubarak! Aapne 2 Coins jeet liye hain. 🎉");
+        
+        // Timer shuru karein
+        updateTimer();
+        
+        // Wheel ko reset karein bina animation ke taake agli baar phir ghoom sake
+        setTimeout(() => {
+            wheel.style.transition = "none";
+            wheel.style.transform = "rotate(0deg)";
+        }, 500);
+        
+    }, 4000);
+    }
+    
     function redeemCoins() {
         localStorage.setItem("gm_coins", 0);
         window.location.href = "https://wa.me/923023313131?text=Redeem%20200%20Coins";
