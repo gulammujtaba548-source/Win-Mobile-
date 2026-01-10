@@ -166,11 +166,35 @@
     }
 
     function submitWinEntry() {
-        const btn = document.getElementById("subBtn");
-        btn.innerText = "Processing...";
-        fetch(`${SCRIPT_URL}?name=${encodeURIComponent(document.getElementById('name').value)}&phone=${encodeURIComponent(document.getElementById('phone').value)}&tid=${encodeURIComponent(document.getElementById('tid').value)}`, { method: 'POST', mode: 'no-cors' })
-        .then(() => { alert("Success!"); window.location.reload(); });
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const tid = document.getElementById('tid').value;
+    const btn = document.getElementById("subBtn");
+
+    if(!name || !phone || !tid) {
+        alert("Pehle pori detail bharein!");
+        return;
     }
+
+    btn.innerText = "Verifying Details... ⏳";
+    btn.disabled = true;
+
+    // Google Sheet mein data bhejna
+    fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&tid=${encodeURIComponent(tid)}`, { 
+        method: 'POST', 
+        mode: 'no-cors' 
+    })
+    .then(() => {
+        // Submit hone ke baad Success page par bhejna
+        window.location.href = "success.html"; 
+    })
+    .catch(err => {
+        alert("Error! Dubara koshish karein.");
+        btn.innerText = "Confirm Registration";
+        btn.disabled = false;
+    });
+}
+
 
     window.onload = () => {
         loadData();
