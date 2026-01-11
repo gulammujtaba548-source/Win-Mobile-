@@ -88,32 +88,24 @@
                     const status = user.status ? user.status.toUpperCase().trim() : "PENDING";
                     if(status === "APPROVED") approvedCount++;
 
-                    // WhatsApp Message with User Info
-                    const waLink = `https://wa.me/${user.phone}?text=Hi%20${encodeURIComponent(user.name)},%20aapka%20TID:%20${user.tid}%20verify%20nahi%20ho%20raha.%20Kindly%20screenshot%20bhein.`;
+                    const waLink = `https://wa.me/${user.phone}?text=Hi%20${encodeURIComponent(user.name)},%20aapka%20payment%20proof%20check%20kar%20liya%20hai.`;
 
                     html += `
-    <div class="list-item">
-        <div class="col-info">
-            <div class="name-box">${user.name}</div>
-            <span class="status-tag ${status}">${status}</span>
-        </div>
-        <div class="col-tid">
-            <b>Ph:</b> ${user.phone}<br>
-            <b>TID:</b> <span style="color:#2196f3">${user.tid}</span>
-        </div>
-        <div class="col-ctrl">
-            <a href="${waLink}" target="_blank" class="btn-ctrl btn-wa">
-                <i class="fab fa-whatsapp"></i> CHAT
-            </a>
-            <button onclick="window.open('${user.screenshot}', '_blank')" class="btn-ctrl" style="background:#008CBA;">
-                VIEW PROOF 🖼️
-            </button>
-
-            <button onclick="updateStatus(${user.id}, 'Approved')" class="btn-ctrl btn-approve">APPROVE</button>
-            <button onclick="updateStatus(${user.id}, 'Rejected')" class="btn-ctrl btn-reject">REJECT</button>
-        </div>
-    </div>`;
-                    
+                    <div class="list-item">
+                        <div class="col-info">
+                            <div class="name-box">${user.name}</div>
+                            <span class="status-tag ${status}">${status}</span>
+                        </div>
+                        <div class="col-tid">
+                            <b>Ph:</b> ${user.phone}<br>
+                            <b>TID:</b> <span style="color:#2196f3">${user.tid}</span>
+                        </div>
+                        <div class="col-ctrl">
+                            <a href="${waLink}" target="_blank" class="btn-ctrl btn-wa">CHAT</a>
+                            <button onclick="window.open('${user.screenshot}', '_blank')" class="btn-ctrl" style="background:#008CBA;">VIEW PROOF 🖼️</button>
+                            <button onclick="updateStatus(${user.id}, 'Approved')" class="btn-ctrl btn-approve">APPROVE</button>
+                            <button onclick="updateStatus(${user.id}, 'Rejected')" class="btn-ctrl btn-reject">REJECT</button>
+                        </div>
                     </div>`;
                 });
                 list.innerHTML = html;
