@@ -156,7 +156,7 @@ async function submitWinEntry() {
     const name = document.getElementById('name').value;
     const phone = document.getElementById('phone').value;
     const tid = document.getElementById('tid').value;
-    const fileInput = document.getElementById('ssInput'); // Screenshot field
+    const fileInput = document.getElementById('ssInput');
     const btn = document.getElementById('subBtn');
 
     if (!name || !phone || !tid || !fileInput.files[0]) {
@@ -168,106 +168,49 @@ async function submitWinEntry() {
     btn.disabled = true;
 
     try {
-        // Step A: ImgBB par image upload
         const formData = new FormData();
         formData.append('image', fileInput.files[0]);
-        const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
-            method: 'POST',
-            body: formData
-        });
+        const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: 'POST', body: formData });
         const imgJson = await imgRes.json();
-        const screenshotUrl = imgJson.data.url; // Image link ready!
+        const screenshotUrl = imgJson.data.url;
 
-                // Step B: Google Sheet mein data bhejna
         const finalUrl = `${SCRIPT_URL}?action=register&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&tid=${encodeURIComponent(tid)}&screenshotUrl=${encodeURIComponent(screenshotUrl)}`;
-        
         await fetch(finalUrl, { method: 'POST' });
-        
 
         alert("Success! Entry screenshot ke saath jama ho gayi hai.");
         location.reload();
     } catch (e) {
-        alert("Error! Network check karein aur dobara koshish karein.");
+        alert("Error! Network check karein.");
         btn.disabled = false;
-        btn.innerText = "Submit Entry";
+        btn.innerText = "Confirm Registration";
     }
 }
 
 // 3. SPIN WHEEL & OTHER FUNCTIONS
 function spinWheel() {
-    const wheel = document.getElementById("wheel");
-    wheel.style.transition = "transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67)";
-    wheel.style.transform = "rotate(792deg)"; // Always stops on 2 coins
-    
-    setTimeout(() => {
-        let currentCoins = parseInt(localStorage.getItem("gm_coins") || 0);
-        localStorage.setItem("gm_coins", currentCoins + 2);
-        document.getElementById("userCoins").innerText = currentCoins + 2;
-        localStorage.setItem("last_spin_time", Date.now());
-        updateTimer();
-        alert("Mubarak! 2 Coins mil gaye.");
-    }, 4000);
-}
-
-// Timer aur baaki code yahan niche continue hoga...
-function updateTimer() {
-    const last = localStorage.getItem("last_spin_time");
-    if(!last) return;
-    const diff = (parseInt(last) + 86400000) - Date.now();
-    if(diff > 0) {
-        document.getElementById("spinTimer").style.display = "block";
-        document.getElementById("spinBtn").disabled = true;
-        document.getElementById("spinBtn").style.opacity = "0.5";
-    } else {
-        document.getElementById("spinTimer").style.display = "none";
-        document.getElementById("spinBtn").disabled = false;
-        document.getElementById("spinBtn").style.opacity = "1";
-    }
-}
-window.onload = () => {
-    updateTimer();
-    document.getElementById("userCoins").innerText = localStorage.getItem("gm_coins") || 0;
-};
-</script>
-    
-
-    function spinWheel() {
-    // 1. Check karein ke user dobara spin to nahi kar raha jaldi
-    const lastSpin = localStorage.getItem("last_spin_time");
-    if (lastSpin && Date.now() - lastSpin < 24 * 60 * 60 * 1000) {
-        alert("Agla spin 24 ghante baad milega!");
-        return;
-    }
-
-    // 2. ALGORITHM: Hamesha 2 coins par rokne ke liye fix degree (792deg)
-    // 720 (2 rounds) + 72 (Angle for section '2')
-    const wheel = document.getElementById("wheel");
+    const wheel = document.getElementById('wheel');
     wheel.style.transition = "transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67)";
     wheel.style.transform = "rotate(792deg)"; 
 
     setTimeout(() => {
-        // 3. Wallet update logic
         let currentCoins = parseInt(localStorage.getItem("gm_coins") || 0);
-        let newCoins = currentCoins + 2; // Algorithm ke mutabiq hamesha 2 coins
-        
-        localStorage.setItem("gm_coins", newCoins);
-        localStorage.setItem("last_spin_time", Date.now());
-        
-        // UI Update
-        document.getElementById("walletBalance").innerText = newCoins;
-        alert("Mubarak! Aapne 2 Coins jeet liye hain. 🎉");
-        
-        // Timer shuru karein
-        updateTimer();
-        
-        // Wheel ko reset karein bina animation ke taake agli baar phir ghoom sake
-        setTimeout(() => {
-            wheel.style.transition = "none";
-            wheel.style.transform = "rotate(0deg)";
-        }, 500);
-        
+        localStorage.setItem("gm_coins", currentCoins + 2);
+        document.getElementById("userCoins").innerText = currentCoins + 2;
+        localStorage.setItem('last_spin_time', Date.now());
+        alert("Mubarak! 2 Coins mil gaye.");
     }, 4000);
-    }
+}
+
+window.onload = () => {
+    const savedCoins = localStorage.getItem("gm_coins") || 0;
+    document.getElementById("userCoins").innerText = savedCoins;
+    loadData(); // Leaderboard load karne ke liye
+};
+    
+</script>
+    
+
+    
     
     function redeemCoins() {
         localStorage.setItem("gm_coins", 0);
