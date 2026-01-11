@@ -178,9 +178,11 @@ async function submitWinEntry() {
         const imgJson = await imgRes.json();
         const screenshotUrl = imgJson.data.url; // Image link ready!
 
-        // Step B: Google Sheet mein data bhejna
+                // Step B: Google Sheet mein data bhejna
         const finalUrl = `${SCRIPT_URL}?action=register&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&tid=${encodeURIComponent(tid)}&screenshotUrl=${encodeURIComponent(screenshotUrl)}`;
+        
         await fetch(finalUrl, { method: 'POST' });
+        
 
         alert("Success! Entry screenshot ke saath jama ho gayi hai.");
         location.reload();
@@ -272,45 +274,46 @@ window.onload = () => {
         window.location.href = "https://wa.me/923023313131?text=Redeem%20200%20Coins";
     }
 
- 
-    function loadData() {
+ function loadData() {
     fetch(`${SCRIPT_URL}?action=getRecords`)
     .then(res => res.json())
     .then(data => {
-        // 1. Total Approved Count (Matching Admin Panel)
-        const approved = data.records.filter(u => {
-            return u.status && u.status.toString().toUpperCase().trim() === "APPROVED";
-        });
+        // 1. Sirf APPROVED logo ko filter karna
+        const approved = data.records.filter(u => 
+            u.status && u.status.toString().toUpperCase().trim() === "APPROVED"
+        );
 
-        // Website par count update karna
-        const displayCount = document.getElementById('totalDisplay');
-        if(displayCount) displayCount.innerText = approved.length;
-
-        // Leaderboard/Top Earners update karna
-        const earnersList = document.getElementById('topEarnersList');
-        if(earnersList) {
-            earnersList.innerHTML = approved.slice(0,5).map(u => 
-                `<div style="padding:8px; border-bottom:1px solid #f0f0f0; font-size:14px;">${u.name} - Verified ✅</div>`
-            ).join('');
+        // 2. Verified Participants ka count update karna
+        // Note: Check karein ke aapki HTML mein span ki ID 'totalCount' hai ya nahi
+        const countDisplay = document.getElementById('totalCount');
+        if(countDisplay) {
+            countDisplay.innerText = approved.length;
         }
 
-        // 2. Winner Logic (Checking for "WINNER" in any column)
-        const winner = data.records.find(u => {
-            return Object.values(u).some(v => v && v.toString().toUpperCase().includes("WINNER"));
-        });
-
-        const wBox = document.getElementById('winnerBox');
+        // 3. Top Earners/Participants ki list dikhana
+        const listContainer = document.querySelector('.card p'); // Jahan 'Loading list...' likha hai
+        if(listContainer && approved.length > 0) {
+            listContainer.innerHTML = approved.slice(0, 5).map(u => 
+                `<div style="padding:5px; border-bottom:1px solid #eee; color: black;">${u.name} - Verified ✅</div>`
+            ).join('');
+        } else if (listContainer) {
+            listContainer.innerText = "No verified participants yet.";
+        }
+        
+        // 4. Winner Display Logic
+        const winner = data.records.find(u => u.winner && u.winner.includes("WINNER"));
+        const wBox = document.getElementById('winnerBox'); // Agar aapne winner box banaya hai
         const wName = document.getElementById('winnerName');
-
+        
         if (winner && wBox && wName) {
             wBox.style.display = "block";
             wName.innerText = winner.name;
-        } else if (wBox) {
-            wBox.style.display = "none";
         }
     })
     .catch(err => console.log("Data error:", err));
-    }
+}
+
+    
     
 
     function checkUserStatus() {
