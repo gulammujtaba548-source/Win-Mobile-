@@ -187,11 +187,17 @@ function spinWheel() {
     }
 
     const wheel = document.getElementById('wheel');
-    wheel.style.transform = "rotate(3600deg)"; // Reset spin logic
+    
+    // Resetting for smooth animation
+    wheel.style.transition = "none";
+    wheel.style.transform = "rotate(0deg)";
     
     setTimeout(() => {
+        // 3600deg (10 rounds) + 36deg (Center of Yellow/2 Coins segment)
+        const targetRotation = 3636; 
+        
         wheel.style.transition = "transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)";
-        wheel.style.transform = "rotate(3672deg)"; // Always lands on 2 coins
+        wheel.style.transform = `rotate(${targetRotation}deg)`;
         
         setTimeout(() => {
             let coins = parseInt(localStorage.getItem("gm_coins") || 0);
@@ -204,6 +210,7 @@ function spinWheel() {
         }, 4500);
     }, 100);
 }
+    
 
 function updateTimer() {
     const last = localStorage.getItem("last_spin_time");
@@ -263,9 +270,18 @@ function checkUserStatus() {
 }
 
 function redeemCoins() {
+    let coins = parseInt(localStorage.getItem("gm_coins") || 0);
+    
+    if (coins < 200) {
+        alert("Aap ke paas kam az kam 200 coins hona lazmi hain!");
+        return;
+    }
+
+    // Agar 200 ya us se zyada hain tab zero honge
     localStorage.setItem("gm_coins", 0);
-    window.location.href = "https://wa.me/923023313131?text=Redeem%20Coins";
+    window.location.href = `https://wa.me/923023313131?text=Main%20apne%20${coins}%20coins%20redeem%20karna%20chahta%20hoon`;
 }
+    
 
 window.onload = () => {
     document.getElementById("userCoins").innerText = localStorage.getItem("gm_coins") || 0;
