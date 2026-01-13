@@ -281,9 +281,7 @@ function redeemCoins() {
     localStorage.setItem("gm_coins", 0);
     window.location.href = `https://wa.me/923023313131?text=Main%20apne%20${coins}%20coins%20redeem%20karna%20chahta%20hoon`;
 }
-    
-
-window.onload = () => {
+    window.onload = () => {
     document.getElementById("userCoins").innerText = localStorage.getItem("gm_coins") || 0;
     loadData();
     updateTimer();
