@@ -56,7 +56,32 @@
     70% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
+/* WhatsApp Floating Button */
+.wa-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25d366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0 0 15px rgba(37, 211, 102, 0.6);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse-wa 2s infinite;
+}
 
+@keyframes pulse-wa {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+        
     </style>
 </head>
 <body>
@@ -341,5 +366,8 @@ function redeemCoins() {
     setInterval(updateTimer, 60000);
 };
 </script>
+    <a href="https://wa.me/923023313131" class="wa-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
 </body>
 </html>
