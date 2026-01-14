@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Deal Portal | GM Agency Official</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #0f172a; --accent: #3b82f6; --success: #22c55e; --gold: #f59e0b; --bg: #f1f5f9; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; color: #1e293b; padding: 15px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .card { background: white; border-radius: 24px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 20px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .brand { font-weight: 800; font-size: 24px; color: var(--primary); display: block; }
+        .badge { display: inline-flex; align-items: center; background: #dcfce7; color: #166534; padding: 5px 15px; border-radius: 99px; font-size: 11px; font-weight: 700; margin-top: 8px; }
+        .stepper { display: flex; justify-content: space-between; margin: 25px 0; position: relative; }
+        .step { flex: 1; text-align: center; z-index: 2; position: relative; }
+        .step-dot { width: 30px; height: 30px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; font-size: 12px; font-weight: bold; transition: 0.3s; }
+        .step.active .step-dot { background: var(--accent); color: white; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+        .step-txt { font-size: 10px; font-weight: 600; color: #64748b; }
+        .stepper::before { content: ''; position: absolute; top: 15px; left: 10%; right: 10%; height: 2px; background: #e2e8f0; z-index: 1; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #475569; }
+        input, textarea { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 12px; font-size: 14px; box-sizing: border-box; }
+        .calc-box { background: #f8fafc; border-radius: 15px; padding: 15px; border: 1px dashed #cbd5e1; margin: 20px 0; }
+        .calc-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; }
+        .calc-total { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 2px solid #cbd5e1; font-weight: 800; color: var(--primary); font-size: 18px; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; margin-top: 15px; }
+        #receipt { display: none; border: 2px solid var(--success); padding: 20px; border-radius: 15px; position: relative; }
+        .review-item { border-bottom: 1px solid #f1f5f9; padding: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="header">
+            <span class="brand">GM AGENCY OFFICIAL</span>
+            <div class="badge"><i class="fas fa-shield-alt"></i> SECURE ESCROW SYSTEM</div>
+        </div>
+
+        <div class="stepper">
+            <div class="step active"><div class="step-dot">1</div><div class="step-txt">Draft</div></div>
+            <div class="step"><div class="step-dot">2</div><div class="step-txt">Deposit</div></div>
+            <div class="step"><div class="step-dot">3</div><div class="step-txt">Hold</div></div>
+            <div class="step"><div class="step-dot">4</div><div class="step-txt">Release</div></div>
+        </div>
+
+        <div id="setupView">
+            <div class="form-group">
+                <label>Buyer WhatsApp</label>
+                <input type="number" id="bPhone" placeholder="03XXXXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>Seller WhatsApp</label>
+                <input type="number" id="sPhone" placeholder="03XXXXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>Deal Description</label>
+                <input type="text" id="dDesc" placeholder="e.g. 50k Poppo Coins">
+            </div>
+            <div class="form-group">
+                <label>Deal Amount (PKR)</label>
+                <input type="number" id="dAmount" placeholder="Enter Price" oninput="doMath()">
+            </div>
+
+            <div class="calc-box">
+                <div class="calc-row"><span>Base Price:</span><span id="vPrice">Rs. 0</span></div>
+                <div class="calc-row"><span>Agency Fee (5%):</span><span id="vFee" style="color:var(--gold)">+ Rs. 0</span></div>
+                <div class="calc-total"><span>Total to Pay:</span><span id="vTotal">Rs. 0</span></div>
+            </div>
+
+            <button class="btn btn-primary" onclick="makeReceipt()"><i class="fas fa-file-invoice"></i> GENERATE RECEIPT</button>
+        </div>
+
+        <div id="receipt">
+            <h3 style="margin:0 0 15px 0; color:var(--success)">OFFICIAL RECEIPT</h3>
+            <div style="font-size:14px; line-height:1.8">
+                <strong>Deal ID:</strong> <span id="rId" style="color:var(--accent)">#GM-0000</span><br>
+                <strong>Buyer:</strong> <span id="rBuyer"></span><br>
+                <strong>Item:</strong> <span id="rItem"></span><br>
+                <strong>Total Amount:</strong> <span id="rTotal"></span><br>
+                <strong>Security:</strong> <span>GM Agency Escrow ✓</span>
+            </div>
+            <button class="btn btn-success" onclick="contactAdmin()"><i class="fab fa-whatsapp"></i> SEND TO AGENCY</button>
+        </div>
+    </div>
+
+    <div class="card" style="padding: 15px;">
+        <label>🔍 Track Your Deal Status</label>
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <input type="text" id="trackId" placeholder="Enter Deal ID (#GM-1234)">
+            <button onclick="checkStatus()" style="background:var(--primary); color:white; border:none; border-radius:8px; padding:0 15px;">Check</button>
+        </div>
+        <div id="statusResult" style="margin-top:10px;"></div>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-top:0; font-size:18px;"><i class="fas fa-star" style="color:var(--gold)"></i> CUSTOMER FEEDBACK</h3>
+        <div id="reviewsList">
+            <div class="review-item">
+                <div style="color:var(--gold); font-size:12px;">⭐⭐⭐⭐⭐</div>
+                <strong style="font-size:13px;">Gulam Abbas</strong>
+                <p style="font-size:12px; margin:5px 0; color:#64748b;">Deal 100% safe rahi. Agency trusted hai!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxCNd10bSbbY1aaZx1zrfMvO7HLc-iU9U7jJHZ_PPsXnrCWIAEhQwkno6rC5zhCcCzxjw/exec';
+
+    function doMath() {
+        const val = parseFloat(document.getElementById('dAmount').value) || 0;
+        const fee = val * 0.05;
+        const total = val + fee;
+        document.getElementById('vPrice').innerText = "Rs. " + val.toLocaleString();
+        document.getElementById('vFee').innerText = "+ Rs. " + fee.toLocaleString();
+        document.getElementById('vTotal').innerText = "Rs. " + total.toLocaleString();
+    }
+
+    async function makeReceipt() {
+        const b = document.getElementById('bPhone').value;
+        const s = document.getElementById('sPhone').value;
+        const d = document.getElementById('dDesc').value;
+        const a = document.getElementById('dAmount').value;
+        const total = document.getElementById('vTotal').innerText;
+
+        if(!b || !s || !d || !a) return alert("Pehly sari details likhein!");
+
+        const dId = "GM-" + Math.floor(1000 + Math.random() * 9000);
+        const btn = document.querySelector('.btn-primary');
+        btn.innerText = "Saving to Database... ⏳";
+        btn.disabled = true;
+
+        try {
+            // Google Sheet mein data bhej raha hai
+            await fetch(`${scriptURL}?action=createDeal&dealId=${dId}&buyer=${b}&seller=${s}&amount=${a}&desc=${encodeURIComponent(d)}`, { method: 'POST', mode: 'no-cors' });
+            
+            // UI Update
+            document.getElementById('rId').innerText = "#" + dId;
+            document.getElementById('rBuyer').innerText = b;
+            document.getElementById('rItem').innerText = d;
+            document.getElementById('rTotal').innerText = total;
+            
+            document.getElementById('setupView').style.display = "none";
+            document.getElementById('receipt').style.display = "block";
+            document.querySelector('.step:nth-child(2)').classList.add('active');
+        } catch (e) {
+            alert("Error saving deal. Try again!");
+            btn.innerText = "GENERATE RECEIPT";
+            btn.disabled = false;
+        }
+    }
+
+    function contactAdmin() {
+        const id = document.getElementById('rId').innerText;
+        const total = document.getElementById('rTotal').innerText;
+        const msg = `🚀 *NEW SAFE DEAL REQUEST*%0A%0A*Deal ID:* ${id}%0A*Total Amount:* ${total}%0A%0A_Verification required._`;
+        window.location.href = `https://wa.me/923023313131?text=${msg}`;
+    }
+
+    function checkStatus() {
+        const id = document.getElementById('trackId').value;
+        if(!id) return alert("Deal ID likhein!");
+        document.getElementById('statusResult').innerHTML = `<div style="background:#fef9c3; color:#854d0e; padding:10px; border-radius:8px; font-size:12px; font-weight:bold;">🕒 STATUS: VERIFYING PAYMENT...</div>`;
+    }
+</script>
+
+</body>
+</html>
+
