@@ -316,19 +316,39 @@ function loadData() {
     fetch(`${SCRIPT_URL}?action=getRecords`)
     .then(res => res.json())
     .then(data => {
-        const approved = data.records.filter(u => u.status && u.status.toString().toUpperCase().trim() === "APPROVED");
-        document.getElementById("totalDisplay").innerText = approved.length;
-
-        const list = document.getElementById("topEarnersList");
-        list.innerHTML = approved.length > 0 ? approved.slice(0, 5).map(u => `<div style="padding:5px; border-bottom:1px solid #eee;">${u.name} - Verified ✅</div>`).join('') : "No verified users.";
-
-        const winner = data.records.find(u => u.winner && u.winner.includes("WINNER"));
-        if(winner) {
-            document.getElementById("winnerBox").style.display = "block";
-            document.getElementById("winnerName").innerText = winner.name;
+        // Hum yahan Status ko bade letters (APPROVED) mein convert kar ke match kar rahe hain
+        // Taake "Approved" aur "approved" dono gine jayen
+        const approved = data.records.filter(u => {
+            const s = (u.status || "").toString().toUpperCase().trim();
+            return s === "APPROVED";
+        });
+        
+        // Website par total count update karein (Ye "totalDisplay" ID ko target karega)
+        const displayElement = document.getElementById("totalDisplay");
+        if(displayElement) {
+            displayElement.innerText = approved.length;
         }
-    });
+
+        // Top 5 logo ki list "topEarnersList" mein dikhayein
+        const list = document.getElementById("topEarnersList");
+        if(list) {
+            list.innerHTML = approved.length > 0 
+                ? approved.slice(0, 5).map(u => `<div style="padding:8px; border-bottom:1px solid #eee; color:#2c3e50; font-weight:bold;">🏆 ${u.name}</div>`).join('')
+                : "<div style='color:#888; padding:10px;'>Awaiting first approved entry...</div>";
+        }
+
+        // Winner announcement box ki logic
+        const winner = data.records.find(u => (u.winner || "").toString().includes("WINNER"));
+        if(winner) {
+            const winBox = document.getElementById("winnerBox");
+            if(winBox) winBox.style.display = "block";
+            const winName = document.getElementById("winnerName");
+            if(winName) winName.innerText = winner.name;
+        }
+    })
+    .catch(err => console.error("Data load nahi ho saka:", err));
 }
+    
 
 function checkUserStatus() {
     const phone = document.getElementById('checkPhone').value;
