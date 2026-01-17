@@ -28,9 +28,10 @@
         .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-success { background: var(--success); color: white; margin-top: 15px; }
-        #receipt { display: none; border: 2px solid var(--success); padding: 20px; border-radius: 15px; position: relative; }
+        #receipt { display: none; border: 2px solid var(--success); padding: 20px; border-radius: 15px; }
         .review-item { border-bottom: 1px solid #f1f5f9; padding: 10px 0; }
         .rev-input { background: #f8fafc; margin-bottom: 10px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -89,6 +90,34 @@
         </div>
     </div>
 
+    <div class="card" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; border: 2px solid #22c55e;">
+        <div style="text-align: center; margin-bottom: 15px;">
+            <span style="background: #22c55e; color: white; padding: 5px 15px; border-radius: 50px; font-size: 11px; font-weight: bold;">🛡️ OFFICIAL ESCROW PAYMENT</span>
+        </div>
+        <h3 style="margin: 10px 0; color: #22c55e; font-size: 18px; text-align: center;">EASYPAISA DETAILS</h3>
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px dashed rgba(255,255,255,0.2);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span style="color: #94a3b8;">Account Name:</span>
+                <span style="font-weight: bold; color: #fff;">TASLEEM AKHTAR</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span style="color: #94a3b8;">Number:</span>
+                <span style="font-weight: 900; font-size: 20px; color: #22c55e;">03196557461</span>
+            </div>
+        </div>
+        <p style="font-size: 11px; color: #cbd5e1; margin-top: 15px;">⚠️ <b>Note:</b> Payment bhejney ke baad screenshot aur Deal ID Admin ko send karein.</p>
+    </div>
+
+    <div class="card">
+        <h4 style="margin-top: 0; color: #1e293b;"><i class="fas fa-search"></i> TRACK YOUR DEAL</h4>
+        <p style="font-size: 13px; color: #64748b;">Buyer aur Seller apni Deal ID yahan check karein:</p>
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <input type="text" id="dealSearchInput" placeholder="Enter Deal ID (e.g. GM1234)" style="flex: 1;">
+            <button onclick="trackMyDeal()" style="background: var(--accent); color: white; border: none; padding: 0 15px; border-radius: 10px; font-weight: bold;">TRACK</button>
+        </div>
+        <div id="dealStatusResult" style="display: none; margin-top: 20px; padding: 15px; border-radius: 12px; animation: fadeIn 0.5s;"></div>
+    </div>
+
     <div class="card">
         <h3 style="margin-top:0; font-size:18px;"><i class="fas fa-edit"></i> WRITE A REVIEW</h3>
         <input type="text" id="revName" class="rev-input" placeholder="Your Name">
@@ -98,14 +127,12 @@
 
     <div class="card">
         <h3 style="margin-top:0; font-size:18px;"><i class="fas fa-star" style="color:var(--gold)"></i> CUSTOMER FEEDBACK</h3>
-        <div id="reviewsList">
-            </div>
+        <div id="reviewsList"></div>
     </div>
 </div>
 
 <script>
-    // Apka Master Script URL
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxX-yr8AecX_-zmoIHLFLH25cYfttZtPcOAYRKOotHXbVRMubav0PwNMM033TTtCTHAnw/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxX-yr8AecX_-zmoIHLFLH25cYfttZtPcOAYRKOotHXbVRMubav0PwNMM033TTtCTHAnw/exec';
 
     function doMath() {
         const val = parseFloat(document.getElementById('dAmount').value) || 0;
@@ -123,87 +150,65 @@
         const a = document.getElementById('dAmount').value;
         const total = document.getElementById('vTotal').innerText;
 
-        if(!b || !s || !d || !a) return alert("Pehly sari details likhein!");
-
+        if(!b || !s || !d || !a) return alert("Details bharain!");
         const dId = "GM-" + Math.floor(1000 + Math.random() * 9000);
-        const btn = document.querySelector('.btn-primary');
-        btn.innerText = "Saving to Database... ⏳";
-        btn.disabled = true;
-
+        
         try {
-            await fetch(`${scriptURL}?action=createDeal&dealId=${dId}&buyer=${b}&seller=${s}&amount=${a}&desc=${encodeURIComponent(d)}`, { method: 'POST', mode: 'no-cors' });
-            
+            await fetch(`${SCRIPT_URL}?action=createDeal&dealId=${dId}&buyer=${b}&seller=${s}&amount=${a}&desc=${encodeURIComponent(d)}`, { method: 'POST', mode: 'no-cors' });
             document.getElementById('rId').innerText = "#" + dId;
             document.getElementById('rBuyer').innerText = b;
             document.getElementById('rItem').innerText = d;
             document.getElementById('rTotal').innerText = total;
-            
             document.getElementById('setupView').style.display = "none";
             document.getElementById('receipt').style.display = "block";
             document.querySelector('.step:nth-child(2)').classList.add('active');
-        } catch (e) {
-            alert("Error saving deal. Try again!");
-            btn.innerText = "GENERATE RECEIPT";
-            btn.disabled = false;
-        }
+        } catch (e) { alert("Error saving deal!"); }
     }
 
     function contactAdmin() {
         const id = document.getElementById('rId').innerText;
         const total = document.getElementById('rTotal').innerText;
-        const msg = `🚀 *NEW SAFE DEAL REQUEST*%0A%0A*Deal ID:* ${id}%0A*Total Amount:* ${total}%0A%0A_Verification required._`;
-        window.location.href = `https://wa.me/923023313131?text=${msg}`;
+        window.location.href = `https://wa.me/923023313131?text=🚀 *NEW SAFE DEAL*%0AID: ${id}%0AAmount: ${total}`;
     }
 
-    // --- Review System Function ---
+    async function trackMyDeal() {
+        const id = document.getElementById('dealSearchInput').value.trim();
+        const resBox = document.getElementById('dealStatusResult');
+        if(!id) return alert("ID likhein!");
+        resBox.style.display = "block";
+        resBox.style.background = "#f8fafc";
+        resBox.innerHTML = "Searching... ⏳";
+
+        try {
+            const response = await fetch(`${SCRIPT_URL}?action=checkDealStatus&dealId=${id}`);
+            const data = await response.json();
+            if(data && !data.error) {
+                let statusBadge = data.status.toUpperCase();
+                let bgColor = statusBadge.includes("RELEASE") ? "#f0fdf4" : "#eff6ff";
+                resBox.style.background = bgColor;
+                resBox.innerHTML = `<strong>Status: ${statusBadge}</strong><br><small>Buyer: ${data.buyer} | Amount: ${data.amount}</small>`;
+            } else { resBox.innerHTML = "❌ Deal Not Found!"; }
+        } catch (e) { resBox.innerHTML = "Server Error!"; }
+    }
+
     async function addReview() {
         const n = document.getElementById('revName').value;
         const m = document.getElementById('revMsg').value;
-        
-        if(!n || !m) return alert("Naam aur review likhein!");
-
-        const btn = document.querySelector('button[onclick="addReview()"]');
-        btn.innerText = "Posting... ⏳";
-        btn.disabled = true;
-
+        if(!n || !m) return alert("Fill all!");
         try {
-            await fetch(`${scriptURL}?action=postReview&name=${encodeURIComponent(n)}&msg=${encodeURIComponent(m)}`, { 
-                method: 'POST', 
-                mode: 'no-cors' 
-            });
-            
-            const item = `<div class="review-item">
-                            <div class="stars" style="color:var(--gold)">⭐⭐⭐⭐⭐</div>
-                            <strong style="font-size:13px;">${n}</strong>
-                            <p style="font-size:12px; margin:5px 0; color:#64748b;">${m}</p>
-                          </div>`;
-            document.getElementById('reviewsList').innerHTML = item + document.getElementById('reviewsList').innerHTML;
-            
-            document.getElementById('revName').value = "";
-            document.getElementById('revMsg').value = "";
-            btn.innerText = "POST REVIEW";
-            btn.disabled = false;
-            alert("Shukriya! Review Sheet mein save ho gaya.");
-            
-        } catch (e) {
-            alert("Error! Check internet.");
-            btn.innerText = "POST REVIEW";
-            btn.disabled = false;
-        }
+            await fetch(`${SCRIPT_URL}?action=postReview&name=${encodeURIComponent(n)}&msg=${encodeURIComponent(m)}`, { method: 'POST', mode: 'no-cors' });
+            alert("Review Saved!");
+            location.reload();
+        } catch (e) { alert("Error!"); }
     }
 
-    // Page load par purane reviews load karne ke liye (Optional)
     window.onload = async () => {
         try {
-            const res = await fetch(`${scriptURL}?action=getReviews`);
+            const res = await fetch(`${SCRIPT_URL}?action=getReviews`);
             const data = await res.json();
             let html = '';
             data.forEach(r => {
-                html += `<div class="review-item">
-                            <div class="stars" style="color:var(--gold)">⭐⭐⭐⭐⭐</div>
-                            <strong style="font-size:13px;">${r.name}</strong>
-                            <p style="font-size:12px; margin:5px 0; color:#64748b;">${r.msg}</p>
-                          </div>`;
+                html += `<div class="review-item"><div style="color:var(--gold)">⭐⭐⭐⭐⭐</div><strong>${r.name}</strong><p style="font-size:12px; color:#64748b;">${r.msg}</p></div>`;
             });
             document.getElementById('reviewsList').innerHTML = html;
         } catch(e) {}
