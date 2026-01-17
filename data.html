@@ -8,31 +8,41 @@
     <style>
         :root { --primary: #ff5252; --success: #2ecc71; --danger: #e74c3c; --dark: #2c3e50; --bg: #f4f7f6; --info: #2196f3; --accent: #3b82f6; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; padding: 0; display: none; text-align: center; }
-        .header-btn { background: var(--primary); color: white; padding: 15px; border-radius: 12px; margin: 20px auto; width: 90%; max-width: 400px; font-weight: bold; font-size: 18px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: block; }
-        .spin-btn { background: var(--success); color: white; padding: 15px; border-radius: 12px; width: 90%; max-width: 400px; font-weight: bold; border: none; margin-bottom: 10px; cursor: pointer; }
-        .refresh-btn { background: #f39c12; color: white; padding: 8px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
-        .container { max-width: 600px; margin: 0 auto; padding: 10px; }
+        .container { max-width: 650px; margin: 0 auto; padding: 10px; }
+        .header-btn { background: var(--primary); color: white; padding: 15px; border-radius: 12px; margin: 15px auto; width: 90%; font-weight: bold; font-size: 18px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: block; }
+        
+        /* Action Buttons */
+        .spin-btn { background: var(--success); color: white; padding: 12px; border-radius: 10px; width: 90%; font-weight: bold; border: none; margin-bottom: 8px; cursor: pointer; }
+        .reset-btn { background: var(--info); color: white; padding: 10px; border-radius: 10px; width: 90%; font-weight: bold; border: none; margin-bottom: 8px; cursor: pointer; }
+        .clear-btn { background: #333; color: white; padding: 10px; border-radius: 10px; width: 90%; font-weight: bold; border: 1px solid red; margin-bottom: 15px; cursor: pointer; }
+        .refresh-btn { background: #f39c12; color: white; padding: 8px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
+
+        /* Card System */
         .card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: left; }
         
-        /* List & Table Styles */
+        /* List Item for Participants */
         .list-header { background: #333; color: white; display: flex; padding: 10px; font-size: 12px; font-weight: bold; border-radius: 5px 5px 0 0; }
         .list-item { background: white; border-bottom: 1px solid #eee; display: flex; align-items: center; padding: 15px 10px; text-align: left; font-size: 13px; gap: 10px; }
         .col-info { flex: 2; }
         .col-tid { flex: 2.5; color: #555; font-size: 11px; }
         .col-ctrl { flex: 1.5; display: flex; flex-direction: column; gap: 5px; }
         
+        /* Status Tags */
         .status-tag { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; text-transform: uppercase; }
         .REJECTED { background: #ffebee; color: #c0392b; }
         .APPROVED { background: #e8f5e9; color: #27ae60; }
         .PENDING { background: #fff3e0; color: #e67e22; }
-        
-        .btn-ctrl { padding: 8px; border-radius: 6px; border: none; color: white; font-weight: bold; font-size: 10px; cursor: pointer; text-align: center; text-decoration: none; }
+
+        /* Controls */
+        .btn-ctrl { padding: 6px; border-radius: 5px; border: none; color: white; font-weight: bold; font-size: 10px; cursor: pointer; text-align: center; text-decoration: none; }
         .btn-approve { background: var(--success); }
         .btn-reject { background: var(--danger); }
         .btn-wa { background: #25d366; }
-        
+        .btn-view { background: #008CBA; }
+
+        /* Table for Deals */
         table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        th { background: #f8fafc; padding: 10px; border-bottom: 2px solid #e2e8f0; }
+        th { background: #f8fafc; padding: 10px; border-bottom: 2px solid #e2e8f0; text-align: left; }
         td { padding: 10px; border-bottom: 1px solid #f1f5f9; }
 
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; font-weight: bold; color: var(--primary); }
@@ -48,19 +58,24 @@
 <div class="container">
     <button class="header-btn">GM Agency Master Admin Panel</button>
     
-    <div class="card" style="border-top: 4px solid var(--success);">
-        <h3 style="margin-top:0;"><i class="fas fa-trophy"></i> LUCKY DRAW CONTROL</h3>
-        <button class="spin-btn" onclick="pickRandomWinner()">🎡 PICK & CONFIRM WINNER</button>
-        <div style="font-weight: bold; margin: 10px 0;">Approved Participants: <span id="totalCount" style="color:var(--success)">0</span></div>
-        <button class="refresh-btn" onclick="loadAllData()">🔄 Refresh All Data</button>
+    <button class="spin-btn" onclick="pickRandomWinner()">🎡 PICK & CONFIRM WINNER</button><br>
+    <button class="reset-btn" onclick="resetWinner()">🔄 RESET / CLEAN WINNER</button><br>
+    <button class="clear-btn" onclick="clearDatabase()">🗑️ CLEAR ALL DATABASE</button><br>
+    <button class="refresh-btn" onclick="loadAllData()">Refresh Data</button>
 
+    <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px;">
+        Approved Participants: <span id="totalCount" style="color:var(--success)">0</span>
+    </div>
+
+    <div class="card" style="border-top: 4px solid var(--primary);">
+        <h3 style="margin-top:0;"><i class="fas fa-users"></i> DRAW PARTICIPANTS</h3>
         <div class="list-header">
             <div style="flex:2">Participant</div>
             <div style="flex:2.5">Details (Phone/TID)</div>
             <div style="flex:1.5; text-align:center">Actions</div>
         </div>
         <div id="participantList">
-            <p style="padding:20px; color:#888;">Loading participants...</p>
+            <p style="padding:20px; color:#888;">Connecting to GM Server...</p>
         </div>
     </div>
 
@@ -70,7 +85,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Deal ID</th>
+                        <th>ID</th>
                         <th>Buyer/Seller</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -88,7 +103,6 @@
     const PASSCODE = "0770";
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMqWMhq5A1n3fRtlUmmCrDO0c4Ef5NA7fuJ1L3_nFCfKeQnyvorUgPlJSjKcKtpWLOBQ/exec';
 
-    // Security Check
     (function() {
         if (prompt("Enter Master Admin Code:") === PASSCODE) {
             document.body.style.display = "block";
@@ -104,7 +118,7 @@
         loadDeals();
     }
 
-    // 1. Load Lucky Draw Participants
+    // 1. Participant List with Photo View & Chat
     async function loadParticipants() {
         const list = document.getElementById('participantList');
         try {
@@ -116,6 +130,8 @@
             data.records.forEach((user) => {
                 const status = user.status ? user.status.toUpperCase().trim() : "PENDING";
                 if(status === "APPROVED") approvedCount++;
+                const waLink = `https://wa.me/${user.phone}?text=Hi%20${encodeURIComponent(user.name)}`;
+
                 html += `
                 <div class="list-item">
                     <div class="col-info">
@@ -124,8 +140,10 @@
                     </div>
                     <div class="col-tid">Ph: ${user.phone}<br>TID: ${user.tid}</div>
                     <div class="col-ctrl">
-                        <button onclick="updateDrawStatus(${user.id}, 'Approved')" class="btn-ctrl btn-approve">APPROVE</button>
-                        <button onclick="updateDrawStatus(${user.id}, 'Rejected')" class="btn-ctrl btn-reject">REJECT</button>
+                        <a href="${waLink}" target="_blank" class="btn-ctrl btn-wa">CHAT</a>
+                        <button onclick="window.open('${user.screenshot}', '_blank')" class="btn-ctrl btn-view">VIEW PROOF 🖼️</button>
+                        <button onclick="updateStatus(${user.id}, 'draw', 'Approved')" class="btn-ctrl btn-approve">APPROVE</button>
+                        <button onclick="updateStatus(${user.id}, 'draw', 'Rejected')" class="btn-ctrl btn-reject">REJECT</button>
                     </div>
                 </div>`;
             });
@@ -134,11 +152,11 @@
         } catch(e) { list.innerHTML = "Error loading participants."; }
     }
 
-    // 2. Load Safe Deals
+    // 2. Safe Deals Table
     async function loadDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
-            const r = await fetch(`${SCRIPT_URL}?action=getDeals`); // App script must handle this
+            const r = await fetch(`${SCRIPT_URL}?action=getDeals`);
             const data = await r.json();
             let html = "";
             data.forEach(deal => {
@@ -148,8 +166,8 @@
                     <td>B: ${deal.buyer}<br>S: ${deal.seller}</td>
                     <td><span class="status-tag">${deal.status}</span></td>
                     <td>
-                        <button onclick="updateDealStatus(${deal.id}, 'Payment Hold')" style="background:#f39c12; color:white; border:none; padding:5px; border-radius:4px; font-size:10px; cursor:pointer;">HOLD</button>
-                        <button onclick="updateDealStatus(${deal.id}, 'Released')" style="background:#2ecc71; color:white; border:none; padding:5px; border-radius:4px; font-size:10px; cursor:pointer; margin-top:2px;">RELEASE</button>
+                        <button onclick="updateStatus(${deal.id}, 'deal', 'Payment Hold')" style="background:#f39c12; color:white; border:none; padding:5px; border-radius:4px; font-size:10px; cursor:pointer;">HOLD</button>
+                        <button onclick="updateStatus(${deal.id}, 'deal', 'Released')" style="background:#2ecc71; color:white; border:none; padding:5px; border-radius:4px; font-size:10px; cursor:pointer;">RELEASE</button>
                     </td>
                 </tr>`;
             });
@@ -157,35 +175,48 @@
         } catch(e) { tableBody.innerHTML = "<tr><td colspan='4'>Error loading deals.</td></tr>"; }
     }
 
-    // Status Updates
-    async function updateDrawStatus(id, status) {
+    // Generic Status Update
+    async function updateStatus(id, type, status) {
+        if(!confirm(`Mark as ${status}?`)) return;
         showLoading(true);
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: new URLSearchParams({'action':'updateStatus', 'type':'draw', 'id':id, 'status':status}) });
-        setTimeout(() => { showLoading(false); loadParticipants(); }, 1000);
+        const params = new URLSearchParams({'action':'updateStatus', 'type':type, 'id':id, 'status':status});
+        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: params });
+        setTimeout(() => { showLoading(false); loadAllData(); }, 1200);
     }
 
-    async function updateDealStatus(id, status) {
-        if(!confirm(`Change Deal Status to ${status}?`)) return;
-        showLoading(true);
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: new URLSearchParams({'action':'updateStatus', 'type':'deal', 'id':id, 'status':status}) });
-        setTimeout(() => { showLoading(false); loadDeals(); }, 1000);
-    }
-
-    function showLoading(show) { document.getElementById('loading-overlay').style.display = show ? 'flex' : 'none'; }
-
-    // Winner Logic
+    // Pick Winner
     async function pickRandomWinner() {
         showLoading(true);
         const r = await fetch(`${SCRIPT_URL}?action=pickWinner`);
         const res = await r.json();
         showLoading(false);
         if(res.winner && res.winner !== "No Approved Users") {
-            if(confirm(`Winner: ${res.winner}\nPublish to website?`)) {
+            if(confirm(`🎉 Winner: ${res.winner}\n\nPublish on Website?`)) {
                 await fetch(`${SCRIPT_URL}?action=confirmWinner&winner=${encodeURIComponent(res.winner)}`);
                 alert("Published!");
             }
-        } else { alert("No approved users!"); }
+        } else { alert("Approved users nahi mile!"); }
     }
+
+    // Clean/Reset Winner Box
+    async function resetWinner() {
+        if(!confirm("Clean website winner box?")) return;
+        showLoading(true);
+        await fetch(`${SCRIPT_URL}?action=confirmWinner&winner=`); // Empty winner
+        setTimeout(() => { showLoading(false); alert("Winner Box Reset!"); }, 1000);
+    }
+
+    // Database Clear
+    async function clearDatabase() {
+        if(!confirm("⚠️ WARNING: Saara data delete kar dein?")) return;
+        if(prompt("Type 'DELETE' to confirm:") !== "DELETE") return;
+        showLoading(true);
+        // Add a clear action in your script if needed, or manual delete
+        alert("This feature requires a 'clearAll' function in script.");
+        showLoading(false);
+    }
+
+    function showLoading(show) { document.getElementById('loading-overlay').style.display = show ? 'flex' : 'none'; }
 </script>
 </body>
 </html>
