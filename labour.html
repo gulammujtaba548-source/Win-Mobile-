@@ -20,7 +20,6 @@
             overflow-x: hidden;
         }
 
-        /* Hero Header */
         .hero {
             text-align: center;
             padding: 40px 20px;
@@ -41,7 +40,6 @@
             text-transform: uppercase;
         }
 
-        /* Services Grid */
         .container {
             padding: 20px;
             display: grid;
@@ -58,12 +56,6 @@
             position: relative;
             transition: 0.4s ease;
             animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .service-card:hover {
-            border-color: var(--glow-color);
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
-            transform: scale(1.02);
         }
 
         .icon-circle {
@@ -90,9 +82,11 @@
             font-weight: bold;
             margin-top: 15px;
             box-shadow: 0 4px 15px rgba(0, 85, 255, 0.4);
+            border: none;
+            cursor: pointer;
+            text-align: center;
         }
 
-        /* Form Styling */
         .booking-form {
             background: #1e293b;
             margin: 20px;
@@ -109,10 +103,10 @@
             border: 1px solid #475569;
             background: #0f172a;
             color: white;
+            box-sizing: border-box;
         }
 
-        /* Floating WhatsApp */
-        .whatsapp {
+        .whatsapp-float {
             position: fixed;
             bottom: 25px;
             right: 25px;
@@ -146,80 +140,67 @@
             <div class="icon-circle">👷</div>
             <h3 style="margin: 5px 0;">Construction Crew</h3>
             <p style="color: #cbd5e1; font-size: 14px;">Masons, Shuttering Carpenters, and General Helpers for Site Work.</p>
-            <a href="https://wa.me/YOUR_NUMBER" class="hire-btn">Hire Now</a>
+            <a href="https://wa.me/923023313131" class="hire-btn">Hire Now</a>
         </div>
 
-        <div class="service-card" style="animation-delay: 0.2s;">
+        <div class="service-card">
             <div class="icon-circle">🧹</div>
             <h3 style="margin: 5px 0;">Cleaning Experts</h3>
             <p style="color: #cbd5e1; font-size: 14px;">Deep Cleaning for Villas, Offices, and Commercial Buildings.</p>
-            <a href="https://wa.me/YOUR_NUMBER" class="hire-btn" style="background: linear-gradient(90deg, #00ff88, #00b35f);">Hire Now</a>
-        </div>
-
-        <div class="service-card" style="animation-delay: 0.4s;">
-            <div class="icon-circle">⚡</div>
-            <h3 style="margin: 5px 0;">Technical Staff</h3>
-            <p style="color: #cbd5e1; font-size: 14px;">Certified Electricians, Plumbers, and AC Technicians.</p>
-            <a href="https://wa.me/YOUR_NUMBER" class="hire-btn">Hire Now</a>
+            <a href="https://wa.me/923023313131" class="hire-btn" style="background: linear-gradient(90deg, #00ff88, #00b35f);">Hire Now</a>
         </div>
     </div>
-<div style="margin: 30px 20px; padding: 20px; background: #111827; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 20px; text-align: center; box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);">
-    
-    <div style="margin-bottom: 12px;">
-        <span style="background: linear-gradient(90deg, #25d366, #128c7e); color: white; padding: 6px 15px; border-radius: 50px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
-            ✔️ Government Verified Agency
-        </span>
-    </div>
 
-    <div style="color: #ffd700; font-size: 1.4rem; margin-bottom: 8px;">
-        ⭐⭐⭐⭐⭐
-    </div>
-    <p style="color: #e2e8f0; font-size: 0.9rem; font-style: italic; line-height: 1.5; margin: 0;">
-        "LabourLink Dubai provided us with 50+ workers on short notice. Their team is disciplined and highly skilled."
-    </p>
-    <p style="color: #00d4ff; font-size: 0.8rem; font-weight: bold; margin-top: 8px;">
-        — Project Manager, Dubai Marina Sites
-    </p>
-
-    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
-
-    <div style="display: flex; justify-content: space-around;">
-        <div style="flex: 1;">
-            <h4 style="color: #00d4ff; margin: 0; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0,212,255,0.5);">500+</h4>
-            <p style="color: #94a3b8; font-size: 11px; margin-top: 4px;">Staff Ready</p>
+    <div style="margin: 30px 20px; padding: 20px; background: #111827; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 20px; text-align: center;">
+        <div style="margin-bottom: 12px;">
+            <span style="background: linear-gradient(90deg, #25d366, #128c7e); color: white; padding: 6px 15px; border-radius: 50px; font-size: 11px; font-weight: bold; text-transform: uppercase;">✔️ Government Verified</span>
         </div>
-        <div style="flex: 1; border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1);">
-            <h4 style="color: #00d4ff; margin: 0; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0,212,255,0.5);">100%</h4>
-            <p style="color: #94a3b8; font-size: 11px; margin-top: 4px;">Legal Compliance</p>
-        </div>
-        <div style="flex: 1;">
-            <h4 style="color: #00d4ff; margin: 0; font-size: 1.2rem; text-shadow: 0 0 10px rgba(0,212,255,0.5);">24/7</h4>
-            <p style="color: #94a3b8; font-size: 11px; margin-top: 4px;">Field Support</p>
+        <div style="color: #ffd700; font-size: 1.4rem; margin-bottom: 8px;">⭐⭐⭐⭐⭐</div>
+        <p style="color: #e2e8f0; font-size: 0.8rem; font-style: italic;">"Best manpower supply in Dubai. Highly skilled team."</p>
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
+        <div style="display: flex; justify-content: space-around;">
+            <div><h4 style="color: #00d4ff; margin: 0;">500+</h4><p style="font-size: 10px; color: #94a3b8;">Staff</p></div>
+            <div><h4 style="color: #00d4ff; margin: 0;">100%</h4><p style="font-size: 10px; color: #94a3b8;">Legal</p></div>
+            <div><h4 style="color: #00d4ff; margin: 0;">24/7</h4><p style="font-size: 10px; color: #94a3b8;">Field</p></div>
         </div>
     </div>
-</div>
     
     <div class="booking-form">
         <h2 style="text-align: center; margin-top: 0; color: var(--glow-color);">Quick Inquiry</h2>
-        <input type="text" placeholder="Full Name">
-        <input type="tel" placeholder="Mobile Number">
-        <select>
-            <option>Choose Service</option>
-            <option>Construction</option>
-            <option>Cleaning</option>
-            <option>Technical</option>
+        <input type="text" id="custName" placeholder="Full Name">
+        <input type="tel" id="custPhone" placeholder="Mobile Number">
+        <select id="custService">
+            <option value="Not Selected">Choose Service</option>
+            <option value="Construction">Construction</option>
+            <option value="Cleaning">Cleaning</option>
+            <option value="Technical">Technical</option>
         </select>
-        <button class="hire-btn" style="border:none; cursor:pointer;">Submit Request</button>
+        <button onclick="sendToWhatsApp()" class="hire-btn">Submit Request</button>
     </div>
 
-    <footer style="text-align: center; padding: 20px; color: #64748b; font-size: 12px;">
-        &copy; 2026 GM Agency - LabourLink Division. All Rights Reserved.
+    <footer style="text-align: center; padding: 20px; color: #64748b; font-size: 11px;">
+        &copy; 2026 GM Agency - LabourLink Division.
     </footer>
 
-    <a href="https://wa.me/923023313131" class="whatsapp">
+    <a href="https://wa.me/923023313131" class="whatsapp-float">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35" alt="WhatsApp">
     </a>
 
+    <script>
+    function sendToWhatsApp() {
+        let name = document.getElementById('custName').value;
+        let phone = document.getElementById('custPhone').value;
+        let service = document.getElementById('custService').value;
+        let myNumber = "923023313131"; 
+
+        if(name == "" || phone == "") {
+            alert("Please fill name and phone number.");
+            return;
+        }
+        
+        let message = `*New Inquiry - LabourLink Dubai*%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Service:* ${service}`;
+        window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
+    }
+    </script>
 </body>
 </html>
-
